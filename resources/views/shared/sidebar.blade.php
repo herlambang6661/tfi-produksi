@@ -283,7 +283,7 @@
                                 {{-- @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'Supplier' ? 'active' : '' }}"
-                                    href="{{ url('pengadaan/permintaan') }}">
+                                    href="{{ url('daftar/supplier') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

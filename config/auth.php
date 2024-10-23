@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // guard dari jwt
+        'api' => [ // <== nama guard
+            'driver' => 'jwt', // <== menggunakan jwt
+            'provider' => 'users',
+        ]
     ],
 
     /*

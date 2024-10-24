@@ -22,7 +22,9 @@ return new class extends Migration
             $table->decimal('harga', 13, 2);
             $table->string('tipe');
             $table->string('warna')->nullable();
-            $table->longText('cacatan')->nullable();
+            $table->longText('catatan')->nullable();
+            $table->integer('lock')->default(0);
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = close,
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

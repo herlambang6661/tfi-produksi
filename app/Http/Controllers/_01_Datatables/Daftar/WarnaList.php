@@ -24,7 +24,6 @@ class WarnaList extends Controller
     {
         if ($request->ajax()) {
             $data = DaftarwarnaModel::all();
-            // $posts = Post::latest()->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()

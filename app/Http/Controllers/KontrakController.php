@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SuratkontrakModel;
 use Illuminate\Http\Request;
+use App\Models\DaftartipeModel;
+use App\Models\DaftarwarnaModel;
+use App\Models\SuratkontrakModel;
+use App\Models\DaftarsupplierModel;
 use Illuminate\Support\Facades\Auth;
 
 class KontrakController extends Controller
@@ -18,30 +21,32 @@ class KontrakController extends Controller
 
     public function suratKontrak()
     {
+        $getTipe = DaftartipeModel::all();
         return view('products.02_kontrak.kontrak', [
             'active' => 'Suratkontrak',
             'judul' => 'Surat Kontrak',
+            'tipe' => $getTipe,
         ]);
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'entitas' => 'required',
-            'tanggal' => 'required',
-            'supplier' => 'required',
-            'dibeli' => 'required',
-            'berat' => 'required',
-            'harga' => 'required',
-            'tipe' => 'required',
-            'warna' => 'required',
-            'cacatan' => 'nullable',
-        ]);
         try {
-            $firstWord = substr($request->tipe, 0, 1);
-            $char = $firstWord . date('y');
+            $request->validate([
+                'entitas' => 'required',
+                'tanggal' => 'required',
+                'supplier' => 'required',
+                'dibeli' => 'required',
+                'berat' => 'required',
+                'harga' => 'required',
+                'tipe' => 'required',
+                'warna' => 'required',
+                'cacatan' => 'nullable',
+            ]);
+            $gettipe = DaftartipeModel::where('id', $request->tipe)->first();
+            $char = $gettipe->kode . date('y');
             // generate kodeseri
-            $getkodeseri = SuratkontrakModel::where('id_kontrak', 'like', '%' . $char . '%')->latest('id_kontrak')->first();
+            $getkodeseri = SuratkontrakModel::where('id_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
             if ($getkodeseri) {
                 $kdseri = $getkodeseri->id_kontrak;
                 $noUrutKodeseri = (int) substr($kdseri, -3);
@@ -50,14 +55,6 @@ class KontrakController extends Controller
             } else {
                 $kdseri = $char . "001";
             }
-            // $firstWord = substr($request->tipe, 0, 1);
-            // $char = $firstWord . date('y');
-            // $lastID = SuratkontrakModel::max('id_kontrak')->where('id_kontrak', 'like', $char . '%')->first();
-            // if (empty($lastID)) {
-            //     $idKontrak = $request->tipe . date('y') . "001";
-            // } else {
-            //     $idKontrak = $lastID->id_kontrak + 1;
-            // }
             SuratkontrakModel::insert([
                 'entitas' => $request->entitas,
                 'id_kontrak' => $kdseri,
@@ -66,9 +63,9 @@ class KontrakController extends Controller
                 'dibeli' => $request->dibeli,
                 'berat' => $request->berat,
                 'harga' => $request->harga,
-                'tipe' => $request->tipe,
+                'tipe' => $gettipe->nama,
                 'warna' => $request->warna,
-                'cacatan' => $request->cacatan,
+                'catatan' => $request->catatan,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
@@ -79,5 +76,26 @@ class KontrakController extends Controller
             dd($e);
             $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
         }
+    }
+
+    public function getWarnaByTipe(Request $request)
+    {
+        $getWarna = DaftarwarnaModel::where('id_tipe', $request->tipe)->get();
+        echo '<option value="" hidden>-- Pilih Warna --</option>';
+        foreach ($getWarna as $key => $value) {
+            echo '<option value="' . $value->warna . '">' . $value->warna . '</option>';
+        }
+    }
+    public function getsupplierKontrak(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarsupplierModel::where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftarsupplierModel::all();
+        }
+        return Response()->json($kabag);
     }
 }

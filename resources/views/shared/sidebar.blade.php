@@ -268,7 +268,7 @@
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'Tipe' ? 'active' : '' }}"
                                     href="{{ url('daftar/tipe') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="24"
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                         class="icon icon-tabler icons-tabler-outline icon-tabler-box">
@@ -284,7 +284,7 @@
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'Supplier' ? 'active' : '' }}"
                                     href="{{ url('daftar/supplier') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="24"
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                         class="icon icon-tabler icons-tabler-outline icon-tabler-users">
@@ -295,6 +295,23 @@
                                         <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                                     </svg>
                                     Supplier
+                                </a>
+                                {{-- @endif --}}
+                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                <a class="dropdown-item {{ $active == 'Pengemudi' ? 'active' : '' }}"
+                                    href="{{ url('daftar/driver') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-user-pin">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                                        <path d="M6 21v-2a4 4 0 0 1 4 -4h2.5" />
+                                        <path
+                                            d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879z" />
+                                        <path d="M19 18v.01" />
+                                    </svg>
+                                    Pengemudi
                                 </a>
                                 {{-- @endif --}}
                             </div>
@@ -329,7 +346,7 @@
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'Suratkontrak' ? 'active' : '' }}"
                                     href="{{ url('kontrak/suratkontrak') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
                                         class="icon icon-tabler icon-tabler-clipboard-text" width="24"
                                         height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -344,76 +361,6 @@
                                     Surat Kontrak
                                 </a>
                                 {{-- @endif --}}
-                                @if (Auth::user()->c_persetujuan === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
-                                        {{ $active == 'Persetujuan' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-heart-handshake" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                            <path
-                                                d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                                            <path d="M12.5 15.5l2 2" />
-                                            <path d="M15 13l2 2" />
-                                        </svg>
-                                        Persetujuan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_email === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/email') }}"
-                                        {{ $active == 'ProsesEmail' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-mail" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                            <path d="M3 7l9 6l9 -6" />
-                                        </svg>
-                                        Proses Email
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_pembelian === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/pembelian') }}"
-                                        {{ $active == 'Pembelian' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 17h-11v-14h-2" />
-                                            <path d="M6 5l14 1l-1 7h-13" />
-                                        </svg>
-                                        Pembelian
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_status === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/status_barang') }}"
-                                        {{ $active == 'StatusBarang' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-git-pull-request-draft" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 8v8" />
-                                            <path d="M18 11h.01" />
-                                            <path d="M18 6h.01" />
-                                        </svg>
-                                        Status Barang
-                                    </a>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -421,120 +368,63 @@
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->p_pengadaan === 1) --}}
                 <li
-                    class="nav-item dropdown {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'active' : '' }}">
+                    class="nav-item dropdown {{ $active == 'Penerimaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-package-export">
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-building-warehouse">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M12 21l-8 -4.5v-9l8 -4.5l8 4.5v4.5" />
-                                <path d="M12 12l8 -4.5" />
-                                <path d="M12 12v9" />
-                                <path d="M12 12l-8 -4.5" />
-                                <path d="M15 18h7" />
-                                <path d="M19 15l3 3l-3 3" />
+                                <path d="M3 21v-13l9 -4l9 4v13" />
+                                <path d="M13 13h4v8h-10v-6h6" />
+                                <path d="M13 21v-9a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v3" />
                             </svg>
                         </span>
                         <span class="nav-link-title">
-                            Penerimaan
+                            Gudang
                         </span>
                     </a>
                     <div
-                        class="dropdown-menu {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
+                        class="dropdown-menu {{ $active == 'Penerimaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                @if (Auth::user()->c_permintaan === 1)
-                                    <a class="dropdown-item {{ $active == 'Permintaan' ? 'active' : '' }}"
-                                        href="{{ url('pengadaan/permintaan') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-clipboard-text" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-                                            <path
-                                                d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                            <path d="M9 12h6" />
-                                            <path d="M9 16h6" />
-                                        </svg>
-                                        Permintaan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_persetujuan === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
-                                        {{ $active == 'Persetujuan' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-heart-handshake" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                            <path
-                                                d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                                            <path d="M12.5 15.5l2 2" />
-                                            <path d="M15 13l2 2" />
-                                        </svg>
-                                        Persetujuan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_email === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/email') }}"
-                                        {{ $active == 'ProsesEmail' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-mail" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                            <path d="M3 7l9 6l9 -6" />
-                                        </svg>
-                                        Proses Email
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_pembelian === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/pembelian') }}"
-                                        {{ $active == 'Pembelian' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 17h-11v-14h-2" />
-                                            <path d="M6 5l14 1l-1 7h-13" />
-                                        </svg>
-                                        Pembelian
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_status === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/status_barang') }}"
-                                        {{ $active == 'StatusBarang' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-git-pull-request-draft" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 8v8" />
-                                            <path d="M18 11h.01" />
-                                            <path d="M18 6h.01" />
-                                        </svg>
-                                        Status Barang
-                                    </a>
-                                @endif
+                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                <a class="dropdown-item {{ $active == 'Penerimaan' ? 'active' : '' }}"
+                                    href="{{ url('gudang/penerimaan') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-truck">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M5 17h-2v-11a1 1 0 0 1 1 -1h9v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
+                                    </svg>
+                                    Penerimaan
+                                </a>
+                                {{-- @endif --}}
+                                {{-- @if (Auth::user()->c_persetujuan === 1) --}}
+                                <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
+                                    {{ $active == 'Persetujuan' ? 'active' : '' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-apps">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path
+                                            d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path
+                                            d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path d="M14 7l6 0" />
+                                        <path d="M17 4l0 6" />
+                                    </svg>
+                                    Pengebonan
+                                </a>
+                                {{-- @endif --}}
                             </div>
                         </div>
                     </div>
@@ -542,130 +432,7 @@
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->p_pengadaan === 1) --}}
                 <li
-                    class="nav-item dropdown {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'active' : '' }}">
-                    <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
-                        data-bs-auto-close="false" role="button" aria-expanded="false">
-                        <span class="nav-link-icon d-md-none d-lg-inline-block">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-apps">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                <path
-                                    d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                <path
-                                    d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                <path d="M14 7l6 0" />
-                                <path d="M17 4l0 6" />
-                            </svg>
-                        </span>
-                        <span class="nav-link-title">
-                            Pengebonan
-                        </span>
-                    </a>
-                    <div
-                        class="dropdown-menu {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
-                        <div class="dropdown-menu-columns">
-                            <div class="dropdown-menu-column">
-                                @if (Auth::user()->c_permintaan === 1)
-                                    <a class="dropdown-item {{ $active == 'Permintaan' ? 'active' : '' }}"
-                                        href="{{ url('pengadaan/permintaan') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-clipboard-text" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-                                            <path
-                                                d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                            <path d="M9 12h6" />
-                                            <path d="M9 16h6" />
-                                        </svg>
-                                        Permintaan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_persetujuan === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
-                                        {{ $active == 'Persetujuan' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-heart-handshake" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                            <path
-                                                d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                                            <path d="M12.5 15.5l2 2" />
-                                            <path d="M15 13l2 2" />
-                                        </svg>
-                                        Persetujuan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_email === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/email') }}"
-                                        {{ $active == 'ProsesEmail' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-mail" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                            <path d="M3 7l9 6l9 -6" />
-                                        </svg>
-                                        Proses Email
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_pembelian === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/pembelian') }}"
-                                        {{ $active == 'Pembelian' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 17h-11v-14h-2" />
-                                            <path d="M6 5l14 1l-1 7h-13" />
-                                        </svg>
-                                        Pembelian
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_status === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/status_barang') }}"
-                                        {{ $active == 'StatusBarang' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-git-pull-request-draft" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 8v8" />
-                                            <path d="M18 11h.01" />
-                                            <path d="M18 6h.01" />
-                                        </svg>
-                                        Status Barang
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                {{-- @endif --}}
-                {{-- @if (Auth::user()->p_pengadaan === 1) --}}
-                <li
-                    class="nav-item dropdown {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'active' : '' }}">
+                    class="nav-item dropdown {{ $active == 'QC' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -686,98 +453,26 @@
                         </span>
                     </a>
                     <div
-                        class="dropdown-menu {{ $active == 'Permintaan' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
+                        class="dropdown-menu {{ $active == 'QC' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                @if (Auth::user()->c_permintaan === 1)
-                                    <a class="dropdown-item {{ $active == 'Permintaan' ? 'active' : '' }}"
-                                        href="{{ url('pengadaan/permintaan') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-clipboard-text" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-                                            <path
-                                                d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-                                            <path d="M9 12h6" />
-                                            <path d="M9 16h6" />
-                                        </svg>
-                                        Permintaan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_persetujuan === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
-                                        {{ $active == 'Persetujuan' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-heart-handshake" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
-                                            <path
-                                                d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25" />
-                                            <path d="M12.5 15.5l2 2" />
-                                            <path d="M15 13l2 2" />
-                                        </svg>
-                                        Persetujuan
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_email === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/email') }}"
-                                        {{ $active == 'ProsesEmail' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-mail" width="24" height="24"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                            <path d="M3 7l9 6l9 -6" />
-                                        </svg>
-                                        Proses Email
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_pembelian === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/pembelian') }}"
-                                        {{ $active == 'Pembelian' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-shopping-cart">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M17 17h-11v-14h-2" />
-                                            <path d="M6 5l14 1l-1 7h-13" />
-                                        </svg>
-                                        Pembelian
-                                    </a>
-                                @endif
-                                @if (Auth::user()->c_status === 1)
-                                    <a class="dropdown-item" href="{{ url('pengadaan/status_barang') }}"
-                                        {{ $active == 'StatusBarang' ? 'active' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
-                                            class="icon icon-tabler icon-tabler-git-pull-request-draft" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M6 8v8" />
-                                            <path d="M18 11h.01" />
-                                            <path d="M18 6h.01" />
-                                        </svg>
-                                        Status Barang
-                                    </a>
-                                @endif
+                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                <a class="dropdown-item {{ $active == 'QC' ? 'active' : '' }}"
+                                    href="{{ url('pengadaan/permintaan') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-test-pipe">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M20 8.04l-12.122 12.124a2.857 2.857 0 1 1 -4.041 -4.04l12.122 -12.124" />
+                                        <path d="M7 13h8" />
+                                        <path d="M19 15l1.5 1.6a2 2 0 1 1 -3 0l1.5 -1.6z" />
+                                        <path d="M15 3l6 6" />
+                                    </svg>
+                                    Quality Control
+                                </a>
+                                {{-- @endif --}}
                             </div>
                         </div>
                     </div>

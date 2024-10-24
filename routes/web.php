@@ -4,12 +4,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KontrakController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeList;
 use App\Http\Controllers\_01_Datatables\Daftar\WarnaList;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
+use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
+use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -28,6 +31,8 @@ Route::get('login', function () {
 Route::resource('getTipe', TipeList::class);
 Route::resource('getWarna', WarnaList::class);
 Route::resource('getSupplier', SupplierList::class);
+Route::resource('getSuratkontrak', SuratkontrakList::class);
+Route::resource('getPenerimaan', PenerimaanList::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post');
@@ -53,4 +58,13 @@ Route::controller(DaftarController::class)->group(function () {
 Route::controller(KontrakController::class)->group(function () {
     Route::get('kontrak/suratkontrak', 'suratKontrak')->name('kontrak/suratkontrak');
     Route::post('storedataSuratkontrak', 'store')->name('storedataSuratkontrak');
+    Route::post('kontrak/getWarnaByTipe', 'getWarnaByTipe')->name('kontrak/getWarnaByTipe');
+    Route::get('getsupplierKontrak', 'getsupplierKontrak')->name('getsupplierKontrak');
+});
+Route::controller(GudangController::class)->group(function () {
+    Route::get('gudang/penerimaan', 'penerimaan')->name('gudang/penerimaan');
+    Route::get('getkodeKontrak', 'getkodeKontrak')->name('getkodeKontrak');
+    Route::post('gudang/getTipeByKode', 'getTipeByKode')->name('gudang/getTipeByKode');
+    Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan');
+    Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}');
 });

@@ -649,33 +649,40 @@
                                 },
                             },
                             submitHandler: function(form) {
+                                let formData = new FormData(form);
+
                                 $.ajaxSetup({
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     }
                                 });
+
                                 $('#submitSupplier').html(
-                                    '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
+                                    '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...'
+                                );
                                 $("#submitSupplier").attr("disabled", true);
+
                                 $.ajax({
                                     url: "{{ url('storedataSupplier') }}",
                                     type: "POST",
-                                    data: $('#formSupplier').serialize(),
+                                    data: formData,
+                                    contentType: false,
+                                    processData: false,
                                     beforeSend: function() {
                                         Swal.fire({
                                             title: 'Mohon Menunggu',
-                                            html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit. </h1>',
+                                            html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit. </h1>',
                                             showConfirmButton: false,
                                             timerProgressBar: true,
                                             allowOutsideClick: false,
                                             allowEscapeKey: false,
-                                        })
+                                        });
                                     },
                                     success: function(response) {
                                         tableSupplier.ajax.reload(null, false);
                                         console.log('Completed. ' + response);
                                         $('#submitSupplier').html(
-                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
+                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 1 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
                                         );
                                         $("#submitSupplier").attr("disabled", false);
                                         Swal.fire({
@@ -683,13 +690,16 @@
                                             title: 'Berhasil',
                                             html: response,
                                             showConfirmButton: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
                                         });
                                         document.getElementById("formSupplier").reset();
                                         $('#modal-supplier').modal('hide');
                                     },
                                     error: function(data) {
                                         console.log('Error:', data);
-                                        // const obj = JSON.parse(data.responseJSON);
                                         tableSupplier.ajax.reload(null, false);
                                         Swal.fire({
                                             icon: 'error',
@@ -698,12 +708,13 @@
                                             showConfirmButton: true
                                         });
                                         $('#submitSupplier').html(
-                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
+                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 1 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
                                         );
                                         $("#submitSupplier").attr("disabled", false);
                                     }
                                 });
                             }
+
                         })
                     }
                     if ($("#formEditSupplier").length > 0) {

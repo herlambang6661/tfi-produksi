@@ -132,24 +132,28 @@ class DaftarController extends Controller
                 'kota.required' => 'Kota Harus Diisi',
                 'provinsi.required' => 'Provinsi Harus Diisi',
                 'mtuang.required' => 'Mata Uang tidak boleh kosong',
-                'alamat.required' => 'alamat supplier tidak boleh kosong',
+                'alamat.required' => 'Alamat supplier tidak boleh kosong',
                 'foto1.image' => 'File harus berupa gambar',
                 'foto2.image' => 'File harus berupa gambar',
                 'foto1.max' => 'File Pas tidak boleh lebih besar dari 2 MB',
                 'foto2.max' => 'File KTP tidak boleh lebih besar dari 2 MB',
             ]
         );
+
         try {
             $pas_foto = null;
             $pas_ktp = null;
+
             if ($request->hasFile('foto1')) {
-                $pas_foto = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto1')->getClientOriginalExtension();
-                $request->file('foto1')->storeAs('file/pas/', $pas_foto, 'public');
+                $pas_foto = 'Pas_' . uniqid() . '.' . $request->file('foto1')->getClientOriginalExtension();
+                $request->file('foto1')->storeAs('public/file/pas/', $pas_foto);
             }
+
             if ($request->hasFile('foto2')) {
-                $pas_ktp = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto2')->getClientOriginalExtension();
-                $request->file('foto2')->storeAs('file/pas/', $pas_ktp, 'public');
+                $pas_ktp = 'KTP_' . uniqid() . '.' . $request->file('foto2')->getClientOriginalExtension();
+                $request->file('foto2')->storeAs('public/file/pas/', $pas_ktp);
             }
+
             $ins = DaftarsupplierModel::insert([
                 'nama' => $request->nama,
                 'jenisperson' => $request->jenisperson,
@@ -164,17 +168,17 @@ class DaftarController extends Controller
                 'foto1' => $pas_foto,
                 'foto2' => $pas_ktp,
                 'dibuat' => Auth::user()->nickname,
-                'created_at' => date('Y-m-d H:i:s'),
+                'created_at' => now(),
             ]);
+
             if ($ins) {
-                $arr = 'Data Supplier telah berhasil disimpan';
+                return response()->json('Data Supplier telah berhasil disimpan');
             }
-            return Response()->json($arr);
         } catch (\Illuminate\Database\QueryException $e) {
-            dd($e);
-            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+            return response()->json(['msg' => 'Something went wrong. Please try later. ' . $e->getMessage(), 'status' => false], 500);
         }
     }
+
 
     public function getkodetipe(Request $request)
     {

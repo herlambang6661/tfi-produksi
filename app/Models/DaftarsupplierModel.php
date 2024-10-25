@@ -21,6 +21,8 @@ class DaftarsupplierModel extends Model
         'telp',
         'email',
         'mtuang',
+        'foto1',
+        'foto2',
         'dibuat',
         'created_at',
         'updated_at',

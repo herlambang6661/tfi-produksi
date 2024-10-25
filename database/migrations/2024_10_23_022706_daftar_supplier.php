@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('daftar_supplier', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('jenisperson')->nullable();
             $table->string('supplier')->nullable();
             $table->string('noid')->nullable();
             $table->string('alamat')->nullable();
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->string('telp')->nullable();
             $table->string('email')->nullable();
             $table->string('mtuang')->nullable();
+            $table->string('foto1')->nullable();
+            $table->string('foto2')->nullable();
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

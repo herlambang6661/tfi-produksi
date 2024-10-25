@@ -47,6 +47,7 @@ Route::controller(DaftarController::class)->group(function () {
     Route::post('storedataEditTipe', 'storeEditTipe')->name('storedataEditTipe');
     Route::post('storedataEditWarna', 'storeEditWarna')->name('storedataEditWarna');
     Route::post('storedataEditSupplier', 'storeEditSupplier')->name('storedataEditSupplier');
+    Route::post('updatedataSupplier/{id}', 'updateSupplier')->name('Updatedatasupplier');
     Route::post('storedataWarna', 'storeWarna')->name('storedataWarna');
     Route::post('storedataSupplier', 'storeSupplier')->name('storedataSupplier');
     Route::get('getkodetipe', 'getkodetipe')->name('getkodetipe');

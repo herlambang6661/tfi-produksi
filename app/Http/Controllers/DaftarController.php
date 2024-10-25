@@ -179,6 +179,83 @@ class DaftarController extends Controller
         }
     }
 
+    public function updateSupplier(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'nama' => 'required',
+                'telp' => 'required',
+                'kota' => 'required',
+                'provinsi' => 'required',
+                'mtuang' => 'required',
+                'alamat' => 'required',
+                'foto1' => 'image|mimes:jpg,jpeg,png|max:2048',
+                'foto2' => 'image|mimes:jpg,jpeg,png|max:2048',
+            ],
+            [
+                'nama.required' => 'Masukkan Nama Tipe',
+                'telp.required' => 'Nomor Telepon Tidak Boleh Kosong',
+                'kota.required' => 'Kota Harus Diisi',
+                'provinsi.required' => 'Provinsi Harus Diisi',
+                'mtuang.required' => 'Mata Uang tidak boleh kosong',
+                'alamat.required' => 'Alamat supplier tidak boleh kosong',
+                'foto1.image' => 'File harus berupa gambar',
+                'foto2.image' => 'File harus berupa gambar',
+                'foto1.max' => 'File Pas tidak boleh lebih besar dari 2 MB',
+                'foto2.max' => 'File KTP tidak boleh lebih besar dari 2 MB',
+            ]
+        );
+
+        $supplier = DaftarsupplierModel::find($id);
+        if (!$supplier) {
+            return response()->json(['msg' => 'Supplier tidak ditemukan. Periksa kembali ID yang dikirim.', 'status' => false], 404);
+        }
+
+        try {
+            $pas_foto = $supplier->foto1;
+            $pas_ktp = $supplier->foto2;
+
+            // Jika ada file foto1 baru, hapus yang lama dan simpan yang baru
+            if ($request->hasFile('foto1')) {
+                if ($pas_foto) {
+                    Storage::delete('public/file/pas/' . $pas_foto);
+                }
+                $pas_foto = 'Pas_' . uniqid() . '.' . $request->file('foto1')->getClientOriginalExtension();
+                $request->file('foto1')->storeAs('public/file/pas/', $pas_foto);
+            }
+
+            // Jika ada file foto2 baru, hapus yang lama dan simpan yang baru
+            if ($request->hasFile('foto2')) {
+                if ($pas_ktp) {
+                    Storage::delete('public/file/pas/' . $pas_ktp);
+                }
+                $pas_ktp = 'KTP_' . uniqid() . '.' . $request->file('foto2')->getClientOriginalExtension();
+                $request->file('foto2')->storeAs('public/file/pas/', $pas_ktp);
+            }
+
+            $supplier->update([
+                'nama' => $request->nama,
+                'jenisperson' => $request->jenisperson,
+                'noid' => $request->noid,
+                'alamat' => $request->alamat,
+                'kopos' => $request->kopos,
+                'kota' => $request->kota,
+                'provinsi' => $request->provinsi,
+                'telp' => $request->telp,
+                'email' => $request->email,
+                'mtuang' => $request->mtuang,
+                'foto1' => $pas_foto,
+                'foto2' => $pas_ktp,
+                'dibuat' => Auth::user()->nickname,
+                'updated_at' => now(),
+            ]);
+
+            return response()->json('Data Supplier telah berhasil diperbarui');
+        } catch (\Exception $e) {
+            return response()->json(['msg' => 'Terjadi kesalahan. Silakan coba lagi. ' . $e->getMessage(), 'status' => false], 500);
+        }
+    }
+
 
     public function getkodetipe(Request $request)
     {
@@ -309,8 +386,10 @@ class DaftarController extends Controller
     public function viewEditsupplier(Request $request)
     {
         $data = DaftarsupplierModel::where('id', $request->id)->first();
+        $foto1 = $data->foto1 ? asset('storage/file/pas/' . $data->foto1) : asset('assets/static/pas.jpg');
+        $foto2 = $data->foto2 ? asset('storage/file/pas/' . $data->foto2) : asset('assets/static/ktp.jpg');
         echo '
-            <input type="hidden" name="id" value="' . $request->id . '">
+            <input type="hidden" id="supplierId" name="supplierId" value="' . $data->id . '">
             <div class="modal-body">
                 <div class="card-stamp card-stamp-lg">
                     <div class="card-stamp-icon bg-primary">
@@ -410,17 +489,17 @@ class DaftarController extends Controller
                             id="foto2" accept="image/*" onchange="preview(ktp)">
                     </div>
                     <div class="mb-3 col-md-6 text-center">
-                        <img class="card-img-top" src="assets/static/pas.jpg"
+                        <img class="card-img-top" src="' . $foto1 . '"
                             id="pas" style="width: 100%;max-width: 300px;max-height: 300px" />
                     </div>
                     <div class="mb-3 col-md-6 text-center">
-                        <img class="card-img-top" src="assets/static/ktp.jpg"
+                        <img class="card-img-top" src="' . $foto2 . '"
                             id="ktp" style="width: 100%;max-width: 300px;max-height: 300px" />
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" id="submitSupplier" class="btn btn-primary ms-auto">
+                <button type="submit" id="submitEditSupplier" class="btn btn-primary ms-auto">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -430,7 +509,7 @@ class DaftarController extends Controller
                         <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                         <path d="M14 4l0 4l-6 0l0 -4" />
                     </svg>
-                    Simpan
+                    Update
                 </button>
             </div>
         ';

@@ -721,42 +721,42 @@
                         $("#formEditSupplier").validate({
                             rules: {
                                 nama: {
-                                    required: true,
+                                    required: true
                                 },
                                 telp: {
-                                    required: true,
+                                    required: true
                                 },
                                 kota: {
-                                    required: true,
+                                    required: true
                                 },
                                 provinsi: {
-                                    required: true,
+                                    required: true
                                 },
                                 mtuang: {
-                                    required: true,
+                                    required: true
                                 },
                                 alamat: {
-                                    required: true,
+                                    required: true
                                 },
                             },
                             messages: {
                                 nama: {
-                                    required: "Masukkan Nama Supplier",
+                                    required: "Masukkan Nama Supplier"
                                 },
                                 telp: {
-                                    required: "Masukkan Telepon Supplier",
+                                    required: "Masukkan Telepon Supplier"
                                 },
                                 kota: {
-                                    required: "Masukkan Kota Supplier",
+                                    required: "Masukkan Kota Supplier"
                                 },
                                 provinsi: {
-                                    required: "Masukkan Provinsi Supplier",
+                                    required: "Masukkan Provinsi Supplier"
                                 },
                                 mtuang: {
-                                    required: "Masukkan Mata Uang Supplier",
+                                    required: "Masukkan Mata Uang Supplier"
                                 },
                                 alamat: {
-                                    required: "Masukkan Alamat Supplier",
+                                    required: "Masukkan Alamat Supplier"
                                 },
                             },
                             submitHandler: function(form) {
@@ -765,46 +765,49 @@
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     }
                                 });
+
+                                var id = $('#supplierId').val();
+                                var formData = new FormData(form);
+
                                 $('#submitEditSupplier').html(
                                     '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
                                 $("#submitEditSupplier").attr("disabled", true);
-                                var formDataSerialized = $(this).serialize();
-                                console.log(formDataSerialized);
+
                                 $.ajax({
-                                    url: "{{ url('storedataEditSupplier') }}",
+                                    url: "{{ url('updatedataSupplier') }}/" + id,
                                     type: "POST",
-                                    data: formDataSerialized,
+                                    data: formData,
                                     contentType: false,
                                     processData: false,
                                     beforeSend: function() {
                                         Swal.fire({
                                             title: 'Mohon Menunggu',
-                                            html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit. </h1>',
+                                            html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit.</h1>',
                                             showConfirmButton: false,
                                             timerProgressBar: true,
                                             allowOutsideClick: false,
                                             allowEscapeKey: false,
-                                        })
+                                        });
                                     },
                                     success: function(response) {
                                         tableSupplier.ajax.reload(null, false);
-                                        console.log('Completed. ' + response);
                                         $('#submitEditSupplier').html(
                                             '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
                                         );
                                         $("#submitEditSupplier").attr("disabled", false);
+
                                         Swal.fire({
                                             icon: 'success',
                                             title: 'Berhasil',
                                             html: response,
                                             showConfirmButton: true
                                         });
+
                                         document.getElementById("formEditSupplier").reset();
                                         $('#modal-edit-supplier').modal('hide');
                                     },
                                     error: function(data) {
                                         console.log('Error:', data);
-                                        // const obj = JSON.parse(data.responseJSON);
                                         tableSupplier.ajax.reload(null, false);
                                         Swal.fire({
                                             icon: 'error',
@@ -819,14 +822,16 @@
                                     }
                                 });
                             }
-                        })
+                        });
                     }
 
+
                     $('#modal-edit-supplier').on('show.bs.modal', function(e) {
-                        var button = $(e.relatedTarget)
+                        var button = $(e.relatedTarget);
                         var id = button.data('id');
                         console.log("Fetch Id Item: " + id + "...");
                         $(".overlay").fadeIn(300);
+
                         $.ajax({
                             type: 'POST',
                             url: "{{ url('viewEditsupplier') }}",
@@ -836,6 +841,9 @@
                             },
                             success: function(data) {
                                 $('.fetched-data-edit-supplier').html(data);
+                            },
+                            error: function(xhr) {
+                                console.error(xhr.responseText);
                             }
                         }).done(function() {
                             setTimeout(function() {
@@ -843,6 +851,7 @@
                             }, 500);
                         });
                     });
+
                 });
             </script>
         </div>

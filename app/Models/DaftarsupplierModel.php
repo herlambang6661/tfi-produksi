@@ -12,7 +12,8 @@ class DaftarsupplierModel extends Model
 
     protected $fillable = [
         'nama',
-        'npwp',
+        'jenisperson',
+        'noid',
         'alamat',
         'kopos',
         'kota',

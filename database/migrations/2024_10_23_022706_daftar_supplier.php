@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('daftar_supplier', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('npwp')->nullable();
+            $table->string('supplier')->nullable();
+            $table->string('noid')->nullable();
             $table->string('alamat')->nullable();
             $table->string('kopos')->nullable();
             $table->string('kota')->nullable();

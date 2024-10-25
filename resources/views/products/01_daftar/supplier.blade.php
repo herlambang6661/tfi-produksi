@@ -119,7 +119,7 @@
                                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                                     <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
                                 </svg>
-                                Management Supplier
+                                Management Person
                             </h2>
                             <div class="page-pretitle">
                                 <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
@@ -138,7 +138,7 @@
                                     <li class="breadcrumb-item active" aria-current="page">
                                         <a href="#">
                                             <i class="fa-solid fa-users"></i>
-                                            Management Supplier
+                                            Management Person
                                         </a>
                                     </li>
                                 </ol>
@@ -183,7 +183,7 @@
                                             <path d="M19 16v6" />
                                             <path d="M6 21v-2a4 4 0 0 1 4 -4h4" />
                                         </svg>
-                                        Tambah Supplier
+                                        Tambah Person
                                     </a>
                                 </div>
                                 <div class="table-responsive">
@@ -217,7 +217,8 @@
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="formSupplier" name="formSupplier" method="post" action="javascript:void(0)">
+                        <form id="formSupplier" name="formSupplier" method="post" action="javascript:void(0)"
+                            enctype="multipart/form-data" accept-charset="utf-8">
                             @csrf
                             <div class="modal-body">
                                 <div class="card-stamp card-stamp-lg">
@@ -249,17 +250,27 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="mb-3 col-md-12">
+                                        <label class="form-label">Jenis Person</label>
+                                        <select name="jenisperson" id="jenisperson"
+                                            class="form-select border border-dark">
+                                            <option value="" hidden>-- Pilih Jenis Person --</option>
+                                            <option value="Supplier">Supplier</option>
+                                            <option value="Driver">Pengemudi</option>
+                                        </select>
+                                    </div>
                                     <div class="mb-3 col-md-6">
-                                        <label class="form-label">Nama Supplier</label>
+                                        <label class="form-label">Nama</label>
                                         <input type="text" class="form-control border border-dark" name="nama"
                                             id="nama" placeholder="Contoh: Jaya Indah. PT"
                                             style="text-transform: uppercase;">
                                     </div>
                                     <div class="mb-3 col-md-6">
-                                        <label class="form-label">NPWP</label>
-                                        <input type="text" class="form-control border border-dark" name="npwp"
-                                            id="npwp" placeholder="Masukkan NPWP"
+                                        <label class="form-label">NPWP / No. KTP</label>
+                                        <input type="text" class="form-control border border-dark" name="noid"
+                                            id="noid" placeholder="Masukkan Nomor ID Person"
                                             style="text-transform: uppercase;">
+                                        <i class="text-small">jika tdk ada isi dengan tanda -</i>
                                     </div>
                                     <div class="mb-3 col-md-6">
                                         <label class="form-label">Email</label>
@@ -297,6 +308,29 @@
                                         <input type="text" class="form-control border border-dark" name="alamat"
                                             id="alamat" placeholder="Masukkan Alamat">
                                     </div>
+                                    <div class="mb-3 col-md-12">
+                                        <label class="form-label">Pas Foto</label>
+                                        <input type="file" class="form-control border border-dark" name="foto1"
+                                            id="foto1" accept="image/*" onchange="preview(pas)">
+                                    </div>
+                                    <div class="mb-3 col-md-12">
+                                        <label class="form-label">Foto KTP / ID</label>
+                                        <input type="file" class="form-control border border-dark" name="foto2"
+                                            id="foto2" accept="image/*" onchange="preview(ktp)">
+                                    </div>
+                                    <div class="mb-3 col-md-6 text-center">
+                                        <img class="card-img-top" src="{{ asset('assets/static/pas.jpg') }}"
+                                            id="pas" style="width: 100%;max-width: 300px;max-height: 300px" />
+                                    </div>
+                                    <div class="mb-3 col-md-6 text-center">
+                                        <img class="card-img-top" src="{{ asset('assets/static/ktp.jpg') }}"
+                                            id="ktp" style="width: 100%;max-width: 300px;max-height: 300px" />
+                                    </div>
+                                    <script>
+                                        function preview(param) {
+                                            param.src = URL.createObjectURL(event.target.files[0]);
+                                        }
+                                    </script>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -411,15 +445,21 @@
                                 searchable: false,
                             },
                             {
+                                title: 'Jenis Person',
+                                data: 'jenisperson',
+                                name: 'jenisperson',
+                                className: "cuspad0 cuspad1 text-center"
+                            },
+                            {
                                 title: 'Nama Supplier',
                                 data: 'nama',
                                 name: 'nama',
                                 className: "cuspad0 cuspad1 text-center"
                             },
                             {
-                                title: 'NPWP',
-                                data: 'npwp',
-                                name: 'npwp',
+                                title: 'No. ID',
+                                data: 'noid',
+                                name: 'noid',
                                 className: "cuspad0 cuspad1 text-center"
                             },
                             {
@@ -566,6 +606,9 @@
                                 nama: {
                                     required: true,
                                 },
+                                noid: {
+                                    required: true,
+                                },
                                 telp: {
                                     required: true,
                                 },
@@ -585,6 +628,9 @@
                             messages: {
                                 nama: {
                                     required: "Masukkan Nama Supplier",
+                                },
+                                noid: {
+                                    required: "Nomor ID tidak boleh kosong",
                                 },
                                 telp: {
                                     required: "Masukkan Telepon Supplier",
@@ -711,10 +757,14 @@
                                 $('#submitEditSupplier').html(
                                     '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
                                 $("#submitEditSupplier").attr("disabled", true);
+                                var formDataSerialized = $(this).serialize();
+                                console.log(formDataSerialized);
                                 $.ajax({
                                     url: "{{ url('storedataEditSupplier') }}",
                                     type: "POST",
-                                    data: $('#formEditSupplier').serialize(),
+                                    data: formDataSerialized,
+                                    contentType: false,
+                                    processData: false,
                                     beforeSend: function() {
                                         Swal.fire({
                                             title: 'Mohon Menunggu',

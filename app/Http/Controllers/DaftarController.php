@@ -9,6 +9,7 @@ use App\Models\DaftarwarnaModel;
 use App\Models\DaftarsupplierModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 
@@ -121,6 +122,8 @@ class DaftarController extends Controller
                 'provinsi' => 'required',
                 'mtuang' => 'required',
                 'alamat' => 'required',
+                'foto1' => 'image|mimes:jpg,jpeg,png|max:2048',
+                'foto2' => 'image|mimes:jpg,jpeg,png|max:2048',
             ],
             [
                 'nama.required' => 'Masukkan Nama Tipe',
@@ -130,12 +133,27 @@ class DaftarController extends Controller
                 'provinsi.required' => 'Provinsi Harus Diisi',
                 'mtuang.required' => 'Mata Uang tidak boleh kosong',
                 'alamat.required' => 'alamat supplier tidak boleh kosong',
+                'foto1.image' => 'File harus berupa gambar',
+                'foto2.image' => 'File harus berupa gambar',
+                'foto1.max' => 'File Pas tidak boleh lebih besar dari 2 MB',
+                'foto2.max' => 'File KTP tidak boleh lebih besar dari 2 MB',
             ]
         );
         try {
+            $pas_foto = null;
+            $pas_ktp = null;
+            if ($request->hasFile('foto1')) {
+                $pas_foto = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto1')->getClientOriginalExtension();
+                $request->file('foto1')->storeAs('file/pas/', $pas_foto, 'public');
+            }
+            if ($request->hasFile('foto2')) {
+                $pas_ktp = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto2')->getClientOriginalExtension();
+                $request->file('foto2')->storeAs('file/pas/', $pas_ktp, 'public');
+            }
             $ins = DaftarsupplierModel::insert([
                 'nama' => $request->nama,
-                'npwp' => $request->npwp,
+                'jenisperson' => $request->jenisperson,
+                'noid' => $request->noid,
                 'alamat' => $request->alamat,
                 'kopos' => $request->kopos,
                 'kota' => $request->kota,
@@ -143,6 +161,8 @@ class DaftarController extends Controller
                 'telp' => $request->telp,
                 'email' => $request->email,
                 'mtuang' => $request->mtuang,
+                'foto1' => $pas_foto,
+                'foto2' => $pas_ktp,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
@@ -317,17 +337,27 @@ class DaftarController extends Controller
                     </div>
                 </div>
                 <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label">Jenis Person</label>
+                        <select name="jenisperson" id="jenisperson"
+                            class="form-select border border-dark">
+                            <option value="' . $data->jenisperson . '" hidden>' . $data->jenisperson . '</option>
+                            <option value="Supplier">Supplier</option>
+                            <option value="Driver">Pengemudi</option>
+                        </select>
+                    </div>
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">Nama Supplier</label>
+                        <label class="form-label">Nama</label>
                         <input type="text" class="form-control border border-dark" name="nama"
                             id="nama" placeholder="Contoh: Jaya Indah. PT"
                             style="text-transform: uppercase;" value="' . $data->nama . '">
                     </div>
                     <div class="mb-3 col-md-6">
-                        <label class="form-label">NPWP</label>
-                        <input type="text" class="form-control border border-dark" name="npwp"
-                            id="npwp" placeholder="Masukkan NPWP"
-                            style="text-transform: uppercase;" value="' . $data->npwp . '">
+                        <label class="form-label">NPWP / No. KTP</label>
+                        <input type="text" class="form-control border border-dark" name="noid"
+                            id="noid" value="' . $data->noid . '"
+                            style="text-transform: uppercase;">
+                        <i class="text-small">jika tdk ada isi dengan tanda -</i>
                     </div>
                     <div class="mb-3 col-md-6">
                         <label class="form-label">Email</label>
@@ -364,6 +394,24 @@ class DaftarController extends Controller
                         <label class="form-label">Alamat</label>
                         <input type="text" class="form-control border border-dark" name="alamat"
                             id="alamat" placeholder="Masukkan Alamat" value="' . $data->alamat . '">
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label">Pas Foto</label>
+                        <input type="file" class="form-control border border-dark" name="foto1"
+                            id="foto1" accept="image/*" onchange="preview(pas)">
+                    </div>
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label">Foto KTP / ID</label>
+                        <input type="file" class="form-control border border-dark" name="foto2"
+                            id="foto2" accept="image/*" onchange="preview(ktp)">
+                    </div>
+                    <div class="mb-3 col-md-6 text-center">
+                        <img class="card-img-top" src="assets/static/pas.jpg"
+                            id="pas" style="width: 100%;max-width: 300px;max-height: 300px" />
+                    </div>
+                    <div class="mb-3 col-md-6 text-center">
+                        <img class="card-img-top" src="assets/static/ktp.jpg"
+                            id="ktp" style="width: 100%;max-width: 300px;max-height: 300px" />
                     </div>
                 </div>
             </div>
@@ -463,6 +511,8 @@ class DaftarController extends Controller
                     'provinsi' => 'required',
                     'mtuang' => 'required',
                     'alamat' => 'required',
+                    'foto1' => 'image|mimes:jpg,jpeg,png|max:2048',
+                    'foto2' => 'image|mimes:jpg,jpeg,png|max:2048',
                 ],
                 [
                     'nama.required' => 'Masukkan Nama Tipe',
@@ -471,14 +521,33 @@ class DaftarController extends Controller
                     'provinsi.required' => 'Provinsi Harus Diisi',
                     'mtuang.required' => 'Mata Uang tidak boleh kosong',
                     'alamat.required' => 'alamat supplier tidak boleh kosong',
+                    'foto1.image' => 'File harus berupa gambar',
+                    'foto2.image' => 'File harus berupa gambar',
+                    'foto1.max' => 'File Pas tidak boleh lebih besar dari 2 MB',
+                    'foto2.max' => 'File KTP tidak boleh lebih besar dari 2 MB',
                 ]
             );
 
-            $product = DaftarsupplierModel::findOrFail($request->id);
+            $product = DaftarsupplierModel::where('id', $request->id)->first();
+
+            // $pas_foto = $product->foto1;
+            // $pas_ktp = $product->foto2;
+            // if ($request->hasFile('foto1')) {
+            //     $pas_foto = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto1')->getClientOriginalExtension();
+            //     // Storage::disk('local')->put($pas_foto, 'Contents');
+            //     $request->file('foto1')->storeAs('file/pas/' . $pas_foto, 'public');
+            // }
+            // if ($request->hasFile('foto2')) {
+            //     $pas_ktp = 'Pas_' . rand(0000000001, 9999999999) . '.' . $request->file('foto2')->getClientOriginalExtension();
+            //     $request->file('foto2')->storeAs('file/pas/' . $pas_ktp, 'public');
+            // }
+
+            $request->file('foto1')->storeAs('uploads', $request->file('foto1')->getClientOriginalExtension());
 
             $upd = $product->update([
                 'nama' => $request->nama,
-                'npwp' => $request->npwp,
+                'jenisperson' => $request->jenisperson,
+                'noid' => $request->noid,
                 'alamat' => $request->alamat,
                 'kopos' => $request->kopos,
                 'kota' => $request->kota,
@@ -486,6 +555,7 @@ class DaftarController extends Controller
                 'telp' => $request->telp,
                 'email' => $request->email,
                 'mtuang' => $request->mtuang,
+                'foto1' => $request->file('foto1')->getClientOriginalExtension(),
                 'dibuat' => Auth::user()->nickname,
                 'updated_at' => date('Y-m-d H:i:s'),
             ]);

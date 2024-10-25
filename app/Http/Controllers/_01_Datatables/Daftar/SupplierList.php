@@ -39,7 +39,31 @@ class SupplierList extends Controller
                             ';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->addColumn('jenisperson', function ($row) {
+                    if ($row->jenisperson == 'Supplier') {
+                        return '
+                            <span class="status status-blue status-lite border-blue">
+                                <span class="status-dot"></span>
+                                Supplier
+                            </span>
+                        ';
+                    } elseif ($row->jenisperson == 'Driver') {
+                        return '
+                            <span class="status status-yellow status-lite border-yellow">
+                                <span class="status-dot"></span>
+                                Pengemudi
+                            </span>
+                            ';
+                    } else {
+                        return '
+                            <span class="status status-dark status-lite border-dark">
+                                <span class="status-dot"></span>
+                                ' . $row->jenisperson . '
+                            </span>
+                        ';
+                    }
+                })
+                ->rawColumns(['action', 'jenisperson'])
                 ->make(true);
         }
 

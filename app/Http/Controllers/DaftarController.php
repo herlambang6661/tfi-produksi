@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DaftarJenisModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\DaftartipeModel;
@@ -176,6 +177,33 @@ class DaftarController extends Controller
             }
         } catch (\Illuminate\Database\QueryException $e) {
             return response()->json(['msg' => 'Something went wrong. Please try later. ' . $e->getMessage(), 'status' => false], 500);
+        }
+    }
+
+    public function storeJenis(Request $request)
+    {
+        $request->validate(
+            [
+                'nama_jenis' => 'required',
+            ],
+            [
+                'nama_jenis.required' => 'Masukkan Nama Jenis',
+            ]
+        );
+        try {
+            $jen = DaftarJenisModel::insert([
+                'nama_jenis' => $request->nama_jenis,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            if ($jen) {
+                $arr = 'Data jenis telah berhasil di simpan';
+            }
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
         }
     }
 
@@ -383,6 +411,39 @@ class DaftarController extends Controller
             </div>
         ';
     }
+    public function viewEditJenis(Request $request)
+    {
+        $data = DaftarJenisModel::where('id', $request->id)->first();
+        echo '<input type="hidden" name="_token" value="' . csrf_token() . '">
+            <input type="hidden" name="id" value="' . $request->id . '">
+            <div class="modal-body">
+                <div class="card-stamp card-stamp-lg">
+                    <div class="card-stamp-icon bg-warning">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                </div>
+                <div class="mb-3">
+                <div class="mb-3">
+                    <label class="form-label">Jenis</label>
+                    <input type="text" class="form-control border border-dark" name="nama_jenis"
+                        id="Editjenis" style="text-transform: uppercase;" value="' . $data->nama_jenis . '">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submitEditJenis" class="btn btn-warning ms-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M14 4l0 4l-6 0l0 -4" />
+                    </svg>
+                    Update
+                </button>
+            </div>';
+    }
     public function viewEditsupplier(Request $request)
     {
         $data = DaftarsupplierModel::where('id', $request->id)->first();
@@ -576,6 +637,34 @@ class DaftarController extends Controller
 
             if ($upd) {
                 $arr = 'Data Warna telah berhasil diubah';
+            }
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+        }
+    }
+
+    public function storeEditJenis(Request $request)
+    {
+        $jenis = DaftarJenisModel::findOrfail($request->id);
+        try {
+            $request->validate(
+                [
+                    'nama_jenis' => 'required',
+                ],
+                [
+                    'nama_jenis.required' => 'Masukkan nama jenis',
+                ]
+            );
+
+            $jenupd = $jenis->update([
+                'nama_jenis' => $request->nama_jenis,
+                'dibuat' => Auth::user()->nickname,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+            if ($jenupd) {
+                $arr = 'Data Jenis telah berhasil diubah';
             }
             return Response()->json($arr);
         } catch (\Illuminate\Database\QueryException $e) {

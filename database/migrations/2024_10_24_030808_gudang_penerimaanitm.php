@@ -17,7 +17,11 @@ return new class extends Migration
             $table->string('kodepenerimaan');
             $table->string('subkode');
             $table->integer('nourut');
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = used, 3 = close,
+            $table->decimal('berat', 13, 2)->nullable();
+            $table->decimal('berat_total', 13, 2)->nullable();
+            $table->integer('qty_total')->nullable();
+            $table->string('type')->nullable();
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = used, 3 = proses, 4 = close,
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('signDriver')->nullable();
             $table->string('signOp')->nullable();
             $table->string('verified')->nullable();
-            $table->string('status')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = closed
             $table->string('dibuat')->nullable();
             $table->timestamps();

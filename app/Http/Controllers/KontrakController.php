@@ -114,13 +114,11 @@ class KontrakController extends Controller
     public function detailKontrak(Request $request)
     {
         $data = SuratkontrakModel::where('id', $request->id)->first();
-        $datatipe = DaftarwarnaModel::where('id_tipe', $data->tipe)->get();
-        $datasup = DaftarsupplierModel::where('id', $data->supplier)->first();
 
         echo '
         <input type="hidden" name="_token" value="' . csrf_token() . '">
-            <input type="hidden" name="id" value="' . $request->id . '">
-    <div class="modal-body">
+        <input type="hidden" name="id" value="' . $request->id . '">
+        <div class="modal-body">
         <div class="card-stamp card-stamp-lg">
             <div class="card-stamp-icon bg-primary">
                 <i class="fa-solid fa-pen-to-square"></i>

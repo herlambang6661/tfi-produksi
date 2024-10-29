@@ -437,7 +437,7 @@
                             // }
                         },
                         columns: [{
-                                title: '',
+                                title: 'Opsi',
                                 data: 'action',
                                 name: 'action',
                                 className: "w-0",

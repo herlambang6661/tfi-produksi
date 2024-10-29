@@ -19,13 +19,18 @@ return new class extends Migration
             $table->string('kodepenerimaan');
             $table->string('tipe')->nullable();
             $table->integer('qty')->nullable();
-            $table->string('satuan')->nullable();
+            $table->string('package')->nullable();
             $table->decimal('berat_trukpenuh', 13, 2)->nullable();
             $table->decimal('berat_trukkosong', 13, 2)->nullable();
             $table->string('nopol')->nullable();
             $table->string('driver')->nullable();
             $table->string('ktp')->nullable();
+            $table->string('operator')->nullable();
             $table->string('keterangan')->nullable();
+            $table->string('signDriver')->nullable();
+            $table->string('signOp')->nullable();
+            $table->string('verified')->nullable();
+            $table->string('status')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = closed
             $table->string('dibuat')->nullable();
             $table->timestamps();

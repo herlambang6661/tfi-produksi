@@ -61,6 +61,7 @@ Route::controller(KontrakController::class)->group(function () {
     Route::post('storedataSuratkontrak', 'store')->name('storedataSuratkontrak');
     Route::post('kontrak/getWarnaByTipe', 'getWarnaByTipe')->name('kontrak/getWarnaByTipe');
     Route::get('getsupplierKontrak', 'getsupplierKontrak')->name('getsupplierKontrak');
+    Route::get('getPengemudi', 'getPengemudi')->name('getPengemudi');
 });
 Route::controller(GudangController::class)->group(function () {
     Route::get('gudang/penerimaan', 'penerimaan')->name('gudang/penerimaan');
@@ -68,4 +69,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/getTipeByKode', 'getTipeByKode')->name('gudang/getTipeByKode');
     Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan');
     Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}');
+    Route::post('getSupir', 'getSupir')->name('getSupir');
+    Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi');
+    Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');
 });

@@ -90,11 +90,23 @@ class KontrakController extends Controller
     {
         if ($request->has('q')) {
             $search = $request->q;
-            $kabag = DaftarsupplierModel::where('nama', 'LIKE', "%$search%")
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->where('nama', 'LIKE', "%$search%")
                 ->orderBy('nama')
                 ->get();
         } else {
-            $kabag = DaftarsupplierModel::all();
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->get();
+        }
+        return Response()->json($kabag);
+    }
+    public function getPengemudi(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->get();
         }
         return Response()->json($kabag);
     }

@@ -12,6 +12,7 @@ use App\Http\Controllers\_01_Datatables\Daftar\TipeList;
 use App\Http\Controllers\_01_Datatables\Daftar\WarnaList;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
+use App\Http\Controllers\_01_Datatables\Daftar\TipeSubList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 
@@ -35,6 +36,7 @@ Route::resource('getSupplier', SupplierList::class);
 Route::resource('getSuratkontrak', SuratkontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getJenis', JenisList::class);
+Route::resource('getTipeSub', TipeSubList::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post');
@@ -48,16 +50,19 @@ Route::controller(DaftarController::class)->group(function () {
     Route::post('storedataTipe', 'storeTipe')->name('storedataTipe');
     Route::post('storedataEditTipe', 'storeEditTipe')->name('storedataEditTipe');
     Route::post('storedataEditWarna', 'storeEditWarna')->name('storedataEditWarna');
+    Route::post('storedataEdittipeSub', 'storeEditTipeSub')->name('storedataEdittipeSub');
     Route::post('viewdataEditjenis', 'viewEditJenis')->name('viewdataEditJenis');
     Route::post('storeEditjenis', 'storeEditJenis')->name('storeEditJenis');
     Route::post('storedataEditSupplier', 'storeEditSupplier')->name('storedataEditSupplier');
     Route::post('updatedataSupplier/{id}', 'updateSupplier')->name('Updatedatasupplier');
     Route::post('storedataWarna', 'storeWarna')->name('storedataWarna');
+    Route::post('storedataTipesub', 'storeTipesub')->name('storedataTipesub');
     Route::post('storedataSupplier', 'storeSupplier')->name('storedataSupplier');
     Route::post('storejenis', 'storeJenis')->name('store.jenis');
     Route::get('getkodetipe', 'getkodetipe')->name('getkodetipe');
     Route::post('viewEdittipe', 'viewEdittipe')->name('viewEdittipe');
     Route::post('viewEditwarna', 'viewEditwarna')->name('viewEditwarna');
+    Route::post('viewEdittipeSub', 'viewEditTipeSub')->name('viewEdittipeSub');
     Route::post('viewEditsupplier', 'viewEditsupplier')->name('viewEditsupplier');
 });
 

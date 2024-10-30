@@ -13,6 +13,7 @@ use App\Models\GudangpenerimaanModel;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
+use App\Models\DaftarJenisModel;
 
 class GudangController extends Controller
 {
@@ -49,6 +50,14 @@ class GudangController extends Controller
         $getTipe = SuratkontrakModel::where('id', $request->id)->get();
         foreach ($getTipe as $key => $value) {
             echo $value->tipe;
+        }
+    }
+
+    public function getJenis(Request $request)
+    {
+        $getJenis = DaftarJenisModel::where('id', $request->id)->get();
+        foreach ($getJenis as $key => $value) {
+            echo $value->nama_jenis;
         }
     }
 

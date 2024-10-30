@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\DaftartipeModel;
 use App\Models\DaftarwarnaModel;
 use App\Models\DaftarsupplierModel;
+use App\Models\DaftarTipeSubKategoriModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
@@ -113,6 +114,37 @@ class DaftarController extends Controller
             $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
         }
     }
+
+    public function storeTipesub(Request $request)
+    {
+        $request->validate(
+            [
+                'kodetipesub' => 'required',
+                'nama_kategori' => 'required',
+            ],
+            [
+                'kodetipesub.required' => 'Masukkan Tipe',
+                'nama_kategori.required' => 'Nama Tidak Boleh Kosong',
+            ]
+        );
+        try {
+            $tipe = DaftartipeModel::where('id', $request->kodetipesub)->first();
+            $ins = DaftarTipeSubKategoriModel::insert([
+                'id_tipe' => $tipe->id,
+                'nama_kategori' => $request->nama_kategori,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            if ($ins) {
+                $arr = 'Data Tipe telah berhasil disimpan';
+            }
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+        }
+    }
+
     public function storeSupplier(Request $request)
     {
         $request->validate(
@@ -284,7 +316,6 @@ class DaftarController extends Controller
         }
     }
 
-
     public function getkodetipe(Request $request)
     {
         if ($request->has('q')) {
@@ -340,6 +371,79 @@ class DaftarController extends Controller
             </div>
         ';
     }
+
+    public function viewEditTipeSub(Request $request)
+    {
+        $data = DaftarTipeSubKategoriModel::where('id', $request->id)->first();
+        $dataTipe = DaftartipeModel::where('id', $data->id_tipe)->first();
+        echo '
+            <input type="hidden" name="_token" value="' . csrf_token() . '">
+            <input type="hidden" name="id" value="' . $request->id . '">
+            <div class="modal-body">
+                <div class="card-stamp card-stamp-lg">
+                    <div class="card-stamp-icon bg-danger">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kode Tipe</label>
+                    <style>
+                        #select2-kodetipe-container {
+                            border: 1px solid black;
+                        }
+                    </style>
+                    <script>
+                        $(".select2kodetipesubedit").select2({
+                            dropdownParent: $("#modal-edit-tipesub"),
+                            language: "id",
+                            width: "100%",
+                            height: "100%",
+                            placeholder: "Pilih Tipe",
+                            ajax: {
+                                url: "/getkodetipe",
+                                dataType: "json",
+                                processResults: function(response) {
+                                    return {
+                                        results: $.map(response, function(item) {
+                                            return {
+                                                text: item.kode + " - " + item.nama,
+                                                id: item.id,
+                                            }
+                                        })
+                                    };
+                                },
+                                cache: true
+                            },
+                        });
+                    </script>
+                    <select name="kodetipesub" id="kodetipesub" class="form-select select2kodetipesubedit"
+                        data-select2-id="kodetipesub" tabindex="-1" aria-hidden="true">
+                        <option value="' . $dataTipe->id . '" selected="selected">' . $dataTipe->kode . ' - ' . $dataTipe->nama . '</option> 
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Nama</label>
+                    <input type="text" class="form-control border border-dark" name="nama_kategori"
+                        id="Editnamakategori" style="text-transform: uppercase;" value="' . $data->nama_kategori . '">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" id="submitEditTipesub" class="btn btn-danger ms-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                        <path d="M14 4l0 4l-6 0l0 -4" />
+                    </svg>
+                    Update
+                </button>
+            </div>
+        ';
+    }
+
     public function viewEditwarna(Request $request)
     {
         $data = DaftarwarnaModel::where('id', $request->id)->first();
@@ -396,7 +500,7 @@ class DaftarController extends Controller
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" id="submitEditWarna" class="btn btn-primary ms-auto">
+                <button type="submit" id="submitEditWarna" class="btn btn-purple ms-auto">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
@@ -406,7 +510,7 @@ class DaftarController extends Controller
                         <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
                         <path d="M14 4l0 4l-6 0l0 -4" />
                     </svg>
-                    Simpan
+                    Update
                 </button>
             </div>
         ';
@@ -610,6 +714,41 @@ class DaftarController extends Controller
             $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
         }
     }
+
+    public function storeEditTipeSub(Request $request)
+    {
+        try {
+            $request->validate(
+                [
+                    'kodetipesub' => 'required',
+                    'nama_kategori' => 'required',
+                ],
+                [
+                    'kodetipesub.required' => 'Masukkan Kode Tipe',
+                    'nama_kategori.required' => 'Nama Kategori Tidak Boleh Kosong',
+                ]
+            );
+
+            $product = DaftarTipeSubKategoriModel::findOrFail($request->id);
+            $dataTipe = DaftartipeModel::where('id', $request->kodetipesub)->first();
+
+            $upd = $product->update([
+                'id_tipe' => $dataTipe->id,
+                'nama_kategori' => $request->nama_kategori,
+                'dibuat' => Auth::user()->nickname,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            if ($upd) {
+                $arr = 'Data Tipe Sub Kategori telah berhasil diubah';
+            }
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+        }
+    }
+
     public function storeEditWarna(Request $request)
     {
         try {

@@ -23,4 +23,9 @@ class DaftartipeModel extends Model
     {
         return $this->hasMany(DaftarwarnaModel::class);
     }
+
+    public function kategori(): HasMany
+    {
+        return $this->hasMany(DaftarTipeSubKategoriModel::class);
+    }
 }

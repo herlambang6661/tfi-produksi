@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SuratkontrakModel;
+use App\Models\DaftarsupplierModel;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use App\Models\GudangpenerimaanModel;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
-use App\Models\DaftarsupplierModel;
 
 class GudangController extends Controller
 {
@@ -267,5 +270,20 @@ class GudangController extends Controller
         $decrypted = Crypt::decryptString($request->kodepenerimaan);
         $penerimaanItem = GudangpenerimaanitmModel::where('kodepenerimaan', $decrypted)->get();
         return view('products/00_print.print_penerimaan_barcode', ['penerimaanItem' => $penerimaanItem]);
+        // $pdf = Pdf::loadView('pdf.invoice', $penerimaanItem);
+        // return $pdf->download('invoice.pdf');
+        // $data = [
+        //     'title' => 'Welcome to ItSolutionStuff.com',
+        //     'date' => date('m/d/Y'),
+        //     'penerimaanItem' => $penerimaanItem,
+        // ];
+        // $pdf = PDF::loadView('products/00_print.print_penerimaan_barcode', $data);
+        // return $pdf->download('itsolutionstuff.pdf');
+
+
+        // $dompdf = new Dompdf();
+        // $dompdf->loadHtml('<h1>hello world</h1>');
+        // $dompdf->render();
+        // $dompdf->stream("", ["Attachment" => false]);
     }
 }

@@ -53,13 +53,12 @@ class GudangController extends Controller
         }
     }
 
-    public function getJenis(Request $request)
+    public function getJeniss()
     {
-        $getJenis = DaftarJenisModel::where('id', $request->id)->get();
-        foreach ($getJenis as $key => $value) {
-            echo $value->nama_jenis;
-        }
+        $jenisData = DaftarJenisModel::select('id', 'nama_jenis')->get();
+        return response()->json($jenisData);
     }
+
 
     public function storePenerimaan(Request $request)
     {
@@ -108,17 +107,6 @@ class GudangController extends Controller
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
-            // for ($i = 1; $i <= $request->qty; $i++) {
-            //     // insert data penerimaanitm
-            //     GudangpenerimaanitmModel::insert([
-            //         'tanggal_kedatangan' => $request->tanggal_kedatangan,
-            //         'kodepenerimaan' => $kodepenerimaan,
-            //         'subkode' => $kodepenerimaan . '-' . sprintf("%03s", $i),
-            //         'nourut' => sprintf("%03s", $i),
-            //         'dibuat' => Auth::user()->nickname,
-            //         'created_at' => date('Y-m-d H:i:s'),
-            //     ]);
-            // }
             $arr = array('msg' => 'Data Surat Kontrak telah berhasil disimpan', 'status' => true);
             return Response()->json($arr);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -278,7 +266,7 @@ class GudangController extends Controller
     {
         $decrypted = Crypt::decryptString($request->kodepenerimaan);
         $penerimaanItem = GudangpenerimaanitmModel::where('kodepenerimaan', $decrypted)->get();
-        return view('products/00_print.print_penerimaan_barcode', ['penerimaanItem' => $penerimaanItem]);
+        return view('products/00_print.print_penerimaan_qrcode', ['penerimaanItem' => $penerimaanItem]);
         // $pdf = Pdf::loadView('pdf.invoice', $penerimaanItem);
         // return $pdf->download('invoice.pdf');
         // $data = [

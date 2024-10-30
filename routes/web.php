@@ -77,6 +77,7 @@ Route::controller(KontrakController::class)->group(function () {
 Route::controller(GudangController::class)->group(function () {
     Route::get('gudang/penerimaan', 'penerimaan')->name('gudang/penerimaan');
     Route::get('getkodeKontrak', 'getkodeKontrak')->name('getkodeKontrak');
+    Route::get('getjeniss', 'getJeniss')->name('getjeniss');
     Route::post('gudang/getTipeByKode', 'getTipeByKode')->name('gudang/getTipeByKode');
     Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan');
     Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}');
@@ -84,4 +85,5 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi');
     Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');
     Route::post('gudang/printBarcode', 'printBarcode')->name('gudang/printBarcode');
+    Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
 });

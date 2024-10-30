@@ -4,25 +4,6 @@ use Carbon\Carbon;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 date_default_timezone_set('Asia/Jakarta');
 use Dompdf\Dompdf;
-// echo DNS1D::getBarcodeSVG('4445645656', 'PHARMA2T');
-// echo DNS1D::getBarcodeHTML('4445645656', 'PHARMA2T');
-// echo '<img src="data:image/png,' . DNS1D::getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
-// echo DNS1D::getBarcodePNGPath('4445645656', 'PHARMA2T');
-// echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('4', 'C39+') . '" alt="barcode"   />';
-// echo DNS1D::getBarcodeJPGPath('4445645656', 'PHARMA2T');
-// echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodeJPG('4', 'C39+') . '" alt="barcode"   />';
-// echo DNS1D::getBarcodeSVG('444564565', 'C39');
-// echo DNS2D::getBarcodeHTML('4445645656', 'QRCODE');
-// echo DNS2D::getBarcodePNGPath('4445645656', 'PDF417');
-// echo DNS2D::getBarcodeSVG('4445645656', 'DATAMATRIX');
-// echo '<img src="data:image/png;base64,' . DNS2D::getBarcodePNG('4', 'PDF417') . '" alt="barcode"   />';
-// echo DNS1D::getBarcodeSVG('4445645656', 'PHARMA2T', 3, 33, 'green', true);
-// echo DNS1D::getBarcodeHTML('4445645656', 'PHARMA2T', 3, 33, 'green', true);
-// echo '<img src="' . DNS1D::getBarcodePNG('4', 'C39+', 3, 33, [1, 1, 1], true) . '" alt="barcode"   />';
-// echo DNS1D::getBarcodePNGPath('4445645656', 'PHARMA2T', 3, 33, [255, 255, 0], true);
-// echo '<img src="data:image/png;base64,' . DNS1D::getBarcodePNG('4', 'C39+', 3, 33, [1, 1, 1], true) . '" alt="barcode"   />';
-// echo DNS1D::getBarcodeJPGPath('4445645656', 'PHARMA2T', 3, 33, [255, 255, 0], true);
-// echo '<img src="data:image/jpeg;base64,' . DNS1D::getBarcodeJPG('4', 'C39+', 3, 33, [1, 1, 1], true) . '" alt="barcode"   />';
 ?>
 <html>
 
@@ -38,53 +19,56 @@ use Dompdf\Dompdf;
     <link href="{{ asset('assets/extentions/fontawesome/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/extentions/select2/css/select2.min.css') }}" rel="stylesheet">
     <style>
-        /* @page {
-            size 8.5in 11in;
-            margin: 2cm
-        } */
-        @media print {
-            @page {
-                size: 150mm 100mm auto;
-            }
+        @page {
+            size: 150mm 100mm;
+            margin: 5mm;
         }
 
         div.page {
-            transform: rotate(90deg);
+            height: 100mm;
+            width: 150mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
             page-break-after: always;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+
+        .barcode-text {
+            font-size: 24px;
+            margin: 0 5px;
+        }
+
+        img {
+            max-width: 70%;
+            height: auto;
+            margin-top: 5px;
         }
     </style>
 </head>
 
 <body>
     @foreach ($penerimaanItem as $item)
-        <div class="page" style="margin-left: 50px;margin-right: 50px;">
-            <div class="row">
-                <div class="col" style="margin-top: 0px">
-                    <b style="font-size: 40px;">
-                        {{ $item->kodepenerimaan }}
-                    </b>
+        <div class="page">
+            <div class="header">
+                <div class="barcode-text">
+                    <b>{{ $item->kodepenerimaan }}</b>
                 </div>
-                <div class="col" style="margin-top: 0px; text-align: right">
-                    <b style="font-size: 40px">
-                        {{ Carbon::parse($item->tanggal_kedatangan)->format('d-m-Y') }}
-                    </b>
+                <div class="barcode-text">
+                    <b>{{ $item->tanggal_kedatangan }}</b>
                 </div>
             </div>
-
-            {{-- <img src="data:image/jpeg;base64,{{ DNS1D::getBarcodeJPG($item->subkode, 'C39', 4, 333) }}"
-                alt="{{ $item->subkode }}" /> --}}
-            {{-- {!! DNS1D::getBarcodeHTML('123njdksfnkdjfb', 'C39E+') !!} --}}
-            <img src="data:image/jpeg;base64,{{ DNS1D::getBarcodeJPG($item->subkode, 'C39+', 4, 333, [1, 1, 1], true) }}"
-                alt="barcode" />
-
-            <div class="row">
-                <div class="col" style="margin-top: 0px; text-align: center">
-                    <b style="font-size: 60px;">
-                        {{ $item->subkode }}
-                    </b>
-                </div>
-            </div>
-
+            <img src="data:image/jpeg;base64,{{ DNS1D::getBarcodeJPG($item->subkode, 'C39', 4, 333) }}"
+                alt="{{ $item->subkode }}" />
         </div>
     @endforeach
 </body>

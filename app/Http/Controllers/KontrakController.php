@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use Illuminate\Http\Request;
 use App\Models\DaftartipeModel;
 use App\Models\DaftarwarnaModel;
 use App\Models\SuratkontrakModel;
 use App\Models\DaftarsupplierModel;
+use App\Models\DaftarTipeSubKategoriModel;
+use App\Models\SuratkontrakitmModel;
+use Database\Seeders\Daftar_tipe;
 use Illuminate\Support\Facades\Auth;
 
 class KontrakController extends Controller
@@ -28,6 +32,15 @@ class KontrakController extends Controller
             'tipe' => $getTipe,
         ]);
     }
+    public function suratKontrakAdd()
+    {
+        $getTipe = DaftartipeModel::all();
+        return view('products.02_kontrak.kontrakAdd', [
+            'active' => 'Suratkontrak',
+            'judul' => 'Tambah Surat Kontrak',
+            'tipe' => $getTipe,
+        ]);
+    }
 
     public function store(Request $request)
     {
@@ -37,45 +50,87 @@ class KontrakController extends Controller
                 'tanggal' => 'required',
                 'supplier' => 'required',
                 'dibeli' => 'required',
-                'berat' => 'required',
-                'harga' => 'required',
-                'tipe' => 'required',
-                'warna' => 'required',
-                'cacatan' => 'nullable',
+                'keterangan' => 'nullable',
             ]);
-            $gettipe = DaftartipeModel::where('id', $request->tipe)->first();
-            $char = $gettipe->kode . date('y');
-            // generate kodeseri
-            $getkodeseri = SuratkontrakModel::where('id_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
-            if ($getkodeseri) {
-                $kdseri = $getkodeseri->id_kontrak;
-                $noUrutKodeseri = (int) substr($kdseri, -3);
-                $noUrutKodeseri++;
-                $kdseri = $char . sprintf("%03s", $noUrutKodeseri);
+
+            //generate noform
+            $checknoform = SuratkontrakModel::latest('noform')->first();
+            if ($checknoform) {
+                $y = substr($checknoform->noform, 0, 2);
+                if (date('y') == $y) {
+                    $query = SuratkontrakModel::where('noform', 'like', '%' . date('y') . '%')->orderBy('noform', 'desc')->first();
+                    $noUrut = (int) substr($query->noform, -4);
+                    $noUrut++;
+                    $char = date('y-');
+                    $kode_noform = $char . sprintf("%04s", $noUrut);
+                } else {
+                    $kode_noform = date('y-') . "0001";
+                }
             } else {
-                $kdseri = $char . "001";
+                $kode_noform = date('y-') . "0001";
             }
-            SuratkontrakModel::insert([
+
+            $ins = SuratkontrakModel::insert([
                 'entitas' => $request->entitas,
-                'id_kontrak' => $kdseri,
+                'noform' => $kode_noform,
                 'tanggal' => $request->tanggal,
                 'supplier' => $request->supplier,
                 'dibeli' => $request->dibeli,
-                'berat' => $request->berat,
-                'harga' => $request->harga,
-                'tipe' => $gettipe->nama,
-                'warna' => $request->warna,
-                'catatan' => $request->catatan,
+                'keterangan' => $request->keterangan,
+
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
-            $arr = array('msg' => 'Data Surat Kontrak telah berhasil disimpan', 'status' => true);
-            return Response()->json($arr);
+
+            for ($i = 0; $i < count($request->tipe); $i++) {
+                $gettipe        = DaftartipeModel::where('id', $request->tipe[$i])->first();
+                $getkategori    = DaftarTipeSubKategoriModel::where('id', $request->kategori[$i])->first();
+                $getwarna       = DaftarwarnaModel::where('id', $request->warna[$i])->first();
+                $char = $gettipe->kode . $getkategori->kode_kategori . $getwarna->kode_warna . date('y');
+
+                // generate kodeseri
+                $getkodeseri = SuratkontrakitmModel::where('kode_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('kode_kontrak')->first();
+                if ($getkodeseri) {
+                    $kdseri = $getkodeseri->kode_kontrak;
+                    $noUrutKodeseri = (int) substr($kdseri, -3);
+                    $noUrutKodeseri++;
+                    $kdseri = $char . sprintf("%03s", $noUrutKodeseri);
+                } else {
+                    $kdseri = $char . "001";
+                }
+                SuratkontrakitmModel::insert([
+                    'noform' => $kode_noform,
+                    'kode_kontrak' => $kdseri,
+                    'tanggal' => $request->tanggal,
+                    'tipe' => $gettipe->nama,
+                    'kategori' => $getkategori->nama_kategori,
+                    'warna' => $getwarna->warna,
+                    'berat' => $request->berat[$i],
+                    'harga' => $request->harga[$i],
+                    'dibuat' => Auth::user()->nickname,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+            if ($ins) {
+                return response()->json('Data Surat Kontrak telah berhasil disimpan');
+            }
         } catch (\Illuminate\Database\QueryException $e) {
             // DEBUG IN CASE OF ERROR
             dd($e);
-            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+            return response()->json(['msg' => 'Something went wrong. Please try later. ' . $e->getMessage(), 'status' => false], 500);
         }
+    }
+    public function getBahanBaku(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftartipeModel::where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftartipeModel::all();
+        }
+        return Response()->json($kabag);
     }
 
     public function getWarnaByTipe(Request $request)
@@ -85,6 +140,31 @@ class KontrakController extends Controller
         foreach ($getWarna as $key => $value) {
             echo '<option value="' . $value->warna . '">' . $value->warna . '</option>';
         }
+    }
+
+    public function getKategori(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarTipeSubKategoriModel::where('nama_kategori', 'LIKE', "%$search%")
+                ->orderBy('nama_kategori')
+                ->get();
+        } else {
+            $kabag = DaftarTipeSubKategoriModel::all();
+        }
+        return Response()->json($kabag);
+    }
+    public function getWarna(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarwarnaModel::where('warna', 'LIKE', "%$search%")
+                ->orderBy('warna')
+                ->get();
+        } else {
+            $kabag = DaftarwarnaModel::all();
+        }
+        return Response()->json($kabag);
     }
     public function getsupplierKontrak(Request $request)
     {

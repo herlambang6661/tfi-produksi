@@ -5,6 +5,7 @@ namespace App\Http\Controllers\_01_Datatables\Kontrak;
 use Illuminate\Http\Request;
 use App\Models\SuratkontrakModel;
 use App\Http\Controllers\Controller;
+use App\Models\SuratkontrakitmModel;
 use Yajra\DataTables\Facades\DataTables;
 
 class SuratkontrakList extends Controller
@@ -22,7 +23,7 @@ class SuratkontrakList extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = SuratkontrakModel::where('status', '>', 0)->get();
+            $data = SuratkontrakitmModel::where('status', '>', 0)->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -80,6 +81,13 @@ class SuratkontrakList extends Controller
                         ';
                     }
                 })
+                ->addColumn('supplier', function ($row) {
+                    $SK = SuratkontrakModel::where('noform', $row->noform)->first();
+                    return $SK->supplier;
+                })
+                ->editColumn('tanggal', function ($row) {
+                    return date('d-m-Y', strtotime($row->tanggal));
+                })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }
@@ -93,7 +101,7 @@ class SuratkontrakList extends Controller
 
         // if ($getCount <= 1) {
         //     DB::table('permintaanitm')->where('kodeseri', '=', $id)->delete();
-        SuratkontrakModel::where('id', '=', $id)->update([
+        SuratkontrakitmModel::where('id', '=', $id)->update([
             'status' => 0,
         ]);
         return response()->json('Record deleted successfully.');

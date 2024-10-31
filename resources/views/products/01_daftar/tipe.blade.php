@@ -431,7 +431,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <form id="formTipesub" name="formTipesub" method="post" action="javascript:void(0)">
+                        <form id="formTipesub" name="formTipesub" method="post" action="javascript:void(0)"
+                            onkeydown="return event.key != 'Enter';">
                             @csrf
                             <div class="modal-body">
                                 <div class="card-stamp card-stamp-lg">
@@ -439,6 +440,19 @@
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </div>
                                 </div>
+                                <script>
+                                    function fetchSub() {
+                                        var kode_kategori = $("#kode_kategori").val();
+                                        var nama_kategori = $("#nama_kategori").val();
+                                        console.log(kode_kategori);
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
+                                        $('#kode_kategori').val(nama_kategori.charAt(0));
+                                    }
+                                </script>
                                 <div class="mb-3">
                                     <label class="form-label">Tipe</label>
                                     <style>
@@ -453,7 +467,15 @@
                                 <div class="mb-3">
                                     <label class="form-label">Nama</label>
                                     <input type="text" class="form-control border border-dark" name="nama_kategori"
-                                        id="nama_kategori" style="text-transform: uppercase;">
+                                        id="nama_kategori" onchange="fetchSub()"
+                                        onkeydown="if (event.keyCode == 13)  fetchSub()"
+                                        style="text-transform: uppercase;">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kode</label>
+                                    <input type="text" class="form-control border border-dark" name="kode_kategori"
+                                        id="kode_kategori" placeholder="Kode dibuat otomatis setelah nama tipe dibuat"
+                                        style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -499,7 +521,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <form id="formWarna" name="formWarna" method="post" action="javascript:void(0)">
+                        <form id="formWarna" name="formWarna" method="post" action="javascript:void(0)"
+                            onkeydown="return event.key != 'Enter';">
                             @csrf
                             <div class="modal-body">
                                 <div class="card-stamp card-stamp-lg">
@@ -507,6 +530,19 @@
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </div>
                                 </div>
+                                <script>
+                                    function fetchWarna() {
+                                        var kode_warna = $("#kode_warna").val();
+                                        var warna = $("#warna").val();
+                                        console.log(kode_warna);
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                            }
+                                        });
+                                        $('#kode_warna').val(warna.charAt(0));
+                                    }
+                                </script>
                                 <div class="mb-3">
                                     <label class="form-label">Tipe</label>
                                     <style>
@@ -521,7 +557,15 @@
                                 <div class="mb-3">
                                     <label class="form-label">Warna</label>
                                     <input type="text" class="form-control border border-dark" name="warna"
-                                        id="warna" style="text-transform: uppercase;">
+                                        id="warna" onchange="fetchWarna()"
+                                        onkeydown="if (event.keyCode == 13)  fetchWarna()"
+                                        style="text-transform: uppercase;">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kode Warna</label>
+                                    <input type="text" class="form-control border border-dark" name="kode_warna"
+                                        id="kode_warna" placeholder="Kode dibuat otomatis setelah nama tipe dibuat"
+                                        style="text-transform: uppercase;">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -751,6 +795,30 @@
                         }
                     });
                     $("#Editkode").val(nama.charAt(0));
+                };
+
+                function fetchKarSubEdit() {
+                    var kode_kategori = $("#Editkode_kategori").val();
+                    var nama_kategori = $("#Editnama_kategori").val();
+                    console.log(kode_kategori);
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+                        }
+                    });
+                    $("#Editkode_kategori").val(nama_kategori.charAt(0));
+                };
+
+                function fetchKarWEdit() {
+                    var kode_warna = $("#Editkode_warna").val();
+                    var warna = $("#Editwarna").val();
+                    console.log(kode_warna);
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+                        }
+                    });
+                    $("#Editkode_warna").val(warna.charAt(0));
                 };
                 var tableTipe;
                 var tableWarna;
@@ -1485,6 +1553,9 @@
                                 nama_kategori: {
                                     required: true,
                                 },
+                                kode_kategori: {
+                                    required: true,
+                                },
                             },
                             messages: {
                                 kodetipesub: {
@@ -1492,6 +1563,9 @@
                                 },
                                 nama_kategori: {
                                     required: "Nama Tidak Boleh kosong",
+                                },
+                                kode_kategori: {
+                                    required: "Kode Tidak Boleh Kosong",
                                 },
                             },
                             submitHandler: function(form) {
@@ -1530,7 +1604,7 @@
                                             showConfirmButton: true
                                         });
                                         document.getElementById("formTipesub").reset();
-                                        $('#modal-warna').modal('hide');
+                                        $('#modal-tipesub-kategori').modal('hide');
                                     },
                                     error: function(data) {
                                         console.log('Error:', data);
@@ -1560,6 +1634,9 @@
                                 warna: {
                                     required: true,
                                 },
+                                kode_warna: {
+                                    required: true,
+                                },
                             },
                             messages: {
                                 kodetipe: {
@@ -1567,6 +1644,9 @@
                                 },
                                 warna: {
                                     required: "Warna Tidak Boleh kosong",
+                                },
+                                kode_warna: {
+                                    required: "Kode Warna Tidak Boleh Kosong",
                                 },
                             },
                             submitHandler: function(form) {
@@ -1862,6 +1942,9 @@
                                 warna: {
                                     required: true,
                                 },
+                                kode_warna: {
+                                    required: true
+                                },
                             },
                             messages: {
                                 kodetipe: {
@@ -1869,6 +1952,9 @@
                                 },
                                 warna: {
                                     required: "Warna Tidak Boleh Kosong",
+                                },
+                                kode_warna: {
+                                    required: "Kode Warna Tidak Boleh Kosong",
                                 },
                             },
                             submitHandler: function(form) {

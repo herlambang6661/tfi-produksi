@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('daftar_tipewarna', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_tipe');
-            $table->string('kode');
+            $table->string('kode_warna');
             $table->string('warna');
             $table->string('dibuat')->nullable();
             $table->timestamps();

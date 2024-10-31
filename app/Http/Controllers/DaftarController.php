@@ -90,17 +90,24 @@ class DaftarController extends Controller
             [
                 'kodetipe' => 'required',
                 'warna' => 'required',
+                'kode_warna' => 'required|unique:daftar_tipewarna|min:1|max:2|string',
+
             ],
             [
                 'kodetipe.required' => 'Masukkan Tipe',
                 'warna.required' => 'Warna Tidak Boleh Kosong',
+                'kode_warna.required' => 'Kode Tidak Boleh Kosong',
+                'kode_warna.unique' => 'Kode "' . $request->kode_warna . '" Sudah dipakai, Tidak Boleh Sama',
+                'kode_warna.min' => 'Kode Minimal 1 Karakter',
+                'kode_warna.max' => 'Kode Maksimal 2 Karakter',
+                'kode_warna.string' => 'Kode Harus Berupa String',
             ]
         );
         try {
             $tipe = DaftartipeModel::where('id', $request->kodetipe)->first();
             $ins = DaftarwarnaModel::insert([
                 'id_tipe' => $tipe->id,
-                'kode' => $tipe->kode,
+                'kode_warna' => $request->kode_warna,
                 'warna' => $request->warna,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -121,16 +128,24 @@ class DaftarController extends Controller
             [
                 'kodetipesub' => 'required',
                 'nama_kategori' => 'required',
+                'kode_kategori' => 'required|unique:daftar_tipe_subkategori|min:1|max:2|string',
+
             ],
             [
                 'kodetipesub.required' => 'Masukkan Tipe',
                 'nama_kategori.required' => 'Nama Tidak Boleh Kosong',
+                'kode_kategori.required' => 'Kode Tidak Boleh Kosong',
+                'kode_kategori.unique' => 'Kode "' . $request->kode_kategori . '" Sudah dipakai, Tidak Boleh Sama',
+                'kode_kategori.min' => 'Kode Minimal 1 Karakter',
+                'kode_kategori.max' => 'Kode Maksimal 2 Karakter',
+                'kode_kategori.string' => 'Kode Harus Berupa String',
             ]
         );
         try {
             $tipe = DaftartipeModel::where('id', $request->kodetipesub)->first();
             $ins = DaftarTipeSubKategoriModel::insert([
                 'id_tipe' => $tipe->id,
+                'kode_kategori' => $request->kode_kategori,
                 'nama_kategori' => $request->nama_kategori,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -424,7 +439,14 @@ class DaftarController extends Controller
                 <div class="mb-3">
                     <label class="form-label">Nama</label>
                     <input type="text" class="form-control border border-dark" name="nama_kategori"
-                        id="Editnamakategori" style="text-transform: uppercase;" value="' . $data->nama_kategori . '">
+                        id="Editnama_kategori" Popcorn" onchange="fetchKarSubEdit()"
+                        onkeydown="if (event.keyCode == 13)  fetchKarSubEdit()" style="text-transform: uppercase;" value="' . $data->nama_kategori . '">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kode</label>
+                    <input type="text" class="form-control border border-dark" name="kode_kategori"
+                        id="Editkode_kategori" placeholder="Kode dibuat otomatis setelah nama kategori dibuat"
+                        style="text-transform: uppercase;" value="' . $data->kode_kategori . '">
                 </div>
             </div>
             <div class="modal-footer">
@@ -496,7 +518,14 @@ class DaftarController extends Controller
                 <div class="mb-3">
                     <label class="form-label">Warna</label>
                     <input type="text" class="form-control border border-dark" name="warna"
-                        id="Editwarna" style="text-transform: uppercase;" value="' . $data->warna . '">
+                        id="Editwarna" onchange="fetchKarWEdit()"
+                        onkeydown="if (event.keyCode == 13)  fetchKarWEdit()" style="text-transform: uppercase;" value="' . $data->warna . '">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Kode Warna</label>
+                    <input type="text" class="form-control border border-dark" name="kode_warna"
+                        id="Editkode_warna" placeholder="Kode dibuat otomatis setelah warna tipe dibuat"
+                        style="text-transform: uppercase;" value="' . $data->kode_warna . '">
                 </div>
             </div>
             <div class="modal-footer">

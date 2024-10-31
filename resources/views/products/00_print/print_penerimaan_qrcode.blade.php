@@ -2,7 +2,7 @@
 
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
-
+use Carbon\Carbon;
 date_default_timezone_set('Asia/Jakarta');
 ?>
 
@@ -14,7 +14,6 @@ date_default_timezone_set('Asia/Jakarta');
     <style>
         @page {
             size: 80mm 100mm;
-            /* Mengubah ukuran halaman menjadi 80mm x 100mm */
             margin: 5mm;
         }
 
@@ -43,11 +42,8 @@ date_default_timezone_set('Asia/Jakarta');
 
         .qr-container {
             position: relative;
-            /* Untuk posisi absolut gambar di dalamnya */
             width: 80mm;
-            /* Ukuran QR Code */
             height: 80mm;
-            /* Ukuran QR Code */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -61,35 +57,23 @@ date_default_timezone_set('Asia/Jakarta');
         img.logo {
             position: absolute;
             width: 30%;
-            /* Ukuran logo, sesuaikan sesuai kebutuhan */
             height: auto;
-            /* Menjaga proporsi */
             z-index: 1;
-            /* Pastikan gambar logo di atas QR Code */
             opacity: 0.7;
-            /* Mengatur transparansi logo */
         }
 
         .subkode {
             font-size: 24px;
-            /* Ukuran font subkode */
             margin-top: 5px;
-            /* Jarak atas subkode */
         }
 
         .qty {
             font-size: 18px;
-            /* Ukuran font qty */
             text-align: left;
-            /* Rata kiri */
             margin-top: 5px;
-            /* Jarak atas qty */
             width: 100%;
-            /* Lebar penuh untuk qty */
             position: relative;
-            /* Untuk mengatur posisi */
             left: 0;
-            /* Mengatur posisi ke kiri */
         }
     </style>
 </head>
@@ -102,12 +86,11 @@ date_default_timezone_set('Asia/Jakarta');
                     <b>{{ $item->kodepenerimaan }}</b>
                 </div>
                 <div class="barcode-text" style="flex: 1; text-align: right;">
-                    <b>{{ $item->tanggal_kedatangan }}</b>
+                    <b>{{ Carbon::parse($item->tanggal_kedatangan)->format('d-m-Y') }}</b>
                 </div>
             </div>
 
             <?php
-            // Generate QR Code
             $qrCode = new QrCode($item->subkode);
             $writer = new PngWriter();
             $result = $writer->write($qrCode);

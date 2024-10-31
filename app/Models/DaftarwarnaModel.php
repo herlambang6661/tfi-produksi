@@ -12,7 +12,7 @@ class DaftarwarnaModel extends Model
     protected $table = "daftar_tipewarna";
 
     protected $fillable = [
-        'kode',
+        'kode_warna',
         'id_tipe',
         'warna',
         'dibuat',

@@ -12,6 +12,7 @@ class DaftarTipeSubKategoriModel extends Model
     protected $table = 'daftar_tipe_subkategori';
     protected $fillable = [
         'id_tipe',
+        'kode_kategori',
         'nama_kategori',
         'dibuat',
     ];

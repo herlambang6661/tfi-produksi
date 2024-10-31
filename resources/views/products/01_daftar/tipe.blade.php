@@ -454,17 +454,6 @@
                                     }
                                 </script>
                                 <div class="mb-3">
-                                    <label class="form-label">Tipe</label>
-                                    <style>
-                                        #select2-nama_jenis-container {
-                                            border: 1px solid black;
-                                        }
-                                    </style>
-                                    <select name="kodetipesub" id="kodetipesub" class="form-select select2kodetipesub"
-                                        data-select2-id="kodetipesub" tabindex="-1" aria-hidden="true">
-                                    </select>
-                                </div>
-                                <div class="mb-3">
                                     <label class="form-label">Nama</label>
                                     <input type="text" class="form-control border border-dark" name="nama_kategori"
                                         id="nama_kategori" onchange="fetchSub()"
@@ -543,17 +532,6 @@
                                         $('#kode_warna').val(warna.charAt(0));
                                     }
                                 </script>
-                                <div class="mb-3">
-                                    <label class="form-label">Tipe</label>
-                                    <style>
-                                        #select2-nama_jenis-container {
-                                            border: 1px solid black;
-                                        }
-                                    </style>
-                                    <select name="kodetipe" id="kodetipe" class="form-select select2kodetipe"
-                                        data-select2-id="kodetipe" tabindex="-1" aria-hidden="true">
-                                    </select>
-                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Warna</label>
                                     <input type="text" class="form-control border border-dark" name="warna"
@@ -847,29 +825,29 @@
                         },
                     });
 
-                    $(".select2kodetipesub").select2({
-                        dropdownParent: $("#modal-tipesub-kategori"),
-                        language: "id",
-                        width: '100%',
-                        height: '100%',
-                        placeholder: "Pilih Tipe",
-                        ajax: {
-                            url: "/getkodetipe",
-                            dataType: 'json',
-                            // delay: 250,
-                            processResults: function(response) {
-                                return {
-                                    results: $.map(response, function(item) {
-                                        return {
-                                            text: item.kode + " - " + item.nama,
-                                            id: item.id,
-                                        }
-                                    })
-                                };
-                            },
-                            cache: true
-                        },
-                    })
+                    // $(".select2kodetipesub").select2({
+                    //     dropdownParent: $("#modal-tipesub-kategori"),
+                    //     language: "id",
+                    //     width: '100%',
+                    //     height: '100%',
+                    //     placeholder: "Pilih Tipe",
+                    //     ajax: {
+                    //         url: "/getkodetipe",
+                    //         dataType: 'json',
+                    //         // delay: 250,
+                    //         processResults: function(response) {
+                    //             return {
+                    //                 results: $.map(response, function(item) {
+                    //                     return {
+                    //                         text: item.kode + " - " + item.nama,
+                    //                         id: item.id,
+                    //                     }
+                    //                 })
+                    //             };
+                    //         },
+                    //         cache: true
+                    //     },
+                    // })
                     /*------------------------------------------
                     --------------------------------------------
                     Render DataTable
@@ -1075,9 +1053,9 @@
                                 searchable: false,
                             },
                             {
-                                title: 'Kategori',
-                                data: 'nama',
-                                name: 'nama',
+                                title: 'Kode Kategori',
+                                data: 'kode_kategori',
+                                name: 'kode_kategori',
                                 className: "cuspad0 cuspad1 text-center"
                             },
                             {
@@ -1225,9 +1203,9 @@
                                 searchable: false,
                             },
                             {
-                                title: 'Nama Tipe',
-                                data: 'nama',
-                                name: 'nama',
+                                title: 'Kode Warna',
+                                data: 'kode_warna',
+                                name: 'kode_warna',
                                 className: "cuspad0 cuspad1 text-center"
                             },
                             {
@@ -1547,9 +1525,6 @@
                     if ($("#formTipesub").length > 0) {
                         $("#formTipesub").validate({
                             rules: {
-                                kodetipesub: {
-                                    required: true,
-                                },
                                 nama_kategori: {
                                     required: true,
                                 },
@@ -1558,9 +1533,6 @@
                                 },
                             },
                             messages: {
-                                kodetipesub: {
-                                    required: "Masukkan Nama Tipe Sub Kategori",
-                                },
                                 nama_kategori: {
                                     required: "Nama Tidak Boleh kosong",
                                 },
@@ -1628,9 +1600,6 @@
                     if ($("#formWarna").length > 0) {
                         $("#formWarna").validate({
                             rules: {
-                                kodetipe: {
-                                    required: true,
-                                },
                                 warna: {
                                     required: true,
                                 },
@@ -1639,9 +1608,6 @@
                                 },
                             },
                             messages: {
-                                kodetipe: {
-                                    required: "Masukkan Nama Tipe",
-                                },
                                 warna: {
                                     required: "Warna Tidak Boleh kosong",
                                 },
@@ -1859,19 +1825,19 @@
                     if ($("#formEditTipeSub").length > 0) {
                         $("#formEditTipeSub").validate({
                             rules: {
-                                kodetipesub: {
+                                nama_kategori: {
                                     required: true,
                                 },
-                                nama_kategori: {
+                                kode_kategori: {
                                     required: true,
                                 },
                             },
                             messages: {
-                                kodetipesub: {
-                                    required: "Masukkan Kode Tipe",
-                                },
                                 nama_kategori: {
                                     required: "Nama Kategori Tidak Boleh Kosong",
+                                },
+                                kode_kategori: {
+                                    required: "Kode kategori tidak boleh kosong",
                                 },
                             },
                             submitHandler: function(form) {

@@ -88,13 +88,11 @@ class DaftarController extends Controller
     {
         $request->validate(
             [
-                'kodetipe' => 'required',
                 'warna' => 'required',
                 'kode_warna' => 'required|unique:daftar_tipewarna|min:1|max:2|string',
 
             ],
             [
-                'kodetipe.required' => 'Masukkan Tipe',
                 'warna.required' => 'Warna Tidak Boleh Kosong',
                 'kode_warna.required' => 'Kode Tidak Boleh Kosong',
                 'kode_warna.unique' => 'Kode "' . $request->kode_warna . '" Sudah dipakai, Tidak Boleh Sama',
@@ -104,9 +102,7 @@ class DaftarController extends Controller
             ]
         );
         try {
-            $tipe = DaftartipeModel::where('id', $request->kodetipe)->first();
             $ins = DaftarwarnaModel::insert([
-                'id_tipe' => $tipe->id,
                 'kode_warna' => $request->kode_warna,
                 'warna' => $request->warna,
                 'dibuat' => Auth::user()->nickname,
@@ -126,13 +122,11 @@ class DaftarController extends Controller
     {
         $request->validate(
             [
-                'kodetipesub' => 'required',
                 'nama_kategori' => 'required',
                 'kode_kategori' => 'required|unique:daftar_tipe_subkategori|min:1|max:2|string',
 
             ],
             [
-                'kodetipesub.required' => 'Masukkan Tipe',
                 'nama_kategori.required' => 'Nama Tidak Boleh Kosong',
                 'kode_kategori.required' => 'Kode Tidak Boleh Kosong',
                 'kode_kategori.unique' => 'Kode "' . $request->kode_kategori . '" Sudah dipakai, Tidak Boleh Sama',
@@ -142,9 +136,7 @@ class DaftarController extends Controller
             ]
         );
         try {
-            $tipe = DaftartipeModel::where('id', $request->kodetipesub)->first();
             $ins = DaftarTipeSubKategoriModel::insert([
-                'id_tipe' => $tipe->id,
                 'kode_kategori' => $request->kode_kategori,
                 'nama_kategori' => $request->nama_kategori,
                 'dibuat' => Auth::user()->nickname,
@@ -390,7 +382,6 @@ class DaftarController extends Controller
     public function viewEditTipeSub(Request $request)
     {
         $data = DaftarTipeSubKategoriModel::where('id', $request->id)->first();
-        $dataTipe = DaftartipeModel::where('id', $data->id_tipe)->first();
         echo '
             <input type="hidden" name="_token" value="' . csrf_token() . '">
             <input type="hidden" name="id" value="' . $request->id . '">
@@ -399,42 +390,6 @@ class DaftarController extends Controller
                     <div class="card-stamp-icon bg-danger">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Kode Tipe</label>
-                    <style>
-                        #select2-kodetipe-container {
-                            border: 1px solid black;
-                        }
-                    </style>
-                    <script>
-                        $(".select2kodetipesubedit").select2({
-                            dropdownParent: $("#modal-edit-tipesub"),
-                            language: "id",
-                            width: "100%",
-                            height: "100%",
-                            placeholder: "Pilih Tipe",
-                            ajax: {
-                                url: "/getkodetipe",
-                                dataType: "json",
-                                processResults: function(response) {
-                                    return {
-                                        results: $.map(response, function(item) {
-                                            return {
-                                                text: item.kode + " - " + item.nama,
-                                                id: item.id,
-                                            }
-                                        })
-                                    };
-                                },
-                                cache: true
-                            },
-                        });
-                    </script>
-                    <select name="kodetipesub" id="kodetipesub" class="form-select select2kodetipesubedit"
-                        data-select2-id="kodetipesub" tabindex="-1" aria-hidden="true">
-                        <option value="' . $dataTipe->id . '" selected="selected">' . $dataTipe->kode . ' - ' . $dataTipe->nama . '</option> 
-                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Nama</label>
@@ -469,7 +424,6 @@ class DaftarController extends Controller
     public function viewEditwarna(Request $request)
     {
         $data = DaftarwarnaModel::where('id', $request->id)->first();
-        $dataTipe = DaftartipeModel::where('id', $data->id_tipe)->first();
         echo '
             <input type="hidden" name="_token" value="' . csrf_token() . '">
             <input type="hidden" name="id" value="' . $request->id . '">
@@ -478,42 +432,6 @@ class DaftarController extends Controller
                     <div class="card-stamp-icon bg-purple">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Kode Tipe</label>
-                    <style>
-                        #select2-kodetipe-container {
-                            border: 1px solid black;
-                        }
-                    </style>
-                    <script>
-                        $(".select2kodetipeedit").select2({
-                            dropdownParent: $("#modal-edit-warna"),
-                            language: "id",
-                            width: "100%",
-                            height: "100%",
-                            placeholder: "Pilih Tipe",
-                            ajax: {
-                                url: "/getkodetipe",
-                                dataType: "json",
-                                processResults: function(response) {
-                                    return {
-                                        results: $.map(response, function(item) {
-                                            return {
-                                                text: item.kode + " - " + item.nama,
-                                                id: item.id,
-                                            }
-                                        })
-                                    };
-                                },
-                                cache: true
-                            },
-                        });
-                    </script>
-                    <select name="kodetipe" id="kodetipe" class="form-select select2kodetipeedit"
-                        data-select2-id="kodetipe" tabindex="-1" aria-hidden="true">
-                        <option value="' . $dataTipe->id . '" selected="selected">' . $dataTipe->kode . ' - ' . $dataTipe->nama . '</option> 
-                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Warna</label>
@@ -749,20 +667,19 @@ class DaftarController extends Controller
         try {
             $request->validate(
                 [
-                    'kodetipesub' => 'required',
+                    'kode_kategori' => 'required',
                     'nama_kategori' => 'required',
                 ],
                 [
-                    'kodetipesub.required' => 'Masukkan Kode Tipe',
+                    'kode_kategori.required' => 'Masukkan Kode Kategori',
                     'nama_kategori.required' => 'Nama Kategori Tidak Boleh Kosong',
                 ]
             );
 
             $product = DaftarTipeSubKategoriModel::findOrFail($request->id);
-            $dataTipe = DaftartipeModel::where('id', $request->kodetipesub)->first();
 
             $upd = $product->update([
-                'id_tipe' => $dataTipe->id,
+                'kode_kategori' => $request->kode_kategori,
                 'nama_kategori' => $request->nama_kategori,
                 'dibuat' => Auth::user()->nickname,
                 'updated_at' => date('Y-m-d H:i:s'),
@@ -783,21 +700,19 @@ class DaftarController extends Controller
         try {
             $request->validate(
                 [
-                    'kodetipe' => 'required',
+                    'kode_warna' => 'required',
                     'warna' => 'required',
                 ],
                 [
-                    'kodetipe.required' => 'Masukkan Kode Tipe',
+                    'kode_warna.required' => 'Masukkan Kode Warna',
                     'warna.required' => 'Warna Tidak Boleh Kosong',
                 ]
             );
 
             $product = DaftarwarnaModel::findOrFail($request->id);
-            $dataTipe = DaftartipeModel::where('id', $request->kodetipe)->first();
 
             $upd = $product->update([
-                'id_tipe' => $dataTipe->id,
-                'kode' => $dataTipe->kode,
+                'kode_warna' => $request->kode_warna,
                 'warna' => $request->warna,
                 'dibuat' => Auth::user()->nickname,
                 'updated_at' => date('Y-m-d H:i:s'),

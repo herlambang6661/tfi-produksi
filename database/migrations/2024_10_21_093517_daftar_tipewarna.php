@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('daftar_tipewarna', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_tipe');
             $table->string('kode_warna');
             $table->string('warna');
             $table->string('dibuat')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_tipe')->references('id')->on('daftar_tipe')->onDelete('cascade');
         });
     }
 
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('daftar_tipewarna');
     }
 };

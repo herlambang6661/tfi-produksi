@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Models\DaftarJenisModel;
+use App\Models\SuratkontrakitmModel;
 
 class GudangController extends Controller
 {
@@ -35,19 +36,19 @@ class GudangController extends Controller
     {
         if ($request->has('q')) {
             $search = $request->q;
-            $data = SuratkontrakModel::where('id_kontrak', 'LIKE', "%$search%")
+            $data = SuratkontrakitmModel::where('tipe', 'LIKE', "%$search%")
                 ->where('status', '>', 0)
-                ->orderBy('id_kontrak')
+                ->orderBy('tipe')
                 ->get();
         } else {
-            $data = SuratkontrakModel::where('status', '>', 0)->get();
+            $data = SuratkontrakitmModel::where('status', '>', 0)->get();
         }
         return Response()->json($data);
     }
 
     public function getTipeByKode(Request $request)
     {
-        $getTipe = SuratkontrakModel::where('id', $request->id)->get();
+        $getTipe = SuratkontrakitmModel::where('id', $request->id)->get();
         foreach ($getTipe as $key => $value) {
             echo $value->tipe;
         }

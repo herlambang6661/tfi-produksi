@@ -12,16 +12,13 @@ class SuratkontrakModel extends Model
     protected $table = "kontrak_suratkontrak";
 
     protected $fillable = [
+        'noform',
         'entitas',
-        'id_kontrak',
         'tanggal',
         'supplier',
         'dibeli',
-        'berat',
-        'harga',
-        'tipe',
-        'warna',
-        'cacatan',
+        'keterangan',
+        'lock',
         'dibuat',
         'created_at',
         'updated_at',

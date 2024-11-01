@@ -70,8 +70,12 @@ Route::controller(DaftarController::class)->group(function () {
 
 Route::controller(KontrakController::class)->group(function () {
     Route::get('kontrak/suratkontrak', 'suratKontrak')->name('kontrak/suratkontrak');
+    Route::get('kontrak/suratkontrak/tambah', 'suratKontrakAdd')->name('kontrakAdd');
     Route::post('storedataSuratkontrak', 'store')->name('storedataSuratkontrak');
     Route::post('kontrak/getWarnaByTipe', 'getWarnaByTipe')->name('kontrak/getWarnaByTipe');
+    Route::get('kontrak/getKategori', 'getKategori')->name('getKT');
+    Route::get('kontrak/getBahanBahu', 'getBahanBaku')->name('getBB');
+    Route::get('kontrak/getWarna', 'getWarna')->name('getWR');
     Route::get('getsupplierKontrak', 'getsupplierKontrak')->name('getsupplierKontrak');
     Route::post('viewKontrak', 'detailKontrak')->name('detail.kontrak');
     Route::get('getPengemudi', 'getPengemudi')->name('getPengemudi');

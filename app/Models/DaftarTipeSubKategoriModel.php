@@ -11,7 +11,6 @@ class DaftarTipeSubKategoriModel extends Model
     use HasFactory;
     protected $table = 'daftar_tipe_subkategori';
     protected $fillable = [
-        'id_tipe',
         'kode_kategori',
         'nama_kategori',
         'dibuat',

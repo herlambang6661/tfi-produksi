@@ -90,9 +90,9 @@ class KontrakController extends Controller
                 $char = $gettipe->kode . $getkategori->kode_kategori . $getwarna->kode_warna . date('y');
 
                 // generate kodeseri
-                $getkodeseri = SuratkontrakitmModel::where('kode_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('kode_kontrak')->first();
+                $getkodeseri = SuratkontrakitmModel::where('id_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
                 if ($getkodeseri) {
-                    $kdseri = $getkodeseri->kode_kontrak;
+                    $kdseri = $getkodeseri->id_kontrak;
                     $noUrutKodeseri = (int) substr($kdseri, -3);
                     $noUrutKodeseri++;
                     $kdseri = $char . sprintf("%03s", $noUrutKodeseri);
@@ -101,7 +101,7 @@ class KontrakController extends Controller
                 }
                 SuratkontrakitmModel::insert([
                     'noform' => $kode_noform,
-                    'kode_kontrak' => $kdseri,
+                    'id_kontrak' => $kdseri,
                     'tanggal' => $request->tanggal,
                     'tipe' => $gettipe->nama,
                     'kategori' => $getkategori->nama_kategori,
@@ -240,7 +240,7 @@ class KontrakController extends Controller
                     <tr>
                         <td class="text-center">' . $key + 1 . '</td>
                         <td>
-                            <p class="strong mb-1">' . $value->kode_kontrak . '</p>
+                            <p class="strong mb-1">' . $value->id_kontrak . '</p>
                             <div class="text-secondary">' . $value->tipe . ' ' . $value->kategori . ' ' . $value->warna . '</div>
                         </td>
                         <td class="text-center">

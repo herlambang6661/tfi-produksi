@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::create('kontrak_suratkontrakitm', function (Blueprint $table) {
             $table->id();
             $table->string('noform');
-            $table->string('kode_kontrak');
+            $table->string('id_kontrak');
             $table->date('tanggal');
             $table->string('tipe');
             $table->string('kategori')->nullable();

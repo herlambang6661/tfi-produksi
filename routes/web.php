@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\_01_Datatables\Daftar\JenisList;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -9,10 +8,12 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KontrakController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeList;
+use App\Http\Controllers\_01_Datatables\Daftar\JenisList;
 use App\Http\Controllers\_01_Datatables\Daftar\WarnaList;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeSubList;
+use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
+use App\Http\Controllers\_01_Datatables\Kontrak\KontrakList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
@@ -35,6 +36,7 @@ Route::resource('getTipe', TipeList::class);
 Route::resource('getWarna', WarnaList::class);
 Route::resource('getSupplier', SupplierList::class);
 Route::resource('getSuratkontrak', SuratkontrakList::class);
+Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class);
@@ -81,6 +83,7 @@ Route::controller(KontrakController::class)->group(function () {
     Route::get('getPengemudi', 'getPengemudi')->name('getPengemudi');
 });
 Route::controller(GudangController::class)->group(function () {
+    Route::post('checkPenerimaan', 'checkPenerimaan')->name('checkPenerimaan');
     Route::get('gudang/penerimaan', 'penerimaan')->name('gudang/penerimaan');
     Route::get('getkodeKontrak', 'getkodeKontrak')->name('getkodeKontrak');
     Route::get('getjeniss', 'getJeniss')->name('getjeniss');

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Models\DaftarJenisModel;
+use App\Models\SuratkontrakitmModel;
 
 class GudangController extends Controller
 {
@@ -289,5 +290,61 @@ class GudangController extends Controller
             'active' => 'Scanner',
             'judul' => 'Scanner Barcode',
         ]);
+    }
+
+    public function checkPenerimaan(Request $request)
+    {
+        if ($request->jml <= 0) {
+            echo '<center><iframe src="https://lottie.host/embed/94d605b9-2cc4-4d11-809a-7f41357109b0/OzwBgj9bHl.json" width="300px" height="300px"></iframe></center>';
+            echo "<center>Tidak ada data yang dipilih</center>";
+        } else {
+            echo '
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" name="tanggal" id="tanggal" class="form-control" value="' . date("Y-m-d") .
+                '">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Kedatangan ke-</label>
+                        <input type="number" min="1" name="kedatangan" id="kedatangan" class="form-control" value="1">
+                    </div>
+                </div>
+                <table class="table table-transparent table-responsive">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 1%"></th>
+                            <th class="text-center" style="width: 1%">No. Form</th>
+                            <th>Product</th>
+                            <th class="text-center" style="width: 1%">Qnt (Kg)</th>
+                            <th class="text-end" style="width: 1%">Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    ';
+            $z = 1;
+            for ($i = 0; $i < $request->jml; $i++) {
+                $data = SuratkontrakitmModel::where('id_kontrak', $request->id[$i])->first();
+                echo '
+                        <tr>
+                            <td class="text-center">' . $z . '</td>
+                            <td class="text-center"><strong>' . $data->noform . '</strong></td>
+                            <td>
+                                <p class="strong mb-1">' . $data->id_kontrak . '</p>
+                                <div class="text-secondary">' . $data->tipe . ' ' . $data->kategori . ' ' . $data->warna . '</div>
+                            </td>
+                            <td class="text-center">
+                                ' . $data->berat . '
+                            </td>
+                            <td class="text-end">' . $data->harga . '</td>
+                        </tr>
+                        ';
+                $z++;
+            }
+            echo '
+                    </tbody>
+                </table>
+            ';
+        }
     }
 }

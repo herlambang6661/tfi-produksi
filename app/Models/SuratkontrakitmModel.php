@@ -13,7 +13,7 @@ class SuratkontrakitmModel extends Model
 
     protected $fillable = [
         'noform',
-        'kode_kontrak',
+        'id_kontrak',
         'tanggal',
         'tipe',
         'kategori',

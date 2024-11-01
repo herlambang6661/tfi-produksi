@@ -12,17 +12,6 @@
             text-transform: uppercase;
         }
 
-        td.cuspad2 {
-            /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-left: 5px; */
-        }
-
         .unselectable {
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -36,6 +25,72 @@
         .small-swal {
             width: 300px !important;
             /* Sesuaikan ukuran modal */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            /* display: none; */
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loader style */
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            display: block;
+            margin: 15px auto;
+            position: relative;
+            color: #ff0000c3;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader::after,
+        .loader::before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            left: 50%;
+            transform: scale(0.5) translate(0, 0);
+            background-color: #ff0000c3;
+            border-radius: 50%;
+            animation: animloader 1s infinite ease-in-out;
+        }
+
+        .loader::before {
+            background-color: #ffffffba;
+            transform: scale(0.5) translate(-48px, -48px);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animloader {
+            50% {
+                transform: scale(1) translate(-50%, -50%);
+            }
         }
     </style>
     <div class="page">
@@ -85,45 +140,6 @@
                                 </ol>
                             </div>
                         </div>
-
-                        <!-- Page title actions -->
-                        <div class="col-auto ms-auto d-print-none">
-                            <div class="btn-list">
-                                <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal"
-                                    data-bs-target="#modal-penerimaan" data-bs-backdrop="static" data-bs-keyboard="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-cube-plus">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M21 12.5v-4.509a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.007c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0" />
-                                        <path d="M12 22v-10" />
-                                        <path d="M12 12l8.73 -5.04" />
-                                        <path d="M3.27 6.96l8.73 5.04" />
-                                        <path d="M16 19h6" />
-                                        <path d="M19 16v6" />
-                                    </svg>
-                                    Tambah Penerimaan
-                                </a>
-                                <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                                    data-bs-target="#modal-penerimaan" aria-label="Tambah Penerimaan">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-cube-plus">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M21 12.5v-4.509a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.007c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0" />
-                                        <path d="M12 22v-10" />
-                                        <path d="M12 12l8.73 -5.04" />
-                                        <path d="M3.27 6.96l8.73 5.04" />
-                                        <path d="M16 19h6" />
-                                        <path d="M19 16v6" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -150,10 +166,10 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table style="width:100%; height: 100%;font-size:13px;"
-                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-penerimaan">
+                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-suratkontrak">
                                         <tfoot>
                                             <tr>
-                                                <th class="px-1 py-1 text-center">
+                                                <th class="px-1 py-1 text-center" style="width: 1%">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -166,18 +182,11 @@
                                                         <path d="M4 18h4" />
                                                     </svg>
                                                 </th>
-                                                <th class="px-1 th py-1"></th>
-                                                <th class="px-1 th py-1">Tanggal</th>
-                                                <th class="px-1 th py-1">Kode Kontrak</th>
+                                                <th class="px-1 th py-1" style="width: 1%">Tanggal</th>
+                                                <th class="px-1 th py-1" style="width: 1%">No. Form</th>
+                                                <th class="px-1 th py-1">ID Kontrak</th>
                                                 <th class="px-1 th py-1">Tipe</th>
-                                                <th class="px-1 th py-1">Qty</th>
-                                                <th class="px-1 th py-1">Package</th>
-                                                <th class="px-1 th py-1">Berat Penuh</th>
-                                                <th class="px-1 th py-1">Berat Kosong</th>
-                                                <th class="px-1 th py-1">Nopol</th>
-                                                <th class="px-1 th py-1">Pengemudi</th>
-                                                <th class="px-1 th py-1">KTP</th>
-                                                <th class="px-1 th py-1">Keterangan</th>
+                                                <th class="px-1 th py-1" style="width: 1%">Supplier</th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -190,152 +199,32 @@
 
             {{-- Modal tambah --}}
             <div class="modal modal-blur fade" id="modal-penerimaan" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="overlay">
+                    <div class="cv-spinner">
+                        <span class="loader"></span>
+                    </div>
+                </div>
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-cube-plus">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path
-                                        d="M21 12.5v-4.509a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.007c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0" />
-                                    <path d="M12 22v-10" />
-                                    <path d="M12 12l8.73 -5.04" />
-                                    <path d="M3.27 6.96l8.73 5.04" />
-                                    <path d="M16 19h6" />
-                                    <path d="M19 16v6" />
-                                </svg>
-                                Buat Penerimaan
-                            </h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form id="formPenerimaan" name="formPenerimaan" method="post" action="javascript:void(0)">
+                        <form id="formPengiriman" name="formPengiriman" method="post" action="javascript:void(0)">
                             @csrf
-                            <div class="modal-body">
-                                <div class="card-stamp card-stamp-lg">
-                                    <div class="card-stamp-icon bg-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-pencil-plus">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
-                                            <path d="M13.5 6.5l4 4" />
-                                            <path d="M16 19h6" />
-                                            <path d="M19 16v6" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Tanggal Kedatangan</label>
-                                        <input type="date" class="form-control border border-dark"
-                                            name="tanggal_kedatangan" id="tanggal_kedatangan"
-                                            value="{{ date('Y-m-d') }}">
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Kode Kontrak</label>
-                                        <style>
-                                            #select2-kodekontrak-container {
-                                                border: 1px solid black;
-                                            }
-                                        </style>
-                                        <select name="kodekontrak" id="kodekontrak"
-                                            class="form-select select2kodekodekontrak" data-select2-id="kodekontrak"
-                                            tabindex="-1" aria-hidden="true">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <script type="text/javascript">
-                                    $('#kodekontrak').change(function() {
-                                        var id = $(this).val();
-                                        console.log(id);
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: "{{ route('gudang/getTipeByKode') }}",
-                                            data: {
-                                                "_token": "{{ csrf_token() }}",
-                                                id: id,
-                                            },
-                                            beforeSend: function() {
-                                                $('#tipe').val('Loading Data...');
-                                            },
-                                            success: function(response) {
-                                                $('#tipe').val(response);
-                                            },
-                                            error: function(data) {
-                                                $('#tipe').val('Error');
-                                            },
-                                        });
-                                    });
-                                </script>
-                                <div class="row">
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Kendaraan Ke</label>
-                                        <input type="number" class="form-control border border-dark" name="kendaraan_ke"
-                                            id="kendaraan_ke" value="1" min="1">
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Tipe</label>
-                                        <input type="text" class="form-control border border-dark" name="tipe"
-                                            id="tipe" placeholder="Otomatis terisi jika sudah mengisi kode kontrak"
-                                            readonly>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Qty</label>
-                                        <input type="number" class="form-control border border-dark" name="qty"
-                                            id="qty" placeholder="Masukkan Qty">
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Package</label>
-                                        <select name="package" id="package" class="form-select select2kodekodejenis"
-                                            style="width: 100%;">
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Berat Kendaraan Penuh</label>
-                                        <input type="number" class="form-control border border-dark"
-                                            name="berat_trukpenuh" id="berat_trukpenuh" placeholder="KG">
-                                    </div>
-                                    <div class="col-lg-6 mb-3">
-                                        <label class="form-label">Berat Kendaraan Kosong</label>
-                                        <input type="number" class="form-control border border-dark"
-                                            name="berat_trukkosong" id="berat_trukkosong" placeholder="KG">
-                                    </div>
-                                </div>
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="fa-solid fa-truck-ramp-box" style="margin-right: 5px"></i>
+                                    Proses Penerimaan
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Keterangan Tambahan</label>
-                                    <div class="col-lg-12">
-                                        <textarea name="cacatan" id="cacatan" cols="90" rows="2" class="form-control border border-dark"></textarea>
-                                    </div>
-                                </div>
+                                <div class="fetched-data-penerimaan"></div>
                             </div>
                             <div class="modal-footer">
-                                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"><i
-                                        class="fa-solid fa-fw fa-arrow-rotate-left"></i> Kembali</a>
-                                <button type="submit" id="submitpenerimaan" class="btn btn-primary ms-auto">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                        <path d="M14 4l0 4l-6 0l0 -4" />
-                                    </svg>
-                                    Simpan
-                                </button>
+                                <button type="submit" class="btn btn-blue" id="submitCheck"><i class="fas fa-save"
+                                        style="margin-right: 5px"></i> Proses</button>
+                                <button type="button" class="btn btn-link link-secondary ms-auto"
+                                    data-bs-dismiss="modal"><i class="fa-solid fa-fw fa-arrow-rotate-left"></i>
+                                    Batal</button>
                             </div>
                         </form>
                     </div>
@@ -437,7 +326,7 @@
                     Render DataTable
                     --------------------------------------------
                     --------------------------------------------*/
-                    tablePenerimaan = $('.datatable-penerimaan').DataTable({
+                    tablePenerimaan = $('.datatable-suratkontrak').DataTable({
                         "processing": true, //Feature control the processing indicator.
                         "serverSide": false, //Feature control DataTables' server-side processing mode.
                         "scrollX": false,
@@ -448,8 +337,8 @@
                             "<'table-responsive' <'col-sm-12'tr> >" +
                             "<'card-footer' <'row'<'col-sm-5'i><'col-sm-7'p> >>",
                         "lengthMenu": [
-                            [25, 50, -1],
-                            ['Default', '50', 'Semua']
+                            [10, 25, 50, -1],
+                            ['Default', '25', '50', 'Semua']
                         ],
                         "buttons": [{
                                 extend: 'copyHtml5',
@@ -471,9 +360,16 @@
                             },
                             {
                                 className: 'btn btn-dark',
-                                text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh Tabel',
+                                text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh',
                                 action: function(e, dt, node, config) {
                                     dt.ajax.reload();
+                                }
+                            },
+                            {
+                                className: 'btn btn-blue',
+                                text: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cube-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M21 12.5v-4.509a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.007c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0" /><path d="M12 22v-10" /><path d="M12 12l8.73 -5.04" /><path d="M3.27 6.96l8.73 5.04" /><path d="M16 19h6" /><path d="M19 16v6" /></svg> Proses Penerimaan',
+                                "action": function(e, node, config) {
+                                    $('#modal-penerimaan').modal('show')
                                 }
                             },
                         ],
@@ -491,9 +387,15 @@
                                 "next": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>',
                                 "previous": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>',
                             },
+                            "select": {
+                                rows: {
+                                    _: "%d item dipilih ",
+                                    0: "Pilih item dan tekan tombol Proses data untuk memproses",
+                                }
+                            },
                         },
                         "ajax": {
-                            "url": "{{ route('getPenerimaan.index') }}",
+                            "url": "{{ route('getKontrak.index') }}",
                             // "data": function(data) {
                             //     data._token = "{{ csrf_token() }}";
                             //     data.dari = $('#idfilter_dari').val();
@@ -503,85 +405,55 @@
                             //     data.status = $('#status').val();
                             // }
                         },
+                        columnDefs: [{
+                            'targets': 0,
+                            "orderable": true,
+                            'className': 'select-checkbox',
+                            'checkboxes': {
+                                'selectRow': true
+                            },
+                        }],
+                        select: {
+                            'style': 'multi',
+                            // "selector": 'td:not(:nth-child(2))',
+                        },
                         columns: [{
                                 title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
-                                data: 'action',
-                                name: 'action',
-                                className: "text-center",
+                                data: 'select_orders',
+                                name: 'select_orders',
+                                className: "text-center cursor-pointer",
                                 orderable: false,
                                 searchable: false,
                             },
                             {
-                                title: 'Status',
-                                data: 'status',
-                                name: 'status',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
                                 title: 'Tanggal',
-                                data: 'tanggal_kedatangan',
-                                name: 'tanggal_kedatangan',
-                                className: "cuspad0 cuspad1 text-center"
+                                data: 'tanggal',
+                                name: 'tanggal',
+                                className: "cuspad0 cuspad1 text-center cursor-pointer"
                             },
                             {
-                                title: 'Kode Penerimaan',
-                                data: 'kodepenerimaan',
-                                name: 'kodepenerimaan',
-                                className: "cuspad0 cuspad1 text-center"
+                                title: 'No. Form',
+                                data: 'noform',
+                                name: 'noform',
+                                className: "cuspad0 cuspad1 text-center cursor-pointer"
+                            },
+                            {
+                                title: 'ID Kontrak',
+                                data: 'id_kontrak',
+                                name: 'id_kontrak',
+                                className: "cuspad0 cuspad1 text-start cursor-pointer"
                             },
                             {
                                 title: 'Tipe',
                                 data: 'tipe',
                                 name: 'tipe',
-                                className: "cuspad0 cuspad1 text-center"
+                                className: "cuspad0 cuspad1 text-start cursor-pointer"
                             },
                             {
-                                title: 'Qty',
-                                data: 'qty',
-                                name: 'qty',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Package',
-                                data: 'package',
-                                name: 'package',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Berat Penuh',
-                                data: 'berat_trukpenuh',
-                                name: 'berat_trukpenuh',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Berat Kosong',
-                                data: 'berat_trukkosong',
-                                name: 'berat_trukkosong',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Nopol',
-                                data: 'nopol',
-                                name: 'nopol',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Pengemudi',
-                                data: 'driver',
-                                name: 'driver',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'KTP',
-                                data: 'ktp',
-                                name: 'ktp',
-                                className: "cuspad0 cuspad1 text-center"
-                            },
-                            {
-                                title: 'Keterangan',
-                                data: 'keterangan',
-                                name: 'keterangan',
-                                className: "cuspad0 cuspad1 text-center"
+                                title: 'Supplier',
+                                data: 'supplier',
+                                name: 'supplier',
+                                className: "cuspad0 cuspad1 text-start cursor-pointer"
                             },
                         ],
                         "initComplete": function() {
@@ -595,35 +467,35 @@
                                         }
                                     });
                                 });
-                            this.api().columns([4, 6, 10]).every(function() {
-                                var column = this;
-                                var select = $(
-                                        '<select class="form-select form-select-sm"><option value="">Semua</option></select>'
-                                    )
-                                    .appendTo($(column.footer()).empty())
-                                    .on('change', function() {
-                                        var val = $.fn.dataTable.util.escapeRegex(
-                                            $(this).val()
-                                        );
-                                        column
-                                            .search(val ? '^' + val + '$' : '', true, false)
-                                            .draw();
-                                    });
-                                column.data().unique().sort().each(function(d, j) {
-                                    select.append('<option value="' + d + '">' + d +
-                                        '</option>');
-                                });
-                            });
+                            // this.api().columns([4, 5, 6]).every(function() {
+                            //     var column = this;
+                            //     var select = $(
+                            //             '<select class="form-select form-select-sm"><option value="">Semua</option></select>'
+                            //         )
+                            //         .appendTo($(column.footer()).empty())
+                            //         .on('change', function() {
+                            //             var val = $.fn.dataTable.util.escapeRegex(
+                            //                 $(this).val()
+                            //             );
+                            //             column
+                            //                 .search(val ? '^' + val + '$' : '', true, false)
+                            //                 .draw();
+                            //         });
+                            //     column.data().unique().sort().each(function(d, j) {
+                            //         select.append('<option value="' + d + '">' + d +
+                            //             '</option>');
+                            //     });
+                            // });
                         }
                     });
-                    $('.datatable-penerimaan tfoot .th').each(function() {
+                    $('.datatable-suratkontrak tfoot .th').each(function() {
                         var title = $(this).text();
                         $(this).html(
                             '<input type="text" class="form-control form-control-sm my-0 border" placeholder="' +
                             $(this).text().toUpperCase() + '" />'
                         );
                     });
-                    $('.datatable-penerimaan').on('click', '.remove', function() {
+                    $('.datatable-suratkontrak').on('click', '.remove', function() {
                         var id = $(this).data('id');
                         var nama = $(this).data('nama');
                         var kode = $(this).data('kode');
@@ -865,6 +737,40 @@
                             }
                         })
                     }
+
+                    // MODAL ---------------------------------------------------------//
+                    $('#modal-penerimaan').on('show.bs.modal', function(e) {
+                        $(".overlay").fadeIn(300);
+                        itemTables = [];
+                        $.each(tablePenerimaan.rows('.selected').nodes(), function(index, rowId) {
+                            var rows_selected = tablePenerimaan.rows('.selected').data();
+                            itemTables.push(rows_selected[index]['id_kontrak']);
+                        });
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        //menggunakan fungsi ajax untuk pengambilan data
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ url('checkPenerimaan') }}',
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                id: itemTables,
+                                jml: itemTables.length,
+                            },
+                            success: function(data) {
+                                //menampilkan data ke dalam modal
+                                $('.fetched-data-penerimaan').html(data);
+                            }
+                        }).done(function() {
+                            setTimeout(function() {
+                                $(".overlay").fadeOut(300);
+                            }, 500);
+                        });
+                    });
+                    // MODAL ---------------------------------------------------------//
                 });
             </script>
         </div>

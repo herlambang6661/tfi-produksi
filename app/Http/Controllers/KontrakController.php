@@ -196,77 +196,11 @@ class KontrakController extends Controller
         $data = SuratkontrakModel::where('id', $request->id)->first();
 
         echo '
-        <input type="hidden" name="_token" value="' . csrf_token() . '">
-        <input type="hidden" name="id" value="' . $request->id . '">
         <div class="modal-body">
-        <div class="card-stamp card-stamp-lg">
-            <div class="card-stamp-icon bg-primary">
-                <i class="fa-solid fa-pen-to-square"></i>
-            </div>
         </div>
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                <label class="form-label">Entitas</label>
-                <input type="text" class="form-control border border-dark bg-secondary-lt"
-                    name="entitas" id="entitas" readonly value="TFI" disabled>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <label class="form-label">Tanggal Kontrak</label>
-                <input type="date" class="form-control border border-dark" name="tanggal"
-                    id="tanggal" value="' . ($data->tanggal ?? date('Y-m-d')) . '" disabled>
-            </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-fw fa-arrow-rotate-left"></i> Tutup</a>
         </div>
-        <div class="row">
-             <div class="col-lg-6 mb-3">
-                <label class="form-label">Supplier</label>
-                <input type="text" class="form-control border border-dark" name="supplier" id="supplier" value="' . ($data->supplier ?? 'Pilih Supplier') . '" disabled>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <label class="form-label">Dibeli Oleh</label>
-                <input type="text" class="form-control border border-dark" name="dibeli"
-                    id="dibeli" value="' . ($data->dibeli ?? '') . '" placeholder="Masukkan Nomor Import" disabled>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 mb-3">
-                <label class="form-label">Berat Kontrak (KG)</label>
-                <input type="number" class="form-control border border-dark" name="berat"
-                    id="berat" value="' . ($data->berat ?? '') . '" placeholder="Masukkan Berat" disabled>
-            </div>
-            <div class="col-lg-6 mb-3">
-                <label class="form-label">Harga</label>
-                <input type="number" class="form-control border border-dark" name="harga"
-                    id="harga" value="' . ($data->harga ?? '') . '" placeholder="Masukkan Harga" disabled>
-            </div>
-        </div>
-        <div class="row">
-             <div class="col-lg-6 mb-3">
-                <label class="form-label">Tipe</label>
-                <input type="text" class="form-control border border-dark" name="tipe" id="tipe" value="' . ($data->tipe ?? 'Pilih Tipe') . '" disabled>
-            </div>
-         <div class="col-lg-6 mb-3">
-                <label class="form-label">Warna</label>
-                <input type="text" class="form-control border border-dark" name="warna" id="warna" value="' . ($data->warna ?? 'Pilih Tipe') . '" placeholder="Silahkan Pilih Tipe Terlebih Dahulu" disabled>
-            </div>
-        </div>
-    </div>
-    <div class="modal-body">
-        <div class="mb-3">
-            <label class="form-label">Keterangan Tambahan</label>
-            <textarea name="cacatan" id="cacatan" cols="90" rows="2" class="form-control border border-dark" disabled>' . ($data->catatan ?? '') . '</textarea>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-fw fa-arrow-rotate-left"></i> Kembali</a>
-        <button type="submit" id="submitSuratkontrak" class="btn btn-primary ms-auto">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2"/>
-                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>
-                <path d="M14 4l0 4l-6 0l0 -4"/>
-            </svg>
-            Simpan
-        </button>
-    </div>';
+        ';
     }
 }

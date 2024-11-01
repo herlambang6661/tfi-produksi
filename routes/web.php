@@ -14,6 +14,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeSubList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
+use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 
 Route::get('/', function () {
@@ -35,6 +36,7 @@ Route::resource('getWarna', WarnaList::class);
 Route::resource('getSupplier', SupplierList::class);
 Route::resource('getSuratkontrak', SuratkontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
+Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class);
 Route::resource('getTipeSub', TipeSubList::class);
 
@@ -86,4 +88,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');
     Route::post('gudang/printBarcode', 'printBarcode')->name('gudang/printBarcode');
     Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
+
+    //Scanner
+    Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
 });

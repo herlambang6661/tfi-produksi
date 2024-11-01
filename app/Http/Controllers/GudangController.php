@@ -59,7 +59,6 @@ class GudangController extends Controller
         return response()->json($jenisData);
     }
 
-
     public function storePenerimaan(Request $request)
     {
         try {
@@ -282,5 +281,13 @@ class GudangController extends Controller
         // $dompdf->loadHtml('<h1>hello world</h1>');
         // $dompdf->render();
         // $dompdf->stream("", ["Attachment" => false]);
+    }
+
+    public function scanner()
+    {
+        return view('products.03_gudang.scan_barcode', [
+            'active' => 'Scanner',
+            'judul' => 'Scanner Barcode',
+        ]);
     }
 }

@@ -22,7 +22,7 @@ class KontrakList extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = SuratkontrakModel::all();
+            $data = SuratkontrakitmModel::where('status', 1)->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -97,30 +97,14 @@ class KontrakList extends Controller
                         ';
                     }
                 })
-                ->addColumn('id_kontrak', function ($row) {
-                    $data = SuratkontrakitmModel::where('noform', $row->noform)->get();
-                    $array = [];
-                    foreach ($data as $key => $value) {
-                        $array[] = $value->id_kontrak;
-                    }
-                    $arr = implode(', ', $array);
-                    $res = mb_strimwidth($arr, 0, 50, "...");
-                    return $res;
-                })
-                ->addColumn('tipe', function ($row) {
-                    $data = SuratkontrakitmModel::where('noform', $row->noform)->get();
-                    $array = [];
-                    foreach ($data as $key => $value) {
-                        $array[] = $value->tipe;
-                    }
-                    $arr = implode(', ', $array);
-                    $res = mb_strimwidth($arr, 0, 50, "...");
-                    return $res;
-                })
                 ->editColumn('tanggal', function ($row) {
                     return date('d-m-Y', strtotime($row->tanggal));
                 })
-                ->rawColumns(['action', 'status', 'select_orders'])
+                ->addColumn('supplier', function ($row) {
+                    $supplier = SuratkontrakModel::where('noform', $row->noform)->first();
+                    return $supplier->supplier;
+                })
+                ->rawColumns(['action', 'status', 'supplier'])
                 ->make(true);
         }
 

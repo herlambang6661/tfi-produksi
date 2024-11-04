@@ -66,47 +66,74 @@ class GudangController extends Controller
             // Validasi untuk menanggulangi error
             $request->validate(
                 [
-                    'tanggal_kedatangan' => 'required',
-                    'kodekontrak' => 'required',
-                    'kendaraan_ke' => 'required',
-                    'tipe' => 'required',
-                    'qty' => 'required',
-                    'package' => 'required',
-                    'berat_trukpenuh' => 'required',
-                    'berat_trukkosong' => 'required',
+                    'tanggal' => 'required',
+                    'nopol' => 'required',
+                    'nik' => 'required',
+                    'driver' => 'required',
                 ],
                 [
-                    'tanggal_kedatangan.required' => 'Tanggal Kedatangan wajib diisi',
-                    'kodekontrak.required' => 'Kodekontrak wajib diisi',
-                    'kendaraan_ke.required' => 'Kendaraan ke wajib diisi',
-                    'tipe.required' => 'Tipe wajib diisi',
-                    'qty.required' => 'Qty wajib diisi',
-                    'package.required' => 'Package wajib diisi',
-                    'berat_trukpenuh.required' => 'Berat Truck penuh wajib diisi',
-                    'berat_trukkosong.required' => 'Berat Truck kosong wajib diisi',
+                    'tanggal.required' => 'Tanggal Kedatangan wajib diisi',
+                    'nopol.required' => 'Nomor Polisi wajib diisi',
+                    'nik.required' => 'NIK KTP wajib diisi',
+                    'driver.required' => 'Pengemudi wajib diisi',
                 ]
             );
-            // ambil data kontrak
-            $getKontrak = SuratkontrakModel::where('id', $request->kodekontrak)->first();
-            $kodepenerimaan = $getKontrak->id_kontrak . '-' . sprintf("%02s", $request->kendaraan_ke);
+            //generate noform
+            $checknpb = GudangpenerimaanModel::orderBy('npb', 'desc')->first();
+            if ($checknpb) {
+                $y = substr($checknpb->npb, 0, 3);
+                if ($y == 'P' . date('y')) {
+                    $query = GudangpenerimaanModel::where(
+                        'npb',
+                        'like',
+                        '%' . 'P' . date('y') . '%'
+                    )->orderBy('npb', 'desc')->first();
+                    $noUrut = (int) substr($query->npb, -4);
+                    $noUrut++;
+                    $char = 'P' . date('y');
+                    $kode_npb = $char . sprintf("%04s", $noUrut);
+                } else {
+                    $kode_npb = 'P' . date('y') . "0001";
+                }
+            } else {
+                $kode_npb = 'P' . date('y') . "0001";
+            }
             // insert data penerimaan
             GudangpenerimaanModel::insert([
-                'id_suratkontrak' => $request->kodekontrak,
-                'tanggal_kedatangan' => $request->tanggal_kedatangan,
-                'kodekontrak' => $getKontrak->id_kontrak,
-                'kodepenerimaan' => $kodepenerimaan,
-                'tipe' => $request->tipe,
-                'qty' => $request->qty,
-                'package' => $request->package,
-                'berat_trukpenuh' => $request->berat_trukpenuh,
-                'berat_trukkosong' => $request->berat_trukkosong,
+                'tanggal' => $request->tanggal,
+                'npb' => $kode_npb,
                 'nopol' => $request->nopol,
+                'ktp' => $request->nik,
                 'driver' => $request->driver,
-                'ktp' => $request->ktp,
+                'operator' => Auth::user()->nickname,
                 'keterangan' => $request->keterangan,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
+            // insert data penerimaan item
+            for ($i = 0; $i < count($request->id); $i++) {
+                $dataKontrak = SuratkontrakitmModel::findOrFail($request->id[$i]);
+                // $dataKontrak = SuratkontrakitmModel::where('id', $request->id[$i])->first();
+                GudangpenerimaanitmModel::insert([
+                    'tanggal' => $request->tanggal,
+                    'npb' => $kode_npb,
+                    'kodekontrak' => $dataKontrak->id_kontrak,
+                    'tipe' => $dataKontrak->tipe,
+                    'kategori' => $dataKontrak->kategori,
+                    'warna' => $dataKontrak->warna,
+                    'qty' => $request->qty[$i],
+                    'package' => '',
+                    // 'berat_trukpenuh' => '',
+                    // 'berat_trukkosong' => '',
+                    'dibuat' => Auth::user()->nickname,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+
+                $dataKontrak->update([
+                    'status' => 2,
+                    'updated_at' => now(),
+                ]);
+            }
             $arr = array('msg' => 'Data Surat Kontrak telah berhasil disimpan', 'status' => true);
             return Response()->json($arr);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -300,14 +327,21 @@ class GudangController extends Controller
         } else {
             echo '
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 mb-2">
                         <label class="form-label">Tanggal</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-control" value="' . date("Y-m-d") .
-                '">
+                        <input type="date" name="tanggal" id="tanggal" class="form-control" value="' . date("Y-m-d") . '">
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">No. Pol. Kendaraan</label>
+                        <input type="text" name="nopol" id="nopol" class="form-control" Placeholder="Cth: E 123 ABC">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Kedatangan ke-</label>
-                        <input type="number" min="1" name="kedatangan" id="kedatangan" class="form-control" value="1">
+                        <label class="form-label">NIK KTP</label>
+                        <input type="text" name="nik" id="nik" class="form-control" placeholder="16 Karakter NIK dalam KTP">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Nama Supir</label>
+                        <input type="text" name="driver" id="driver" class="form-control" placeholder="Nama Supir">
                     </div>
                 </div>
                 <table class="table table-transparent table-responsive">
@@ -316,8 +350,8 @@ class GudangController extends Controller
                             <th class="text-center" style="width: 1%"></th>
                             <th class="text-center" style="width: 1%">No. Form</th>
                             <th>Product</th>
-                            <th class="text-center" style="width: 1%">Qnt (Kg)</th>
-                            <th class="text-end" style="width: 1%">Harga</th>
+                            <th class="text-center" style="width: 15%">Berat (Kg)</th>
+                            <th class="text-center" style="width: 15%">Qty</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -330,13 +364,16 @@ class GudangController extends Controller
                             <td class="text-center">' . $z . '</td>
                             <td class="text-center"><strong>' . $data->noform . '</strong></td>
                             <td>
-                                <p class="strong mb-1">' . $data->id_kontrak . '</p>
+                                <p class="strong mb-1">' . substr($data->id_kontrak, 0, 3) . '-' . substr($data->id_kontrak, 3, 5) . '</p>
                                 <div class="text-secondary">' . $data->tipe . ' ' . $data->kategori . ' ' . $data->warna . '</div>
                             </td>
-                            <td class="text-center">
-                                ' . $data->berat . '
+                            <td class="text-center" style="vertical-align: baseline;">
+                                <span class="badge badge-outline text-dark">' . $data->berat . '</span>
                             </td>
-                            <td class="text-end">' . $data->harga . '</td>
+                            <td class="text-center">
+                                <input type="hidden" name="id[]" value="' . $data->id . '">
+                                <input type="number" min="1" name="qty[]" id="qty" class="form-control" value="0">
+                            </td>
                         </tr>
                         ';
                 $z++;
@@ -344,6 +381,12 @@ class GudangController extends Controller
             echo '
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="col-md-12 mt-0">
+                        <label class="form-label">Catatan</label>
+                        <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
+                    </div>
+                </div>
             ';
         }
     }

@@ -12,12 +12,16 @@ class GudangpenerimaanitmModel extends Model
     protected $table = "gudang_penerimaanitm";
 
     protected $fillable = [
-        'id_penerimaan',
-        'tanggal_kedatangan',
+        'tanggal',
+        'npb',
         'kodekontrak',
-        'kodepenerimaan',
-        'subkode',
-        'nourut',
+        'tipe',
+        'kategori',
+        'warna',
+        'qty',
+        'package',
+        'berat_trukpenuh',
+        'berat_trukkosong',
         'status',
         'dibuat',
         'created_at',

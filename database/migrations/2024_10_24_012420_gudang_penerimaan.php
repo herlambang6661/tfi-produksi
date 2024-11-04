@@ -13,28 +13,50 @@ return new class extends Migration
     {
         Schema::create('gudang_penerimaan', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggal_kedatangan');
-            $table->unsignedBigInteger('id_suratkontrak');
+            $table->date('tanggal');
+            $table->string('npb');
+            $table->string('nopol')->nullable();
+            $table->string('ktp')->nullable();
+            $table->string('driver')->nullable();
+            $table->string('operator')->nullable();
+            $table->string('signDriver')->nullable();
+            $table->string('signOp')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = closed
+            $table->string('verified')->default(0);
+            $table->string('dibuat')->nullable();
+            $table->timestamps();
+        });
+        Schema::create('gudang_penerimaanitm', function (Blueprint $table) {
+            $table->id();
+            $table->date('tanggal');
+            $table->string('npb');
             $table->string('kodekontrak');
-            $table->string('kodepenerimaan');
             $table->string('tipe')->nullable();
+            $table->string('kategori')->nullable();
+            $table->string('warna')->nullable();
             $table->integer('qty')->nullable();
             $table->string('package')->nullable();
             $table->decimal('berat_trukpenuh', 13, 2)->nullable();
             $table->decimal('berat_trukkosong', 13, 2)->nullable();
-            $table->string('nopol')->nullable();
-            $table->string('driver')->nullable();
-            $table->string('ktp')->nullable();
-            $table->string('operator')->nullable();
-            $table->string('keterangan')->nullable();
-            $table->string('signDriver')->nullable();
-            $table->string('signOp')->nullable();
-            $table->string('verified')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = closed
             $table->string('dibuat')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_suratkontrak')->references('id')->on('kontrak_suratkontrak');
+        });
+        Schema::create('gudang_penerimaanQrcode', function (Blueprint $table) {
+            $table->id();
+            $table->date('tanggal');
+            $table->string('npb');
+            $table->string('kodekontrak');
+            $table->string('subkode');
+            $table->integer('nourut');
+            $table->decimal('berat_satuan', 13, 2)->nullable();
+            $table->decimal('berat_total', 13, 2)->nullable();
+            $table->integer('qty_total')->nullable();
+            $table->string('type')->nullable();
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = used, 3 = proses, 4 = close,
+            $table->string('dibuat')->nullable();
+            $table->timestamps();
         });
     }
 

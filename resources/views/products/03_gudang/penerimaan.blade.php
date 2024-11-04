@@ -14,13 +14,13 @@
 
         td.cuspad2 {
             /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-left: 5px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-bottom: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-right: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-left: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-right: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-left: 5px; */
         }
 
         .unselectable {
@@ -129,7 +129,7 @@
                                 {{ $judul }}
                             </h2>
                             <div class="page-pretitle">
-                                <ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
+                                <ol class="breadcrumb" aria-label="breadcrumbs">
                                     <li class="breadcrumb-item">
                                         <a href="{{ url('dashboard') }}">
                                             <i class="fa-solid fa-house"></i>
@@ -151,6 +151,40 @@
                                 </ol>
                             </div>
                         </div>
+
+                        <!-- Page title actions -->
+                        <div class="col-auto ms-auto d-print-none">
+                            <div class="btn-list">
+                                <ul class="nav">
+                                    <a href="#tabs-profile-8"
+                                        class="active btn btn-dark d-none d-sm-inline-block border border-dark"
+                                        data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
+                                        style="margin-right: 10px">
+                                        <i class="fa-solid fa-list-ul"></i>
+                                        List Penerimaan
+                                    </a>
+                                    <a href="#tabs-home-8"
+                                        class="btn btn-primary d-none d-sm-inline-block border border-primary"
+                                        data-bs-toggle="tab" aria-selected="true" role="tab">
+                                        <i class="fa-solid fa-truck-ramp-box"></i>
+                                        Input Penerimaan
+                                    </a>
+                                </ul>
+                                <ul class="nav">
+                                    <a href="#tabs-profile-8"
+                                        class="active btn btn-dark d-sm-none btn-icon border border-dark"
+                                        data-bs-toggle="tab" aria-selected="true" role="tab"
+                                        aria-label="List Item Permintaan" style="margin-right: 10px">
+                                        <i class="fa-solid fa-list-ul"></i>
+                                    </a>
+                                    <a href="#tabs-home-8" class="btn btn-primary d-sm-none btn-icon border border-primary"
+                                        data-bs-toggle="tab" aria-selected="true" role="tab"
+                                        aria-label="Tambah Permintaan">
+                                        <i class="fa-solid fa-truck-ramp-box"></i>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,49 +192,58 @@
             <div class="page-body">
                 <div class="container-xl">
                     <div class="row row-deck row-cards">
-                        <div class="col-12">
-                            <div class="card card-xl border-success shadow rounded">
-                                <div class="card-stamp card-stamp-lg">
-                                    <div class="card-stamp-icon bg-success">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-cube">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M21 16.008v-8.018a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.008c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0l7 -4.008c.619 -.355 1 -1.01 1 -1.718z" />
-                                            <path d="M12 22v-10" />
-                                            <path d="M12 12l8.73 -5.04" />
-                                            <path d="M3.27 6.96l8.73 5.04" />
-                                        </svg>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="tabs-profile-8" role="tabpanel">
+                                <div class="card card-xl shadow rounded border border-blue">
+                                    <div class="table-responsive">
                                     </div>
                                 </div>
-                                <div class="table-responsive">
-                                    <table style="width:100%; height: 100%;font-size:13px;"
-                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-suratkontrak">
-                                        <tfoot>
-                                            <tr>
-                                                <th class="px-1 py-1 text-center" style="width: 1%">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-list-search">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M15 15m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                                                        <path d="M18.5 18.5l2.5 2.5" />
-                                                        <path d="M4 6h16" />
-                                                        <path d="M4 12h4" />
-                                                        <path d="M4 18h4" />
-                                                    </svg>
-                                                </th>
-                                                <th class="px-1 th py-1" style="width: 1%">Tanggal</th>
-                                                <th class="px-1 th py-1" style="width: 1%">No. Form</th>
-                                                <th class="px-1 th py-1">ID Kontrak</th>
-                                                <th class="px-1 th py-1">Tipe</th>
-                                                <th class="px-1 th py-1" style="width: 1%">Supplier</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-home-8" role="tabpanel">
+                                <div class="card card-xl border-success shadow rounded">
+                                    <div class="card-stamp card-stamp-lg">
+                                        <div class="card-stamp-icon bg-success">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-cube">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M21 16.008v-8.018a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.008c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0l7 -4.008c.619 -.355 1 -1.01 1 -1.718z" />
+                                                <path d="M12 22v-10" />
+                                                <path d="M12 12l8.73 -5.04" />
+                                                <path d="M3.27 6.96l8.73 5.04" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table style="width:100%; height: 100%;font-size:13px;"
+                                            class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-suratkontrak">
+                                            <tfoot>
+                                                <tr>
+                                                    <th class="px-1 py-1 text-center" style="width: 1%">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-search">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M15 15m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                            <path d="M18.5 18.5l2.5 2.5" />
+                                                            <path d="M4 6h16" />
+                                                            <path d="M4 12h4" />
+                                                            <path d="M4 18h4" />
+                                                        </svg>
+                                                    </th>
+                                                    <th class="px-1 th py-1" style="width: 1%">Tanggal</th>
+                                                    <th class="px-1 th py-1" style="width: 1%">No. Form</th>
+                                                    <th class="px-1 th py-1">ID Kontrak</th>
+                                                    <th class="px-1 th py-1">Tipe</th>
+                                                    <th class="px-1 th py-1" style="width: 1%">Supplier</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +260,7 @@
                 </div>
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <form id="formPengiriman" name="formPengiriman" method="post" action="javascript:void(0)">
+                        <form id="formPenerimaan" name="formPenerimaan" method="post" action="javascript:void(0)">
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title">
@@ -231,8 +274,18 @@
                                 <div class="fetched-data-penerimaan"></div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-blue" id="submitCheck"><i class="fas fa-save"
-                                        style="margin-right: 5px"></i> Proses</button>
+                                <button type="submit" class="btn btn-blue" id="submitPenerimaan">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M14 4l0 4l-6 0l0 -4" />
+                                    </svg>
+                                    Proses
+                                </button>
                                 <button type="button" class="btn btn-link link-secondary ms-auto"
                                     data-bs-dismiss="modal"><i class="fa-solid fa-fw fa-arrow-rotate-left"></i>
                                     Batal</button>
@@ -462,9 +515,33 @@
                                 className: "cuspad0 cuspad1 text-start cursor-pointer"
                             },
                             {
+                                title: 'Kategori',
+                                data: 'kategori',
+                                name: 'kategori',
+                                className: "cuspad0 cuspad1 text-start cursor-pointer"
+                            },
+                            {
+                                title: 'Warna',
+                                data: 'warna',
+                                name: 'warna',
+                                className: "cuspad0 cuspad1 text-start cursor-pointer"
+                            },
+                            {
+                                title: 'Berat',
+                                data: 'berat',
+                                name: 'berat',
+                                className: "cuspad0 cuspad1 text-center cursor-pointer"
+                            },
+                            {
                                 title: 'Supplier',
                                 data: 'supplier',
                                 name: 'supplier',
+                                className: "cuspad0 cuspad1 text-center cursor-pointer"
+                            },
+                            {
+                                title: 'Status',
+                                data: 'status',
+                                name: 'status',
                                 className: "cuspad0 cuspad1 text-start cursor-pointer"
                             },
                         ],
@@ -628,54 +705,30 @@
                     if ($("#formPenerimaan").length > 0) {
                         $("#formPenerimaan").validate({
                             rules: {
-                                tanggal_kedatangan: {
+                                tanggal: {
                                     required: true,
                                 },
-                                kodekontrak: {
+                                nopol: {
                                     required: true,
                                 },
-                                kendaraan_ke: {
+                                nik: {
                                     required: true,
                                 },
-                                tipe: {
-                                    required: true,
-                                },
-                                qty: {
-                                    required: true,
-                                },
-                                package: {
-                                    required: true,
-                                },
-                                berat_trukpenuh: {
-                                    required: true,
-                                },
-                                berat_trukkosong: {
+                                driver: {
                                     required: true,
                                 },
                             },
                             messages: {
-                                tanggal_kedatangan: {
+                                tanggal: {
                                     required: 'Kolom ini tidak boleh kosong',
                                 },
-                                kodekontrak: {
+                                nopol: {
                                     required: 'Kolom ini tidak boleh kosong',
                                 },
-                                kendaraan_ke: {
+                                nik: {
                                     required: 'Kolom ini tidak boleh kosong',
                                 },
-                                tipe: {
-                                    required: 'Kolom ini tidak boleh kosong',
-                                },
-                                qty: {
-                                    required: 'Kolom ini tidak boleh kosong',
-                                },
-                                package: {
-                                    required: 'Kolom ini tidak boleh kosong',
-                                },
-                                berat_trukpenuh: {
-                                    required: 'Kolom ini tidak boleh kosong',
-                                },
-                                berat_trukkosong: {
+                                driver: {
                                     required: 'Kolom ini tidak boleh kosong',
                                 },
                             },
@@ -706,7 +759,7 @@
                                     success: function(response) {
                                         console.log('Completed.');
                                         $('#submitPenerimaan').html(
-                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
+                                            '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Proses'
                                         );
                                         $("#submitPenerimaan").attr("disabled", false);
                                         const Toast = Swal.mixin({
@@ -724,14 +777,14 @@
                                             icon: "success",
                                             title: response.msg,
                                         });
-                                        document.getElementById("tipe").value = '';
+                                        // document.getElementById("tipe").value = '';
                                         document.getElementById("formPenerimaan").reset();
                                         tablePenerimaan.ajax.reload(null, false);
                                         $('#modal-penerimaan').modal('hide');
                                     },
                                     error: function(data) {
                                         tablePenerimaan.ajax.reload(null, false);
-                                        console.log('Error:', data);
+                                        // console.log('Error:', data);
                                         // const obj = JSON.parse(data.responseJSON);
                                         console.log($('#formPenerimaan').serialize());
                                         Swal.fire({

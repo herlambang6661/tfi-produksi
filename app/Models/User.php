@@ -12,32 +12,13 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
     /**
-     * Get the identifier that will be stored in the JWT token.
-     *
-     * @return mixed
-     */
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-
-    /**
-     * Return a key value array, contain any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
-
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
     ];
@@ -63,5 +44,26 @@ class User extends Authenticatable implements JWTSubject
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the identifier that will be stored in the JWT token.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, contain any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

@@ -15,6 +15,7 @@ use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Models\DaftarJenisModel;
 use App\Models\SuratkontrakitmModel;
+use Svg\Tag\Rect;
 
 class GudangController extends Controller
 {
@@ -113,6 +114,7 @@ class GudangController extends Controller
             // insert data penerimaan item
             for ($i = 0; $i < count($request->id); $i++) {
                 $dataKontrak = SuratkontrakitmModel::findOrFail($request->id[$i]);
+                $getSupplier = SuratkontrakModel::select('supplier')->where('noform', $dataKontrak->noform)->first();
                 // $dataKontrak = SuratkontrakitmModel::where('id', $request->id[$i])->first();
                 GudangpenerimaanitmModel::insert([
                     'tanggal' => $request->tanggal,
@@ -121,10 +123,10 @@ class GudangController extends Controller
                     'tipe' => $dataKontrak->tipe,
                     'kategori' => $dataKontrak->kategori,
                     'warna' => $dataKontrak->warna,
+                    'berat' => $request->berat[$i],
                     'qty' => $request->qty[$i],
-                    'package' => '',
-                    // 'berat_trukpenuh' => '',
-                    // 'berat_trukkosong' => '',
+                    'supplier' => $getSupplier->supplier,
+                    'status' => 2,
                     'dibuat' => Auth::user()->nickname,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -146,11 +148,13 @@ class GudangController extends Controller
     public function verifikasi($id)
     {
         $decrypted = Crypt::decryptString($id);
-        $verifikasi = GudangpenerimaanModel::where('id', $decrypted)->first();
+        $verifikasi = GudangpenerimaanModel::where('npb', $decrypted)->first();
+        $verifikasiItm = GudangpenerimaanitmModel::where('npb', $decrypted)->get();
         return view('products.03_gudang.verifikasi', [
             'active' => 'Penerimaan',
             'judul' => 'Verifikasi kedatangan',
             'verifikasi' => $verifikasi,
+            'verifikasiItm' => $verifikasiItm,
         ]);
     }
     public function getSupir(Request $request)
@@ -368,11 +372,11 @@ class GudangController extends Controller
                                 <div class="text-secondary">' . $data->tipe . ' ' . $data->kategori . ' ' . $data->warna . '</div>
                             </td>
                             <td class="text-center" style="vertical-align: baseline;">
-                                <span class="badge badge-outline text-dark">' . $data->berat . '</span>
+                                <input type="number" min="1" name="berat[]" class="form-control" value="' . $data->berat . '">
                             </td>
                             <td class="text-center">
                                 <input type="hidden" name="id[]" value="' . $data->id . '">
-                                <input type="number" min="1" name="qty[]" id="qty" class="form-control" value="0">
+                                <input type="number" min="1" name="qty[]" class="form-control" value="0">
                             </td>
                         </tr>
                         ';
@@ -389,5 +393,14 @@ class GudangController extends Controller
                 </div>
             ';
         }
+    }
+
+    public function cancelOrder(Request $request)
+    {
+        SuratkontrakitmModel::where('id', '=', $request->id)->update([
+            'status' => $request->status,
+        ]);
+
+        return response()->json('Record canceled successfully');
     }
 }

@@ -12,7 +12,7 @@
                 <div class="container-xl">
                     <div class="row g-2 align-items-center">
                         <div class="col-12 col-md">
-                            <!-- Page title and breadcrumb -->
+                            <!-- Page pre-title -->
                             <h2 class="page-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -48,18 +48,17 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-auto mt-3 mt-md-0 d-print-none">
+                        <div class="col-12 col-md-auto mt-3 mt-md-0 d-flex justify-content-end">
                             <div class="btn-list">
                                 <div class="row">
-                                    <div class="col-6 col-md-auto">
-                                        <button type="button" id="switchCameraButton" class="btn btn-primary w-100"
-                                            onclick="switchCamera()">
-                                            Switch Camera
+                                    <div class="col-md-12 col-md-auto mb-2 mb-md-0">
+                                        <button type="button" id="switchCameraButton"
+                                            class="btn btn-primary mt-2 d-inline-block me-2" onclick="switchCamera()">
+                                            <i class="fa-solid fa-camera"></i> Switch Camera
                                         </button>
-                                    </div>
-                                    <div class="col-6 col-md-auto">
-                                        <button type="button" id="toggleCameraButton" class="btn btn-danger w-100"
-                                            onclick="toggleCamera()">Stop Camera
+                                        <button type="button" id="toggleCameraButton"
+                                            class="btn btn-danger mt-2 d-inline-block" onclick="toggleCamera()">
+                                            <i class="fa-solid fa-stop"></i> Stop Camera
                                         </button>
                                     </div>
                                 </div>
@@ -79,9 +78,9 @@
                                     <canvas id="canvas"
                                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
                                     <div id="cameraOverlay"
-                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; 
-                                        background-color: rgba(0, 0, 0, 0.7); color: white; 
-                                        display: flex; align-items: center; justify-content: center; font-size: 24px;">
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                        display: flex; align-items: center; justify-content: center;
+                                        background-color: rgba(0, 0, 0, 0.7); color: white;">
                                         <div style="text-align: center;">
                                             <i class="fa-solid fa-camera" style="font-size: 48px; margin-bottom: 10px;"></i>
                                             <p>Camera is off</p>
@@ -174,8 +173,10 @@
                             isCameraActive = true;
                             document.getElementById('toggleCameraButton').innerText = 'Stop Camera';
 
+                            // Sembunyikan overlay ketika kamera aktif
                             document.getElementById('cameraOverlay').style.display = 'none';
 
+                            // Start barcode detection when the video is ready
                             video.onloadedmetadata = () => {
                                 startBarcodeDetection();
                             };
@@ -193,6 +194,7 @@
                     isCameraActive = false;
                     document.getElementById('toggleCameraButton').innerText = 'Start Camera';
 
+                    // Tampilkan overlay dengan ikon kamera saat kamera dimatikan
                     document.getElementById('cameraOverlay').style.display = 'flex';
                 }
 
@@ -215,6 +217,7 @@
                     const canvas = document.getElementById('canvas');
                     const context = canvas.getContext('2d');
 
+                    // Set the canvas size to match the video
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
 
@@ -228,6 +231,7 @@
                     barcodeDetectionInterval = setInterval(() => {
                         if (!isCameraActive) return;
 
+                        // Check if the video is ready
                         if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
                         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -235,13 +239,6 @@
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
 
                         if (code) {
-                            const isBarcode = /^[0-9A-Za-z]+$/.test(code.data) && code.data.length >= 8 && code.data
-                                .length <= 15;
-
-                            if (!isBarcode) {
-                                return;
-                            }
-
                             const centerX = (code.location.topLeftCorner.x + code.location.bottomRightCorner.x) / 2;
                             const centerY = (code.location.topLeftCorner.y + code.location.bottomRightCorner.y) / 2;
 
@@ -252,7 +249,7 @@
                                 centerY > targetArea.y &&
                                 centerY < targetArea.y + targetArea.height
                             ) {
-                                color = "green";
+                                color = "green"; // Exact match
                             } else if (
                                 Math.abs(centerX - (targetArea.x + targetArea.width / 2)) < targetArea.width / 2 + 50 &&
                                 Math.abs(centerY - (targetArea.y + targetArea.height / 2)) < targetArea.height / 2 + 50

@@ -84,6 +84,7 @@ Route::controller(KontrakController::class)->group(function () {
     Route::get('getsupplierKontrak', 'getsupplierKontrak')->name('getsupplierKontrak');
     Route::post('viewKontrak', 'detailKontrak')->name('detail.kontrak');
     Route::get('getPengemudi', 'getPengemudi')->name('getPengemudi');
+    Route::get('/get-pdf', 'getPDF')->name('download.pdf');
 });
 Route::controller(GudangController::class)->group(function () {
     Route::post('checkPenerimaan', 'checkPenerimaan')->name('checkPenerimaan');

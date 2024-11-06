@@ -10,6 +10,7 @@ use App\Models\SuratkontrakModel;
 use App\Models\DaftarsupplierModel;
 use App\Models\DaftarTipeSubKategoriModel;
 use App\Models\SuratkontrakitmModel;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Database\Seeders\Daftar_tipe;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,77 @@ class KontrakController extends Controller
             'judul' => 'Tambah Surat Kontrak',
             'tipe' => $getTipe,
         ]);
+    }
+
+    public function getBahanBaku(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftartipeModel::where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftartipeModel::all();
+        }
+        return Response()->json($kabag);
+    }
+
+    public function getWarnaByTipe(Request $request)
+    {
+        $getWarna = DaftarwarnaModel::where('id_tipe', $request->tipe)->get();
+        echo '<option value="" hidden>-- Pilih Warna --</option>';
+        foreach ($getWarna as $key => $value) {
+            echo '<option value="' . $value->warna . '">' . $value->warna . '</option>';
+        }
+    }
+
+    public function getKategori(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarTipeSubKategoriModel::where('nama_kategori', 'LIKE', "%$search%")
+                ->orderBy('nama_kategori')
+                ->get();
+        } else {
+            $kabag = DaftarTipeSubKategoriModel::all();
+        }
+        return Response()->json($kabag);
+    }
+    public function getWarna(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarwarnaModel::where('warna', 'LIKE', "%$search%")
+                ->orderBy('warna')
+                ->get();
+        } else {
+            $kabag = DaftarwarnaModel::all();
+        }
+        return Response()->json($kabag);
+    }
+    public function getsupplierKontrak(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->get();
+        }
+        return Response()->json($kabag);
+    }
+    public function getPengemudi(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->where('nama', 'LIKE', "%$search%")
+                ->orderBy('nama')
+                ->get();
+        } else {
+            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->get();
+        }
+        return Response()->json($kabag);
     }
 
     public function store(Request $request)
@@ -120,76 +192,6 @@ class KontrakController extends Controller
             dd($e);
             return response()->json(['msg' => 'Something went wrong. Please try later. ' . $e->getMessage(), 'status' => false], 500);
         }
-    }
-    public function getBahanBaku(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $kabag = DaftartipeModel::where('nama', 'LIKE', "%$search%")
-                ->orderBy('nama')
-                ->get();
-        } else {
-            $kabag = DaftartipeModel::all();
-        }
-        return Response()->json($kabag);
-    }
-
-    public function getWarnaByTipe(Request $request)
-    {
-        $getWarna = DaftarwarnaModel::where('id_tipe', $request->tipe)->get();
-        echo '<option value="" hidden>-- Pilih Warna --</option>';
-        foreach ($getWarna as $key => $value) {
-            echo '<option value="' . $value->warna . '">' . $value->warna . '</option>';
-        }
-    }
-
-    public function getKategori(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $kabag = DaftarTipeSubKategoriModel::where('nama_kategori', 'LIKE', "%$search%")
-                ->orderBy('nama_kategori')
-                ->get();
-        } else {
-            $kabag = DaftarTipeSubKategoriModel::all();
-        }
-        return Response()->json($kabag);
-    }
-    public function getWarna(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $kabag = DaftarwarnaModel::where('warna', 'LIKE', "%$search%")
-                ->orderBy('warna')
-                ->get();
-        } else {
-            $kabag = DaftarwarnaModel::all();
-        }
-        return Response()->json($kabag);
-    }
-    public function getsupplierKontrak(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->where('nama', 'LIKE', "%$search%")
-                ->orderBy('nama')
-                ->get();
-        } else {
-            $kabag = DaftarsupplierModel::where('jenisperson', 'Supplier')->get();
-        }
-        return Response()->json($kabag);
-    }
-    public function getPengemudi(Request $request)
-    {
-        if ($request->has('q')) {
-            $search = $request->q;
-            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->where('nama', 'LIKE', "%$search%")
-                ->orderBy('nama')
-                ->get();
-        } else {
-            $kabag = DaftarsupplierModel::where('jenisperson', 'Driver')->get();
-        }
-        return Response()->json($kabag);
     }
 
     public function detailKontrak(Request $request)
@@ -278,5 +280,26 @@ class KontrakController extends Controller
             </a>
         </div>
         ';
+    }
+
+    public function getPDF(Request $request)
+    {
+        $data = SuratkontrakModel::where('noform', $request->id)->first();
+
+        if (!$data) {
+            return response()->json(['error' => 'Data tidak ditemukan'], 404);
+        }
+
+        $dataSupp = DaftarsupplierModel::where('nama', $data->supplier)->first();
+
+        $dataItm = SuratkontrakitmModel::where('noform', $data->noform)->get();
+
+        $pdf = Pdf::loadView('products\00_print\template_pdf', [
+            'data' => $data,
+            'dataSupp' => $dataSupp,
+            'dataItm' => $dataItm,
+        ]);
+
+        return $pdf->download('surat_kontrak.pdf');
     }
 }

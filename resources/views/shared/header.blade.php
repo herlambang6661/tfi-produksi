@@ -4,6 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="icon" href="{{ asset('assets/static/icon.png') }}">
     <title>{{ $judul }} - Produksi PT TFI</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- CSS files -->
     <link href="{{ url('assets/dist/css/tabler.min.css?1684106062') }}" rel="stylesheet" />
     <link href="{{ url('assets/dist/css/tabler-flags.min.css?1684106062') }}" rel="stylesheet" />

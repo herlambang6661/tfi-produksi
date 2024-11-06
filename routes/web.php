@@ -17,6 +17,7 @@ use App\Http\Controllers\_01_Datatables\Kontrak\KontrakList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
+use App\Http\Controllers\Api\WeatherController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -47,6 +48,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::post('/get-weather', [WeatherController::class, 'getWeather'])->name('get.weather');
 
 Route::controller(DaftarController::class)->group(function () {
     Route::get('daftar/tipe', 'tipe')->name('daftar/tipe');

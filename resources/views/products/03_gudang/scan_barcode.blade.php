@@ -11,7 +11,7 @@
             <div class="page-header d-print-none">
                 <div class="container-xl">
                     <div class="row g-2 align-items-center">
-                        <div class="col">
+                        <div class="col-12 col-md">
                             <!-- Page pre-title -->
                             <h2 class="page-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -47,6 +47,23 @@
                                 </ol>
                             </div>
                         </div>
+
+                        <div class="col-12 col-md-auto mt-3 mt-md-0 d-flex justify-content-end">
+                            <div class="btn-list">
+                                <div class="row">
+                                    <div class="col-md-12 col-md-auto mb-2 mb-md-0">
+                                        <button type="button" id="switchCameraButton"
+                                            class="btn btn-primary mt-2 d-inline-block me-2" onclick="switchCamera()">
+                                            <i class="fa-solid fa-camera"></i> Switch Camera
+                                        </button>
+                                        <button type="button" id="toggleCameraButton"
+                                            class="btn btn-danger mt-2 d-inline-block" onclick="toggleCamera()">
+                                            <i class="fa-solid fa-stop"></i> Stop Camera
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,25 +73,19 @@
                     <div class="row row-deck row-cards">
                         <div class="col-lg-6">
                             <div class="card card-xl border-primary shadow rounded">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="button" id="switchCameraButton"
-                                                class="btn btn-primary mt-2 d-inline-block me-2" onclick="switchCamera()">
-                                                Switch Camera
-                                            </button>
-                                            <button type="button" id="toggleCameraButton"
-                                                class="btn btn-danger mt-2 d-inline-block" onclick="toggleCamera()">
-                                                Stop Camera
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
                                 <div class="mb-3">
                                     <video id="video" style="width: 100%; height: auto;" autoplay playsinline></video>
                                     <canvas id="canvas"
                                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+                                    <div id="cameraOverlay"
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                                        display: flex; align-items: center; justify-content: center;
+                                        background-color: rgba(0, 0, 0, 0.7); color: white;">
+                                        <div style="text-align: center;">
+                                            <i class="fa-solid fa-camera" style="font-size: 48px; margin-bottom: 10px;"></i>
+                                            <p>Camera is off</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -135,12 +146,14 @@
                 </div>
             </div>
             @include('shared.footer')
-            <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+
+            {{-- CDN DETEKSI QRCODE --}}
+            <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
             <script>
                 let stream;
                 let isUsingFrontCamera = true;
                 let isCameraActive = false;
-                let qrDetectionInterval;
+                let barcodeDetectionInterval;
 
                 document.addEventListener('DOMContentLoaded', function() {
                     startCamera();
@@ -162,9 +175,10 @@
                             isCameraActive = true;
                             document.getElementById('toggleCameraButton').innerText = 'Stop Camera';
 
-                            // Tunggu video siap sebelum memulai deteksi
+                            document.getElementById('cameraOverlay').style.display = 'none';
+
                             video.onloadedmetadata = () => {
-                                startQRCodeDetection();
+                                startBarcodeDetection();
                             };
                         })
                         .catch(function(err) {
@@ -176,9 +190,11 @@
                     if (stream) {
                         stream.getTracks().forEach(track => track.stop());
                     }
-                    clearInterval(qrDetectionInterval);
+                    clearInterval(barcodeDetectionInterval);
                     isCameraActive = false;
                     document.getElementById('toggleCameraButton').innerText = 'Start Camera';
+
+                    document.getElementById('cameraOverlay').style.display = 'flex';
                 }
 
                 function toggleCamera() {
@@ -195,19 +211,24 @@
                     startCamera();
                 }
 
-                function startQRCodeDetection() {
+                function startBarcodeDetection() {
                     const video = document.getElementById('video');
                     const canvas = document.getElementById('canvas');
                     const context = canvas.getContext('2d');
 
-                    // Set ukuran canvas sama dengan ukuran video
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
 
-                    qrDetectionInterval = setInterval(() => {
+                    const targetArea = {
+                        x: canvas.width * 0.3,
+                        y: canvas.height * 0.3,
+                        width: canvas.width * 0.4,
+                        height: canvas.height * 0.4
+                    };
+
+                    barcodeDetectionInterval = setInterval(() => {
                         if (!isCameraActive) return;
 
-                        // Periksa jika video siap
                         if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
                         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -215,19 +236,53 @@
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
 
                         if (code) {
-                            alert("QR Code Detected: " + code.data);
-                            clearInterval(qrDetectionInterval); // Hentikan deteksi setelah QR code ditemukan
-                            stopCamera();
-                        } else {
-                            // Tampilkan kotak deteksi QR code
+                            const centerX = (code.location.topLeftCorner.x + code.location.bottomRightCorner.x) / 2;
+                            const centerY = (code.location.topLeftCorner.y + code.location.bottomRightCorner.y) / 2;
+
+                            let color;
+                            if (
+                                centerX > targetArea.x &&
+                                centerX < targetArea.x + targetArea.width &&
+                                centerY > targetArea.y &&
+                                centerY < targetArea.y + targetArea.height
+                            ) {
+                                color = "green";
+                            } else if (
+                                Math.abs(centerX - (targetArea.x + targetArea.width / 2)) < targetArea.width / 2 + 50 &&
+                                Math.abs(centerY - (targetArea.y + targetArea.height / 2)) < targetArea.height / 2 + 50
+                            ) {
+                                color = "yellow";
+                            } else {
+                                color = "red";
+                            }
+
                             context.beginPath();
-                            context.strokeStyle = "green";
+                            context.strokeStyle = color;
                             context.lineWidth = 4;
-                            context.strokeRect(canvas.width * 0.3, canvas.height * 0.3, canvas.width * 0.4, canvas.height *
-                                0.4);
+                            context.strokeRect(targetArea.x, targetArea.y, targetArea.width, targetArea.height);
+                            context.stroke();
+
+                            if (color === "green") {
+                                Swal.fire({
+                                    title: 'Barcode Detected!',
+                                    text: `Data: ${code.data}`,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    location.reload();
+                                });
+
+                                clearInterval(barcodeDetectionInterval);
+                                stopCamera();
+                            }
+                        } else {
+                            context.beginPath();
+                            context.strokeStyle = "red";
+                            context.lineWidth = 4;
+                            context.strokeRect(targetArea.x, targetArea.y, targetArea.width, targetArea.height);
                             context.stroke();
                         }
-                    }, 100); // Interval deteksi setiap 300ms untuk mengurangi delay
+                    }, 100);
                 }
             </script>
             <script type="text/javascript">

@@ -37,10 +37,12 @@ return new class extends Migration
             $table->string('warna')->nullable();
             $table->integer('qty')->nullable();
             $table->string('package')->nullable();
+            $table->integer('kedatangan_ke')->nullable();
             $table->decimal('berat', 13, 2)->nullable();
             $table->decimal('berat_trukpenuh', 13, 2)->nullable();
             $table->decimal('berat_trukkosong', 13, 2)->nullable();
             $table->string('supplier')->nullable();
+            $table->string('verified')->default(0);
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = needed approval, 3 = signed, 4 = closed
             $table->string('dibuat')->nullable();
             $table->timestamps();

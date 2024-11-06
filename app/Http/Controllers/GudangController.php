@@ -175,30 +175,20 @@ class GudangController extends Controller
             // Validasi untuk menanggulangi error
             $request->validate(
                 [
-                    'tanggal_kedatangan' => 'required',
-                    'qty' => 'required',
-                    'package' => 'required',
-                    'berat_trukpenuh' => 'required',
-                    'berat_trukkosong' => 'required',
+                    'tanggal' => 'required',
                     'nopol' => 'required',
-                    'driver' => 'required',
-                    // 'signature64Operator' => 'required',
-                    // 'signature64Driver' => 'required',
                     'ktp' => 'required',
+                    'driver' => 'required',
                     'operator' => 'required',
+                    'idkontrak' => 'required',
                 ],
                 [
-                    'tanggal_kedatangan.required' => 'Tanggal Kedatangan wajib diisi',
-                    'qty.required' => 'Qty wajib diisi',
-                    'package.required' => 'Package wajib diisi',
-                    'berat_trukpenuh.required' => 'Berat Truck penuh wajib diisi',
-                    'berat_trukkosong.required' => 'Berat Truck kosong wajib diisi',
-                    'nopol' => 'Nopol Kendaraan wajib diisi',
-                    'driver' => ' Pengemudi Tidak Boleh Kosong',
-                    // 'signature64Operator' => 'Tanda tangan operator wajib diisi',
-                    // 'signature64Driver' => ' Tanda tangan pengemudi wajib diisi',
-                    'ktp' => 'KTP wajib diisi',
-                    'operator' => 'Operator wajib diisi',
+                    'tanggal.required' => 'Tanggal Kedatangan wajib diisi',
+                    'nopol.required' => 'Nomor Polisi wajib diisi',
+                    'ktp.required' => 'Nomor KTP wajib diisi',
+                    'driver.required' => 'Nama Supir wajib diisi',
+                    'operator.required' => 'Operator wajib diisi',
+                    'idkontrak.required' => 'Nomor Kontrak wajib diisi',
                 ]
             );
             // ambil data kontrak
@@ -226,34 +216,46 @@ class GudangController extends Controller
 
             // insert data penerimaan
             $up = GudangpenerimaanModel::where('id', $decrypted)->update([
-                'tanggal_kedatangan' => $request->tanggal_kedatangan,
-                'qty' => $request->qty,
-                'package' => $request->package,
-                'berat_trukpenuh' => $request->berat_trukpenuh,
-                'berat_trukkosong' => $request->berat_trukkosong,
-                'nopol' => $request->nopol,
-                'driver' => $request->namaSupir,
-                'operator' => $request->operator,
+                'tanggal' => $request->tanggal,
+                'npb' => $request->tanggal,
+                'nopol' => $request->tanggal,
+                'ktp' => $request->tanggal,
+                'driver' => $request->tanggal,
+                'operator' => $request->tanggal,
                 'signDriver' => $filename_drv,
                 'signOp' => $filename_op,
-                'ktp' => $request->ktp,
+                'keterangan' => $request->keterangan,
                 'verified' => 1,
                 'status' => 2,
                 'keterangan' => $request->keterangan,
                 'dibuat' => Auth::user()->nickname,
-                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
             ]);
 
-            for ($i = 1; $i <= $request->qty; $i++) {
-                // insert data penerimaanitm
-                GudangpenerimaanitmModel::insert([
-                    'tanggal_kedatangan' => $request->tanggal_kedatangan,
-                    'kodepenerimaan' => $getKontrak->kodepenerimaan,
-                    'subkode' => $getKontrak->kodepenerimaan . '-' . sprintf("%03s", $i),
-                    'nourut' => sprintf("%03s", $i),
-                    'dibuat' => Auth::user()->nickname,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
+            for ($i = 1; $i <= $request->idItm; $i++) {
+                if ($request->statusDel[$i]) {
+                    // update data penerimaanitm dengan status 0
+                    GudangpenerimaanitmModel::where('id', $request->idItm[$i])->update([
+                        'status' => 0,
+                        'dibuat' => Auth::user()->nickname,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                } else {
+                    // update data penerimaanitm dengan status 3 dan verifikasi
+                    GudangpenerimaanitmModel::where('id', $request->idItm[$i])->update([
+                        'tanggal' => $request->tanggal,
+                        'qty' => $request->qty[$i],
+                        'package' => $request->jenis[$i],
+                        'kedatangan_ke' => $request->kedatangan_ke[$i],
+                        'berat' => $request->berat[$i],
+                        'berat_trukpenuh' => $request->berat_penuh[$i],
+                        'berat_trukkosong' => $request->berat_kosong[$i],
+                        'verifikasi' => 1,
+                        'status' => 3,
+                        'dibuat' => Auth::user()->nickname,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
             }
 
             if ($up) {

@@ -20,12 +20,13 @@ class GudangpenerimaanitmModel extends Model
         'warna',
         'qty',
         'package',
+        'berat',
         'berat_trukpenuh',
         'berat_trukkosong',
+        'supplier',
         'status',
         'dibuat',
         'created_at',
         'updated_at',
-
     ];
 }

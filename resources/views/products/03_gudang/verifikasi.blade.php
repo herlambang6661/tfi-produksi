@@ -14,13 +14,13 @@
 
         td.cuspad2 {
             /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    margin-left: 5px; */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-bottom: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-right: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                padding-left: 0.5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-top: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-bottom: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-right: 5px;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                margin-left: 5px; */
         }
 
         .unselectable {
@@ -132,7 +132,7 @@
                         action="javascript:void(0)" enctype="multipart/form-data" accept-charset="utf-8">
                         @csrf
                         <div class="row row-deck row-cards">
-                            <div class="col-md-7">
+                            <div class="col-md-9">
                                 <div class="card card-xl border-success shadow rounded">
                                     <div class="card-stamp card-stamp-lg">
                                         <div class="card-stamp-icon bg-success">
@@ -164,38 +164,37 @@
                                         </div>
                                         <div class="card-header">
                                             <div class="row row-cards">
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <label class="form-label">Tanggal Kedatangan</label>
                                                     <input type="hidden" name="idkontrak" id="idkontrak"
                                                         value="{{ Crypt::encryptString($verifikasi->npb) }}">
                                                     <input type="date" name="tanggal" id="tanggal" class="form-control"
                                                         value="{{ $verifikasi->tanggal }}">
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-6">
                                                     <label class="form-label">Nopol</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control" name="nopol"
                                                         value="{{ $verifikasi->nopol }}">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label">NIK KTP</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control" name="ktp"
                                                         value="{{ $verifikasi->ktp }}">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label">Pengemudi</label>
-                                                    <input type="text" class="form-control"
+                                                    <input type="text" class="form-control" name="driver"
                                                         value="{{ $verifikasi->driver }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label class="form-label">Operator</label>
-                                                    <input type="number" name="qty" id="qty"
-                                                        class="form-control" value="{{ $verifikasi->operator }}">
+                                                    <input type="text" class="form-control" name="operator"
+                                                        value="{{ $verifikasi->operator }}">
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="card-header">
-                                            <h3 class="card-title">
+                                            <div class="col card-title h3">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -205,13 +204,159 @@
                                                     <path d="M15 16l4 -4" />
                                                     <path d="M15 8l4 4" />
                                                 </svg>
-                                                Data Pendukung
-                                            </h3>
+                                                Data Produk
+                                            </div>
+                                            <ul class="nav nav-pills card-header-pills">
+                                                <li class="nav-item ms-auto">
+                                                    <a class="nav-link text-azure" href="#">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            style="margin-right: 10px" height="24" viewBox="0 0 24 24"
+                                                            fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-cube-plus">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path
+                                                                d="M21 12.5v-4.509a1.98 1.98 0 0 0 -1 -1.717l-7 -4.008a2.016 2.016 0 0 0 -2 0l-7 4.007c-.619 .355 -1 1.01 -1 1.718v8.018c0 .709 .381 1.363 1 1.717l7 4.008a2.016 2.016 0 0 0 2 0" />
+                                                            <path d="M12 22v-10" />
+                                                            <path d="M12 12l8.73 -5.04" />
+                                                            <path d="M3.27 6.96l8.73 5.04" />
+                                                            <path d="M16 19h6" />
+                                                            <path d="M19 16v6" />
+                                                        </svg>
+                                                        Tambah Item
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-transparent table-nowrap table-striped table-hover">
+                                                <thead class="sticky-top">
+                                                    <tr>
+                                                        <th class="text-center" style="width: 1%"></th>
+                                                        <th class="text-dark" style="width: 1%">Product</th>
+                                                        <th class="text-center text-dark" style="width: 15%">Berat
+                                                            (Kontrak)</th>
+                                                        <th class="text-center text-dark" style="width: 15%">Berat Truk
+                                                            Penuh</th>
+                                                        <th class="text-center text-dark" style="width: 15%">Berat Truk
+                                                            Kosong</th>
+                                                        <th class="text-center text-dark" style="width: 15%">Qty</th>
+                                                        <th class="text-center text-dark" id="thJenis">Jenis</th>
+                                                    </tr>
+                                                </thead>
+                                                @foreach ($verifikasiItm as $no => $data)
+                                                    <tbody>
+                                                        <tr class="trBarang_{{ $no }}">
+                                                            <td class="text-center">
+                                                                <button type="button" id="btnDelete{{ $no }}"
+                                                                    onclick="deleteItem({{ $no }})"
+                                                                    class="btn btn-ghost-danger btn-icon">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x">
+                                                                        <path stroke="none" d="M0 0h24v24H0z"
+                                                                            fill="none" />
+                                                                        <path d="M4 7h16" />
+                                                                        <path
+                                                                            d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                        <path
+                                                                            d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                        <path d="M10 12l4 4m0 -4l-4 4" />
+                                                                    </svg>
+                                                                </button>
+                                                                <button type="button" id="btnRestore{{ $no }}"
+                                                                    onclick="restoreItem({{ $no }})"
+                                                                    class="btn btn-ghost-primary btn-icon"
+                                                                    style="display: none">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                        height="24" viewBox="0 0 24 24" fill="none"
+                                                                        stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-rotate-clockwise-2">
+                                                                        <path stroke="none" d="M0 0h24v24H0z"
+                                                                            fill="none" />
+                                                                        <path d="M9 4.55a8 8 0 0 1 6 14.9m0 -4.45v5h5" />
+                                                                        <path d="M5.63 7.16l0 .01" />
+                                                                        <path d="M4.06 11l0 .01" />
+                                                                        <path d="M4.63 15.1l0 .01" />
+                                                                        <path d="M7.16 18.37l0 .01" />
+                                                                        <path d="M11 19.94l0 .01" />
+                                                                    </svg>
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <input type="hidden" name="id[]"
+                                                                    id="id_{{ $no }}"
+                                                                    value="{{ $data->id }}">
+                                                                <p class="strong mb-1 textBarang_{{ $no }}">
+                                                                    {{ substr($data->kodekontrak, 0, 3) }}-{{ substr($data->kodekontrak, 3, 5) }}
+                                                                </p>
+                                                                <div
+                                                                    class="text-secondary textBarang_{{ $no }}">
+                                                                    {{ strtoupper($data->tipe) . ' ' . strtoupper($data->kategori) . ' ' . strtoupper($data->warna) }}
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center" style="vertical-align: baseline;">
+                                                                <input type="number" min="1" name="berat[]"
+                                                                    id="berat_{{ $no }}"
+                                                                    class="form-control formBarang_{{ $no }}"
+                                                                    value="{{ $data->berat }}">
+                                                            </td>
+                                                            <td class="text-center" style="vertical-align: baseline;">
+                                                                <input type="number" min="1" name="berat_penuh[]"
+                                                                    id="berat_penuh_{{ $no }}"
+                                                                    class="form-control formBarang_{{ $no }}"
+                                                                    value="{{ $data->berat }}">
+                                                            </td>
+                                                            <td class="text-center" style="vertical-align: baseline;">
+                                                                <input type="number" min="1"
+                                                                    name="berat_kosong[]"
+                                                                    id="berat_kosong_{{ $no }}"
+                                                                    class="form-control formBarang_{{ $no }}"
+                                                                    value="{{ $data->berat }}">
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="number" min="1" name="qty[]"
+                                                                    id="qty_{{ $no }}"
+                                                                    class="form-control formBarang_{{ $no }}"
+                                                                    value="{{ $data->qty }}">
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <select name="jenis[]" class="form-select select2Jenis">
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+                                            <script>
+                                                function deleteItem(no) {
+                                                    $('#btnRestore' + no).show();
+                                                    $('#btnDelete' + no).hide();
+                                                    $('.textBarang_' + no).css("text-decoration", "line-through");
+                                                    $('.textBarang_' + no).addClass('cursor-not-allowed');
+                                                    $('.formBarang_' + no).prop('disabled', true);
+                                                    $('.formBarang_' + no).addClass('cursor-not-allowed');
+                                                    $('.trBarang_' + no).addClass('bg-danger-lt');
+                                                }
+
+                                                function restoreItem(no) {
+                                                    $('#btnRestore' + no).hide();
+                                                    $('#btnDelete' + no).show();
+                                                    $('.textBarang_' + no).css("text-decoration", "");
+                                                    $('.textBarang_' + no).removeClass('cursor-not-allowed');
+                                                    $('.formBarang_' + no).prop('disabled', false);
+                                                    $('.formBarang_' + no).removeClass('cursor-not-allowed');
+                                                    $('.trBarang_' + no).removeClass('bg-danger-lt');
+                                                }
+                                            </script>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-3">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="alert alert-success shadow rounded" role="alert">
@@ -342,21 +487,32 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary" id="submitVerifikasi">
-                                        <svg style="margin-ridht: 5px" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                            <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                            <path d="M14 4l0 4l-6 0l0 -4" />
-                                        </svg>
-                                        Simpan
-                                    </button>
-                                </div>
+                                <button type="submit" class="btn btn-primary" id="submitVerifikasi">
+                                    <svg style="margin-ridht: 5px" xmlns="http://www.w3.org/2000/svg" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                        <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                        <path d="M14 4l0 4l-6 0l0 -4" />
+                                    </svg>
+                                    Simpan
+                                </button>
+                                <button class="btn btn-outline-danger ms-auto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 7l16 0" />
+                                        <path d="M10 11l0 6" />
+                                        <path d="M14 11l0 6" />
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                    </svg>
+                                    Hapus Formulir
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -406,21 +562,21 @@
                         dt.ajax.reload();
                     }
                     $(function() {
-                        $(".select2Driver").select2({
+
+                        $(".select2Jenis").select2({
                             language: "id",
                             width: '100%',
                             height: '100%',
-                            placeholder: "Pilih Pengemudi",
+                            placeholder: "Pilih Jenis Package",
                             ajax: {
-                                url: "/getPengemudi",
+                                url: "/getPackage",
                                 dataType: 'json',
                                 processResults: function(response) {
                                     return {
                                         results: $.map(response, function(item) {
                                             return {
-                                                text: item.nama + (!item.kota ? '' : ' - ' + item
-                                                    .kota),
-                                                id: item.id,
+                                                text: item.nama_jenis,
+                                                id: item.nama_jenis,
                                             }
                                         })
                                     };
@@ -436,85 +592,72 @@
                         if ($("#formVerifikasi").length > 0) {
                             $("#formVerifikasi").validate({
                                 rules: {
-                                    tanggal_kedatangan: {
-                                        required: true,
-                                    },
-                                    qty: {
-                                        required: true,
-                                    },
-                                    package: {
-                                        required: true,
-                                    },
-                                    berat_trukpenuh: {
-                                        required: true,
-                                    },
-                                    berat_trukkosong: {
+                                    tanggal: {
                                         required: true,
                                     },
                                     nopol: {
                                         required: true,
                                     },
-                                    driver: {
-                                        required: true,
-                                    },
-                                    signature64Operator: {
-                                        required: true,
-                                    },
-                                    signature64Driver: {
-                                        required: true,
-                                    },
-                                    namaSupir: {
-                                        required: true,
-                                    },
                                     ktp: {
+                                        required: true,
+                                    },
+                                    driver: {
                                         required: true,
                                     },
                                     operator: {
                                         required: true,
-                                    }
+                                    },
+                                    "berat[]": "required",
+                                    "berat_penuh[]": "required",
+                                    "berat_kosong[]": "required",
+                                    "qty[]": "required",
+                                    "jenis[]": "required",
                                 },
                                 messages: {
-                                    tanggal_kedatangan: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    qty: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    package: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    berat_trukpenuh: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    berat_trukkosong: {
+                                    tanggal: {
                                         required: 'Kolom ini tidak boleh kosong',
                                     },
                                     nopol: {
                                         required: 'Kolom ini tidak boleh kosong',
                                     },
-                                    driver: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    signature64Operator: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    signature64Driver: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
-                                    namaSupir: {
-                                        required: 'Kolom ini tidak boleh kosong',
-                                    },
                                     ktp: {
+                                        required: 'Kolom ini tidak boleh kosong',
+                                    },
+                                    driver: {
                                         required: 'Kolom ini tidak boleh kosong',
                                     },
                                     operator: {
                                         required: 'Kolom ini tidak boleh kosong',
+                                    },
+                                    "berat[]": "Kolom ini tidak boleh kosong",
+                                    "berat_penuh[]": "Kolom ini tidak boleh kosong",
+                                    "berat_kosong[]": "Kolom ini tidak boleh kosong",
+                                    "qty[]": "Kolom ini tidak boleh kosong",
+                                    "jenis[]": '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-alert-circle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 8v4" /><path d="M12 16h.01" /></svg>',
+                                },
+                                highlight: function(element) {
+                                    // add a class "errorClass" to the element
+                                    $(element).addClass('border-danger');
+                                },
+                                unhighlight: function(element) {
+                                    // class "errorClass" remove from the element
+                                    $(element).removeClass('border-danger');
+                                },
+                                errorPlacement: function(error, element) {
+                                    if (element.parent('.input-group').length ||
+                                        element.prop('type') === 'checkbox' ||
+                                        element.prop('type') === 'radio') {
+                                        error.insertAfter(element.parent());
+                                        // else just place the validation message immediately after the input
+                                    } else if (element.parent().children('.select2').length) {
+                                        // error.insertAfter(element.parent().children('.select2'));
+                                        $('#thJenis').append(error)
+                                    } else {
+                                        error.insertAfter(element);
                                     }
                                 },
-
                                 submitHandler: function(form) {
                                     let formData = new FormData(form);
-
                                     $.ajaxSetup({
                                         headers: {
                                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -524,13 +667,109 @@
                                         '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
                                     $("#submitVerifikasi").attr("disabled", true);
                                     $.ajax({
-                                        url: "{{ url('storedataVerifikasi') }}",
+                                        // url: "{{ url('storedataVerifikasi') }}",
                                         type: "POST",
                                         data: formData,
                                         contentType: false,
                                         processData: false,
                                         // data: $('#formVerifikasi').serialize(),
                                         beforeSend: function() {
+                                            // swal.fire({
+                                            //     title: 'Verifikasi',
+                                            //     text: 'Apakah anda yakin ingin Memverifikasi ?',
+                                            //     icon: 'warning',
+                                            //     showCancelButton: true,
+                                            //     confirmButtonColor: '#d33',
+                                            //     cancelButtonColor: '#3085d6',
+                                            //     confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                                            //     cancelButtonText: 'Batal',
+                                            // }).then((result) => {
+                                            //     if (result.isConfirmed) {
+                                            //         (async () => {
+                                            //             const {
+                                            //                 value: password
+                                            //             } = await Swal.fire({
+                                            //                 title: "Ketik tulisan dibawah untuk menghapus " +
+                                            //                     nama,
+                                            //                 html: '<div class="unselectable">' + r +
+                                            //                     '</div>',
+                                            //                 input: "text",
+                                            //                 inputPlaceholder: "Ketik untuk menghapus " +
+                                            //                     nama,
+                                            //                 showCancelButton: true,
+                                            //                 cancelButtonColor: '#3085d6',
+                                            //                 cancelButtonText: 'Batal',
+                                            //                 confirmButtonText: 'Ok',
+                                            //                 inputAttributes: {
+                                            //                     autocapitalize: "off",
+                                            //                     autocorrect: "off"
+                                            //                 },
+                                            //             });
+                                            //             if (password == r) {
+                                            //                 $.ajax({
+                                            //                     type: "DELETE",
+                                            //                     url: "{{ route('getPenerimaan.store') }}" +
+                                            //                         '/' + id,
+                                            //                     data: {
+                                            //                         "_token": "{{ csrf_token() }}",
+                                            //                     },
+                                            //                     beforeSend: function() {
+                                            //                         Swal.fire({
+                                            //                             title: 'Mohon Menunggu',
+                                            //                             html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                                            //                             timerProgressBar: true,
+                                            //                             showConfirmButton: false,
+                                            //                             allowOutsideClick: false,
+                                            //                             allowEscapeKey: false,
+                                            //                         })
+                                            //                     },
+                                            //                     success: function(data) {
+                                            //                         tablePenerimaan.ajax.reload(null,
+                                            //                             false);
+                                            //                         unApprovedTable.ajax.reload(null,
+                                            //                             false);
+                                            //                         approvedTable.ajax.reload(null, false);
+                                            //                         allTable.ajax.reload(null, false);
+
+                                            //                         Swal.fire({
+                                            //                             icon: 'success',
+                                            //                             title: 'Berhasil',
+                                            //                             html: data,
+                                            //                             showConfirmButton: true
+                                            //                         });
+                                            //                     },
+                                            //                     error: function(data) {
+                                            //                         tablePenerimaan.ajax.reload(null,
+                                            //                             false);
+                                            //                         unApprovedTable.ajax.reload(null,
+                                            //                             false);
+                                            //                         approvedTable.ajax.reload(null, false);
+                                            //                         allTable.ajax.reload(null, false);
+                                            //                         console.log('Error:', data
+                                            //                             .responseText);
+                                            //                         Swal.fire({
+                                            //                             icon: 'error',
+                                            //                             title: 'Gagal!',
+                                            //                             text: 'Error: ' + data
+                                            //                                 .responseText,
+                                            //                             showConfirmButton: true,
+                                            //                         });
+                                            //                     }
+                                            //                 });
+                                            //             } else {
+                                            //                 tablePenerimaan.ajax.reload(null, false);
+                                            //                 unApprovedTable.ajax.reload(null, false);
+                                            //                 approvedTable.ajax.reload(null, false);
+                                            //                 allTable.ajax.reload(null, false);
+                                            //                 Swal.fire({
+                                            //                     icon: "error",
+                                            //                     title: "Batal",
+                                            //                     text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
+                                            //                 });
+                                            //             }
+                                            //         })()
+                                            //     }
+                                            // })
                                             Swal.fire({
                                                 title: 'Mohon Menunggu',
                                                 html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit. </h1>',

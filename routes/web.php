@@ -96,7 +96,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/printBarcode', 'printBarcode')->name('gudang/printBarcode');
     Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
-
+    Route::get('getPackage', 'getPackage')->name('getPackage');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
 });

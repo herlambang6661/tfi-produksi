@@ -157,37 +157,17 @@ class GudangController extends Controller
             'verifikasiItm' => $verifikasiItm,
         ]);
     }
-    public function getSupir(Request $request)
+    public function getPackage(Request $request)
     {
-        $getDriver = DaftarsupplierModel::where('id', $request->id)->first();
-        $foto1 = $getDriver->foto1 ? asset('storage/file/pas/' . $getDriver->foto1) : asset('assets/static/pas.jpg');
-        $foto2 = $getDriver->foto2 ? asset('storage/file/pas/' . $getDriver->foto2) : asset('assets/static/ktp.jpg');
-        echo '
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="form-label">KTP</label>
-                    <input type="hidden" name="namaSupir" id="namaSupir" value="' . $getDriver->nama . '">
-                    <input type="text" name="ktp" id="ktp"
-                        class="form-control mb-3" value="' . $getDriver->noid . '">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Operator</label>
-                    <input type="text" name="operator" id="operator" class="form-control"
-                        placeholder="Masukkan Nama Operator"
-                        value="' . Auth::user()->nickname . '">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Pas Foto</label>
-                    <img class="card-img-top" src="' . $foto1 . '"
-                        style="width: 100%;max-width: 300px;max-height: 300px" />
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Foto KTP</label>
-                    <img class="card-img-top" src="' . $foto2 . '"
-                        style="width: 100%;max-width: 300px;max-height: 300px" />
-                </div>
-            </div>
-        ';
+        if ($request->has('q')) {
+            $search = $request->q;
+            $pkg = DaftarJenisModel::where('nama_jenis', 'LIKE', "%$search%")
+                ->orderBy('nama_jenis')
+                ->get();
+        } else {
+            $pkg = DaftarJenisModel::all();
+        }
+        return Response()->json($pkg);
     }
     public function storeVerifikasi(Request $request)
     {

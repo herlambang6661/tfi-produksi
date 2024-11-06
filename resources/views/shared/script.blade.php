@@ -10,10 +10,10 @@
 <script src="{{ asset('assets/dist/libs/fslightbox/index.js?1684106062') }}" defer></script>
 
 <script src="{{ asset('assets/extentions/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ asset('assets/extentions/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('assets/extentions/jquery.validate.js') }}"></script>
 
 <link href="{{ asset('assets/extentions/xeditable/jquery-editable.css') }}" rel="stylesheet" />
-<script src="{{ asset('assets/extentions/xeditable/jquery-editable-poshytip.min.js') }}"></script>
+{{-- <script src="{{ asset('assets/extentions/xeditable/jquery-editable-poshytip.min.js') }}"></script> --}}
 
 <!-- Datatables -->
 <script src="{{ asset('assets/extentions/datatables/datatables.min.js') }}"></script>

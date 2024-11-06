@@ -146,6 +146,8 @@
                 </div>
             </div>
             @include('shared.footer')
+
+            {{-- CDN DETEKSI QRCODE --}}
             <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
             <script>
                 let stream;
@@ -173,10 +175,8 @@
                             isCameraActive = true;
                             document.getElementById('toggleCameraButton').innerText = 'Stop Camera';
 
-                            // Sembunyikan overlay ketika kamera aktif
                             document.getElementById('cameraOverlay').style.display = 'none';
 
-                            // Start barcode detection when the video is ready
                             video.onloadedmetadata = () => {
                                 startBarcodeDetection();
                             };
@@ -194,7 +194,6 @@
                     isCameraActive = false;
                     document.getElementById('toggleCameraButton').innerText = 'Start Camera';
 
-                    // Tampilkan overlay dengan ikon kamera saat kamera dimatikan
                     document.getElementById('cameraOverlay').style.display = 'flex';
                 }
 
@@ -217,7 +216,6 @@
                     const canvas = document.getElementById('canvas');
                     const context = canvas.getContext('2d');
 
-                    // Set the canvas size to match the video
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
 
@@ -231,7 +229,6 @@
                     barcodeDetectionInterval = setInterval(() => {
                         if (!isCameraActive) return;
 
-                        // Check if the video is ready
                         if (video.videoWidth === 0 || video.videoHeight === 0) return;
 
                         context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -249,7 +246,7 @@
                                 centerY > targetArea.y &&
                                 centerY < targetArea.y + targetArea.height
                             ) {
-                                color = "green"; // Exact match
+                                color = "green";
                             } else if (
                                 Math.abs(centerX - (targetArea.x + targetArea.width / 2)) < targetArea.width / 2 + 50 &&
                                 Math.abs(centerY - (targetArea.y + targetArea.height / 2)) < targetArea.height / 2 + 50

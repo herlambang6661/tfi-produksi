@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Models\DaftarJenisModel;
+use App\Models\GudangpenerimaanqrModel;
 use App\Models\SuratkontrakitmModel;
 use Svg\Tag\Rect;
 
@@ -193,7 +194,6 @@ class GudangController extends Controller
             );
             // ambil data kontrak
             $decrypted = Crypt::decryptString($request->idkontrak);
-            $getKontrak = GudangpenerimaanModel::where('id', $decrypted)->first();
 
             $sign_op = null;
             $sign_drv = null;
@@ -203,37 +203,25 @@ class GudangController extends Controller
             $image_parts_drv = explode(";base64,", $request->signedPengemudi);
             $image_type_aux_op = explode("image/", $image_parts_op[0]);
             $image_type_aux_drv = explode("image/", $image_parts_drv[0]);
+            if (!array_key_exists(1, $image_type_aux_op)) {
+                return response()->json(['msg' => 'Tanda Tangan Operator wajib diisi', 'status' => false]);
+            }
+            if (!array_key_exists(1, $image_type_aux_drv)) {
+                return response()->json(['msg' => 'Tanda Tangan Driver wajib diisi', 'status' => false]);
+            }
             $image_type_op = $image_type_aux_op[1];
             $image_type_drv = $image_type_aux_drv[1];
             $image_base64_op = base64_decode($image_parts_op[1]);
             $image_base64_drv = base64_decode($image_parts_drv[1]);
-            $filename_op = date('Ymdhis') . "-" . uniqid() . '.' . $image_type_op;
-            $filename_drv = date('Ymdhis') . "-" . uniqid() . '.' . $image_type_drv;
+            $filename_op = 'operator-' . $decrypted . "-" . date('Ymdhis') . '.' . $image_type_op;
+            $filename_drv = 'driver-' . $decrypted . "-" . date('Ymdhis') . '.' . $image_type_drv;
             $sign_op = $path_op . $filename_op;
             $sign_drv = $path_drv . $filename_drv;
             file_put_contents($sign_op, $image_base64_op);
             file_put_contents($sign_drv, $image_base64_drv);
 
-            // insert data penerimaan
-            $up = GudangpenerimaanModel::where('id', $decrypted)->update([
-                'tanggal' => $request->tanggal,
-                'npb' => $request->tanggal,
-                'nopol' => $request->tanggal,
-                'ktp' => $request->tanggal,
-                'driver' => $request->tanggal,
-                'operator' => $request->tanggal,
-                'signDriver' => $filename_drv,
-                'signOp' => $filename_op,
-                'keterangan' => $request->keterangan,
-                'verified' => 1,
-                'status' => 2,
-                'keterangan' => $request->keterangan,
-                'dibuat' => Auth::user()->nickname,
-                'updated_at' => date('Y-m-d H:i:s'),
-            ]);
-
-            for ($i = 1; $i <= $request->idItm; $i++) {
-                if ($request->statusDel[$i]) {
+            for ($i = 0; $i < count($request->idItm); $i++) {
+                if ($request->statusDel[$i] == '1') {
                     // update data penerimaanitm dengan status 0
                     GudangpenerimaanitmModel::where('id', $request->idItm[$i])->update([
                         'status' => 0,
@@ -255,16 +243,60 @@ class GudangController extends Controller
                         'dibuat' => Auth::user()->nickname,
                         'updated_at' => date('Y-m-d H:i:s'),
                     ]);
+                    $dataItmKontrak = GudangpenerimaanitmModel::where('id', $request->idItm[$i])->first();
+
+                    // UNDONE, Compare berat kedatangan dengan berat kontrak 
+                    $dataSurat = SuratkontrakitmModel::where('id_kontrak', $dataItmKontrak->kodekontrak)->first();
+                    if ($dataSurat->berat == $dataItmKontrak->berat) {
+                        # code...
+                    }
+
+                    $urut = 1;
+                    for ($j = 0; $j < $request->qty[$i]; $j++) {
+                        // insert data penerimaan QRCode
+                        GudangpenerimaanqrModel::insert([
+                            'tanggal' => $request->tanggal,
+                            'npb' => $request->npb,
+                            'kodekontrak' => $dataItmKontrak->kodekontrak,
+                            'subkode' => $dataItmKontrak->kodekontrak . "-" .  $request->kedatangan_ke[$i] . "-" . sprintf("%03s", $urut),
+                            'nourut' => sprintf("%03s", $j),
+                            'berat_satuan' => ($request->berat_penuh[$i] - $request->berat_kosong[$i]) / $request->qty[$i],
+                            'berat_total' => $request->berat_penuh[$i] - $request->berat_kosong[$i],
+                            'qty_total' => $request->qty[$i],
+                            'type' => $dataItmKontrak->tipe,
+                            'dibuat' => Auth::user()->nickname,
+                            'created_at' => now(),
+                        ]);
+                        $urut++;
+                    }
                 }
             }
 
+            // insert data penerimaan
+            $up = GudangpenerimaanModel::where('npb', $decrypted)->update([
+                'tanggal' => $request->tanggal,
+                'nopol' => $request->nopol,
+                'ktp' => $request->ktp,
+                'driver' => $request->driver,
+                'operator' => $request->operator,
+                'signDriver' => $filename_drv,
+                'signOp' => $filename_op,
+                'keterangan' => $request->keterangan,
+                'verified' => 1,
+                'status' => 2,
+                'dibuat' => Auth::user()->nickname,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+
             if ($up) {
-                return response()->json('Penerimaan Berhasil Diverifikasi');
+                return response()->json(['msg' => 'Penerimaan Berhasil Diverifikasi', 'status' => true]);
+                // return response()->json('Penerimaan Berhasil Diverifikasi');
             }
         } catch (\Illuminate\Database\QueryException $e) {
             // DEBUG IN CASE OF ERROR
-            dd($e);
-            return response()->json('Penerimaan Berhasil Diverifikasi' . $e);
+            // dd($e);
+            return response()->json(['msg' => 'Error ' . $e, 'status' => false]);
+            // return response()->json('Penerimaan Berhasil Diverifikasi' . $e);
         }
     }
 
@@ -325,6 +357,30 @@ class GudangController extends Controller
                         <label class="form-label">NIK KTP</label>
                         <input type="text" name="nik" id="nik" class="form-control" placeholder="16 Karakter NIK dalam KTP">
                     </div>
+                    <script>
+                        $("#nik").on("change", function() {
+                            var nik = $(this).val();
+                            $.ajax({
+                                url: "/getdriver",
+                                data: {
+                                    nik: nik,
+                                },
+                                type: "POST",
+                                beforeSend: function() {
+                                    $("#driver").val("Memeriksa Data...");
+                                    $("#driver").prop("disabled", true);
+                                },
+                                success: function(response) {
+                                    $("#driver").val(response);
+                                    $("#driver").prop("disabled", false);
+                                },
+                                error: function(data) {
+                                    $("#driver").val("");
+                                    $("#driver").prop("disabled", false);
+                                }
+                            });
+                        });
+                    </script>
                     <div class="col-md-6">
                         <label class="form-label">Nama Supir</label>
                         <input type="text" name="driver" id="driver" class="form-control" placeholder="Nama Supir">
@@ -374,6 +430,16 @@ class GudangController extends Controller
                     </div>
                 </div>
             ';
+        }
+    }
+
+    public function getdriver(Request $request)
+    {
+        try {
+            $driver = GudangpenerimaanModel::where('ktp', $request->nik)->latest()->first();
+            return $driver->driver;
+        } catch (\Throwable $th) {
+            return '';
         }
     }
 

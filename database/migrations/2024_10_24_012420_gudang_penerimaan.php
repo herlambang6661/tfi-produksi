@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('signDriver')->nullable();
             $table->string('signOp')->nullable();
             $table->string('keterangan')->nullable();
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = closed
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = partial, 4 = close
             $table->string('verified')->default(0);
             $table->string('dibuat')->nullable();
             $table->timestamps();
@@ -38,7 +38,7 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->string('package')->nullable();
             $table->integer('kedatangan_ke')->nullable();
-            $table->decimal('berat', 13, 2)->nullable();
+            $table->integer('berat')->nullable();
             $table->decimal('berat_trukpenuh', 13, 2)->nullable();
             $table->decimal('berat_trukkosong', 13, 2)->nullable();
             $table->string('supplier')->nullable();

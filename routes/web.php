@@ -100,6 +100,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');
+    Route::POST('getdriver', 'getdriver')->name('getdriver');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
 });

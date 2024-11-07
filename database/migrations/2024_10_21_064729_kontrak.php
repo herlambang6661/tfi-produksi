@@ -34,7 +34,7 @@ return new class extends Migration
             $table->integer('berat');
             $table->decimal('harga', 13, 2);
             $table->integer('lock')->default(0);
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = used, 4 = close, 99 = partial
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = partial, 4 = used, 5 = close
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

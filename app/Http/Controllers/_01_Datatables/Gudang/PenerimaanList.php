@@ -40,7 +40,7 @@ class PenerimaanList extends Controller
                             <div class="btn-list flex-nowrap">                                
                                 <form method="GET" action="/gudang/penerimaan/verifikasi/' . Crypt::encryptString($row->npb) . '">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                    <button type="submit" class="btn btn-sm btn-link btn-icon">
+                                    <button type="submit" class="btn btn-sm btn-link btn-icon" onclick="loadingOverlay()">
                                         <i class="fa-solid fa-check"></i>
                                     </button>
                                 </form>
@@ -50,7 +50,7 @@ class PenerimaanList extends Controller
                                 <div class="dropdown-menu dropdown-menu-end" style="">
                                     <form method="GET" action="/gudang/penerimaan/verifikasi/' . Crypt::encryptString($row->npb) . '">
                                         <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                        <button type="submit" class="dropdown-item">
+                                        <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
                                             <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon text-green icon-tabler icons-tabler-outline icon-tabler-checkup-list"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" /><path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" /><path d="M9 14h.01" /><path d="M9 17h.01" /><path d="M12 16l1 1l3 -3" /></svg>
                                             Menyetujui
                                         </button>
@@ -67,17 +67,20 @@ class PenerimaanList extends Controller
                             </div>
                         ';
                     } elseif ($row->status == 3) { // <== Status : signed
-                        $btn = '<div class="btn-list flex-nowrap">                                
-                                <button type="button" class="btn btn-sm btn-link btn-icon">
-                                    <i class="fa-solid fa-qrcode"></i>
-                                </button>
+                        $btn = '<div class="btn-list flex-nowrap">
+                                <form method="GET" action="/gudang/penerimaan/printQrcode/' . Crypt::encryptString($row->npb) . '">
+                                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                    <button type="submit" class="btn btn-sm btn-link btn-icon" onclick="loadingOverlay()">
+                                        <i class="fa-solid fa-qrcode"></i>
+                                    </button>
+                                </form>
                                 <button class="btn btn-sm btn-link align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" style="">
-                                    <form method="GET" action="/gudang/penerimaan/verifikasi/' . Crypt::encryptString($row->npb) . '">
+                                    <form method="GET" action="/gudang/penerimaan/printQrcode/' . Crypt::encryptString($row->npb) . '">
                                         <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                        <button type="submit" class="dropdown-item">
+                                        <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
                                             <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-qrcode text-primary"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 17l0 .01" /><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 7l0 .01" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M17 7l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 14l0 3" /><path d="M14 20l3 0" /><path d="M17 17l3 0" /><path d="M20 17l0 3" /></svg>
                                             Print Barcode
                                         </button>

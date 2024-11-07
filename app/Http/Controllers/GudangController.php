@@ -158,6 +158,20 @@ class GudangController extends Controller
             'verifikasiItm' => $verifikasiItm,
         ]);
     }
+    public function printQrcode($id)
+    {
+        $decrypted = Crypt::decryptString($id);
+        $form = GudangpenerimaanModel::where('npb', $decrypted)->first();
+        $formItem = GudangpenerimaanitmModel::where('npb', $decrypted)->get();
+        $formQR = GudangpenerimaanqrModel::where('npb', $decrypted)->get();
+        return view('products.03_gudang.printQR', [
+            'active' => 'Penerimaan',
+            'judul' => 'Print Qrcode',
+            'form' => $form,
+            'formItem' => $formItem,
+            'formQR' => $formQR,
+        ]);
+    }
     public function getPackage(Request $request)
     {
         if ($request->has('q')) {
@@ -369,10 +383,12 @@ class GudangController extends Controller
                                 beforeSend: function() {
                                     $("#driver").val("Memeriksa Data...");
                                     $("#driver").prop("disabled", true);
+                                    $("#driver").addClass("cursor-not-allowed");
                                 },
                                 success: function(response) {
                                     $("#driver").val(response);
                                     $("#driver").prop("disabled", false);
+                                    $("#driver").removeClass("cursor-not-allowed");
                                 },
                                 error: function(data) {
                                     $("#driver").val("");

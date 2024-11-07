@@ -94,6 +94,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/getTipeByKode', 'getTipeByKode')->name('gudang/getTipeByKode');
     Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan');
     Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}');
+    Route::get('/gudang/penerimaan/printQrcode/{id}', 'printQrcode')->name('/gudang/penerimaan/printQrcode/{id}');
     Route::post('getSupir', 'getSupir')->name('getSupir');
     Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi');
     Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');

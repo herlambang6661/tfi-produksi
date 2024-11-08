@@ -448,26 +448,6 @@
                                     Pengolahan BB
                                 </a>
                                 {{-- @endif --}}
-                                {{-- @if (Auth::user()->c_persetujuan === 1) --}}
-                                <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
-                                    {{ $active == 'Persetujuan' ? 'active' : '' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
-                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-apps">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                        <path
-                                            d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                        <path
-                                            d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                        <path d="M14 7l6 0" />
-                                        <path d="M17 4l0 6" />
-                                    </svg>
-                                    Pengebonan
-                                </a>
-                                {{-- @endif --}}
                             </div>
                         </div>
                     </div>
@@ -499,10 +479,30 @@
                         class="dropdown-menu {{ $active == 'QC' || $active == 'Persetujuan' || $active == 'ProsesEmail' || $active == 'Pembelian' || $active == 'StatusBarang' ? 'show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
+                                {{-- @if (Auth::user()->c_persetujuan === 1) --}}
+                                <a class="dropdown-item" href="{{ url('pengadaan/persetujuan') }}"
+                                    {{ $active == 'Persetujuan' ? 'active' : '' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-apps">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path
+                                            d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path
+                                            d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                        <path d="M14 7l6 0" />
+                                        <path d="M17 4l0 6" />
+                                    </svg>
+                                    Pengebonan
+                                </a>
+                                {{-- @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'QC' ? 'active' : '' }}"
                                     href="{{ url('pengadaan/permintaan') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px" width="24"
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                         class="icon icon-tabler icons-tabler-outline icon-tabler-test-pipe">

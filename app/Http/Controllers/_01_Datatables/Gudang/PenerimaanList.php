@@ -48,6 +48,7 @@ class PenerimaanList extends Controller
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end" style="">
+                                    <span class="dropdown-header">Menu untuk ' . $row->kodekontrak . '</span>
                                     <form method="GET" action="/gudang/penerimaan/verifikasi/' . Crypt::encryptString($row->npb) . '">
                                         <input type="hidden" name="_token" value="' . csrf_token() . '">
                                         <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
@@ -77,12 +78,21 @@ class PenerimaanList extends Controller
                                 <button class="btn btn-sm btn-link align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                                 </button>
-                                <div class="dropdown-menu dropdown-menu-end" style="">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <span class="dropdown-header">Menu untuk ' . $row->kodekontrak . '</span>
                                     <form method="GET" action="/gudang/penerimaan/printQrcode/' . Crypt::encryptString($row->kodekontrak) . '">
                                         <input type="hidden" name="_token" value="' . csrf_token() . '">
                                         <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
                                             <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-qrcode text-primary"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 17l0 .01" /><path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M7 7l0 .01" /><path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M17 7l0 .01" /><path d="M14 14l3 0" /><path d="M20 14l0 .01" /><path d="M14 14l0 3" /><path d="M14 20l3 0" /><path d="M17 17l3 0" /><path d="M20 17l0 3" /></svg>
                                             Print Barcode
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="/gudang/printPenerimaan" target="_blank">
+                                        <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                        <input type="hidden" name="id" value="' . Crypt::encryptString($row->npb) . '">
+                                        <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
+                                            <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-printer text-success"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z" /></svg>
+                                            Print Formulir
                                         </button>
                                     </form>
                                     <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal-detail-kontrak" data-id="' . $row->noform . '" data-id_kontrak="' . $row->id_kontrak . '">
@@ -93,6 +103,18 @@ class PenerimaanList extends Controller
                         </div>';
                     }
                     return $btn;
+                })
+                ->addColumn('pengemudi', function ($row) {
+                    $pengemudi = GudangpenerimaanModel::where('npb', $row->npb)->first();
+                    return $pengemudi->driver;
+                })
+                ->addColumn('nopol', function ($row) {
+                    $nopol = GudangpenerimaanModel::where('npb', $row->npb)->first();
+                    return $nopol->nopol;
+                })
+                ->addColumn('operator', function ($row) {
+                    $operator = GudangpenerimaanModel::where('npb', $row->npb)->first();
+                    return $operator->operator;
                 })
                 ->addColumn('status', function ($row) {
                     // 0 = deleted, 1 = open, 2 = needed approval, 3 = signed, 4 = closed

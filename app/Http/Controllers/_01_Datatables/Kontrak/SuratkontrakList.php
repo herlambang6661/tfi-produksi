@@ -51,14 +51,14 @@ class SuratkontrakList extends Controller
                                         Lihat Surat Kontrak
                                     </a>
                                     <a href="' . route('download.pdf', ['id' => $row->noform,]) . '" class="dropdown-item">
-    <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cloud-download">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"/>
-        <path d="M12 13l0 9"/>
-        <path d="M9 19l3 3l3 -3"/>
-    </svg>
-    Unduh Surat Kontrak
-</a>
+                                        <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cloud-download">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"/>
+                                            <path d="M12 13l0 9"/>
+                                            <path d="M9 19l3 3l3 -3"/>
+                                        </svg>
+                                        Unduh Surat Kontrak
+                                    </a>
 
                                     <a href="#" class="dropdown-item remove" data-id="' . $row->id . '" data-nama="' . $row->id_kontrak . '" data-kode="' . $row->tanggal . '">
                                         <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon text-danger icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
@@ -84,14 +84,14 @@ class SuratkontrakList extends Controller
                                         Lihat Surat Kontrak
                                     </a>
                                     <a href="' . route('download.pdf', ['id' => $row->noform]) . '" class="dropdown-item">
-    <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cloud-download">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"/>
-        <path d="M12 13l0 9"/>
-        <path d="M9 19l3 3l3 -3"/>
-    </svg>
-    Unduh Surat Kontrak
-</a>
+                                        <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-cloud-download">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"/>
+                                            <path d="M12 13l0 9"/>
+                                            <path d="M9 19l3 3l3 -3"/>
+                                        </svg>
+                                        Unduh Surat Kontrak
+                                    </a>
 
                                     <a href="#" class="dropdown-item disabled" >
                                         <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon text-danger icon-tabler icons-tabler-outline icon-tabler-trash disabled"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
@@ -103,7 +103,7 @@ class SuratkontrakList extends Controller
                     return $btn;
                 })
                 ->addColumn('status', function ($row) {
-                    // 0 = deleted, 1 = open, 2 = needed approval, 3 = signed, 4 = closed
+                    // 0 = deleted, 1 = open, 2 = processed, 3 = signed, 4 = closed
                     if ($row->status == 0) {
                         return '
                             <span class="status status-dark status-lite">
@@ -120,21 +120,21 @@ class SuratkontrakList extends Controller
                         ';
                     } else if ($row->status == 2) {
                         return '
-                            <span class="status status-red status-lite">
+                            <span class="status status-yellow status-lite">
                                 <span class="status-dot status-dot-animated"></span>
-                                Need Approval
+                                Processed
                             </span>
                         ';
                     } else if ($row->status == 3) {
                         return '
-                            <span class="status status-green status-lite">
+                            <span class="status status-purple status-lite">
                                 <span class="status-dot status-dot-animated"></span>
                                 Signed
                             </span>
                         ';
                     } else if ($row->status == 4) {
                         return '
-                            <span class="status status-yellow status-lite">
+                            <span class="status status-green status-lite">
                                 <span class="status-dot status-dot-animated"></span>
                                 Closed
                             </span>

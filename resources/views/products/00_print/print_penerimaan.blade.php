@@ -14,9 +14,24 @@
         <link href="{{ url('assets/dist/css/demo.min.css?1684106062') }}" rel="stylesheet" />
         <link href="{{ asset('assets/extentions/fontawesome/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ asset('assets/extentions/select2/css/select2.min.css') }}" rel="stylesheet">
-
         <link href="{{ asset('assets/extentions/datatables/Select-1.6.0/css/select.bulma.min.css') }}" rel="stylesheet">
-        <style>
+        <?php
+        use Carbon\Carbon;
+        date_default_timezone_set('Asia/Jakarta');
+        ?>
+        <style type="text/css">
+            @media screen {
+                div#headerPrint {
+                    display: none
+                }
+            }
+
+            @media print {
+                div#headerPrint {
+                    display: block
+                }
+            }
+
             :root {
                 --tblr-font-sans-serif: 'Inter Var', -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
             }
@@ -27,122 +42,127 @@
         </style>
     </head>
 
-    <?php
-    
-    use Carbon\Carbon;
-    date_default_timezone_set('Asia/Jakarta');
-    ?>
-    <style type="text/css">
-        @media screen {
-            div#headerPrint {
-                display: none
-            }
-        }
-    </style>
-    <style type="text/css">
-        @media print {
-            div#headerPrint {
-                display: block
-            }
-        }
-    </style>
-
-    <div id="headerPrint">
-        <?php
-        echo '<i>Tanggal Print : ' . date('H:i:s d/m/Y') . '</i>';
-        ?>
-    </div>
-    <table class="table table-sm table-bordered text-nowrap" style="color: black; border-color: black;">
-        <tr>
-            <td>
-                <center>
-                    <h1>BUKTI PENERIMAAN BARANG</h1>
-                </center>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="row">
-                    <div class="col">
-                        <b>Tanggal : {{ Carbon::parse($penerimaan->tanggal_kedatangan)->format('d/m/Y') }}</b><br>
-                        <b>No. Penerimaan : {{ $penerimaan->kodekontrak }}</b>
-                    </div>
-                    <div class="col">
-                        <b>Terima Dari : </b><br>
-                        <b>Referensi : </b>
-                    </div>
+    <body class="ms-1 me-0 mr-0 ml-0">
+        <div id="headerPrint">
+            <div class="row">
+                <div class="col">
+                    <i>Tanggal Print : {{ date('H:i:s d/m/Y') }}</i>
                 </div>
-            </td>
-        </tr>
-        <tr style="padding: 0px;margin: 0px">
-            <td style="padding: 0px;margin: 0px">
-                <table class="table table-sm table-bordered text-nowrap text-center"
-                    style="color: black; border-color: black;">
-                    <tr>
-                        <td>Kode Penerimaan</td>
-                        <td>Tipe</td>
-                        <td>Qty</td>
-                        <td>Timbangan Kendaraan</td>
-                        <td>Nopol</td>
-                    </tr>
-                    <tr>
-                        <td>{{ $penerimaan->kodepenerimaan }}</td>
-                        <td>{{ $penerimaan->tipe }}</td>
-                        <td>{{ $penerimaan->qty . ' ' . $penerimaan->package }}</td>
-                        <td>Penuh: {{ $penerimaan->berat_trukpenuh }} Kosong: {{ $penerimaan->berat_trukkosong }}
-                        </td>
-                        <td>{{ $penerimaan->nopol }}</td>
-                    </tr>
-                    <tr>
-                        <td style="height: 25px"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td style="height: 25px"></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Catatan:
-            </td>
-        </tr>
-        <tr style="padding: 0px;margin: 0px">
-            <td style="padding: 0px;margin: 0px">
-                <table class="table table-sm table-bordered text-nowrap text-center"
-                    style="color: black; border-color: black;">
-                    <tr>
-                        <td style="width: 30%;">
-                            <b>Diserahkan Oleh</b><br>
-                            <img src="{{ asset('sign/driver/' . $penerimaan->signDriver) }}" alt=""><br>
-                            {{ $penerimaan->driver }}
-                        </td>
-                        <td style="width: 30%;">
-                            <b>Diterima Oleh</b><br>
-                            <img src="{{ asset('sign/operator/' . $penerimaan->signOp) }}" alt=""><br>
-                            {{ $penerimaan->operator }}
-                        </td>
-                        <td style="width: 40%;height: 100px">
-                            <b>Mengetahui</b><br>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right;">
-                <i>{{ $penerimaan->id }}</i>
-            </td>
-        </tr>
-    </table>
-    <script>
-        window.print();
-    </script>
+                <div class="col" style="text-align: right;">
+                    <i>{{ $penerimaan->id }}</i>
+                </div>
+            </div>
+        </div>
+        <table class="table table-sm table-bordered text-nowrap mb-0" style="color: black; border-color: black;">
+            <tr>
+                <td>
+                    <center>
+                        <h1>BUKTI PENERIMAAN BARANG</h1>
+                    </center>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-sm table-borderless text-nowrap text-center mb-0"
+            style="color: black; border-color: black;">
+            <tr>
+                <td>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table-sm table-borderless text-nowrap text-start fw-bolder">
+                                <tr>
+                                    <td>Tanggal</td>
+                                    <td>:</td>
+                                    <td>{{ Carbon::parse($penerimaan->tanggal)->isoFormat('D MMMM Y') }}</td>
+                                </tr>
+                                <tr>
+                                    <td>No. Penerimaan</td>
+                                    <td>:</td>
+                                    <td>{{ $penerimaan->npb }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col">
+                            <table class="table-sm table-borderless text-nowrap text-start fw-bolder">
+                                <tr>
+                                    <td>Pengemudi</td>
+                                    <td>:</td>
+                                    <td>{{ $penerimaan->driver }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Diterima Oleh</td>
+                                    <td>:</td>
+                                    <td>{{ $penerimaan->operator }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="padding: 0px;margin: 0px">
+                <td style="padding: 0px;margin: 0px">
+                    <table class="table table-sm table-bordered text-nowrap text-center"
+                        style="color: black; border-color: black;">
+                        <thead>
+                            <tr>
+                                <th>Kode Kontrak</th>
+                                <th>Produk</th>
+                                <th>Qty</th>
+                                <th>Timbangan Kendaraan</th>
+                                <th>Nopol</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($penerimaanItem as $item)
+                                <tr>
+                                    <td>{{ $item->kodekontrak }}</td>
+                                    <td>{{ $item->tipe . ' ' . $item->kategori . ' ' . $item->warna }}</td>
+                                    <td>{{ $item->qty . ' ' . $item->package }}</td>
+                                    <td>
+                                        Penuh: {{ $item->berat_trukpenuh }} Kosong: {{ $item->berat_trukkosong }}
+                                    </td>
+                                    <td>{{ $penerimaan->nopol }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table class="table table-sm table-borderless text-nowrap mb-0 mt-0" style="color: black; border-color: black;">
+            <tr>
+                <td>
+                    Catatan : {{ $penerimaan->keterangan }}
+                </td>
+            </tr>
+        </table>
+        <table class="table table-sm table-bordered text-nowrap"
+            style="color: rgb(0, 0, 0); border-color: rgb(0, 0, 0);">
+            <tr style="padding: 0px;margin: 0px">
+                <td style="padding: 0px;margin: 0px">
+                    <table class="table table-sm table-borderless text-nowrap text-center"
+                        style="color: black; border-color: black;">
+                        <tr>
+                            <td style="width: 30%;">
+                                <b>Diserahkan Oleh</b><br>
+                                <img src="{{ asset('sign/driver/' . $penerimaan->signDriver) }}" alt=""
+                                    width="150px"><br>
+                                {{ $penerimaan->driver }}
+                            </td>
+                            <td style="width: 30%;">
+                                <b>Diterima Oleh</b><br>
+                                <img src="{{ asset('sign/operator/' . $penerimaan->signOp) }}" alt=""
+                                    width="150px"><br>
+                                {{ $penerimaan->operator }}
+                            </td>
+                            <td style="width: 40%;height: 100px">
+                                <b>Mengetahui</b><br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <script>
+            window.print();
+        </script>
+    </body>

@@ -317,8 +317,8 @@ class GudangController extends Controller
     public function printPenerimaan(Request $request)
     {
         $decrypted = Crypt::decryptString($request->id);
-        $penerimaan = GudangpenerimaanModel::where('id', $decrypted)->first();
-        $penerimaanItem = GudangpenerimaanitmModel::where('kodepenerimaan', $penerimaan->kodepenerimaan)->get();
+        $penerimaan = GudangpenerimaanModel::where('npb', $decrypted)->first();
+        $penerimaanItem = GudangpenerimaanitmModel::where('npb', $decrypted)->get();
         return view('products/00_print.print_penerimaan', ['penerimaan' => $penerimaan, 'penerimaanItem' => $penerimaanItem]);
     }
     public function printBarcode($id)

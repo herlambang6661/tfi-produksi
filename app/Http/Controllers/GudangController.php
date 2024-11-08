@@ -161,13 +161,13 @@ class GudangController extends Controller
     public function printQrcode($id)
     {
         $decrypted = Crypt::decryptString($id);
-        $form = GudangpenerimaanModel::where('npb', $decrypted)->first();
-        $formItem = GudangpenerimaanitmModel::where('npb', $decrypted)->get();
-        $formQR = GudangpenerimaanqrModel::where('npb', $decrypted)->get();
+        // $form = GudangpenerimaanModel::where('npb', $decrypted)->first();
+        $formItem = GudangpenerimaanitmModel::where('kodekontrak', $decrypted)->get();
+        $formQR = GudangpenerimaanqrModel::where('kodekontrak', $decrypted)->get();
         return view('products.03_gudang.printQR', [
             'active' => 'Penerimaan',
             'judul' => 'Print Qrcode',
-            'form' => $form,
+            'kodekontrak' => $decrypted,
             'formItem' => $formItem,
             'formQR' => $formQR,
         ]);

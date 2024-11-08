@@ -321,10 +321,10 @@ class GudangController extends Controller
         $penerimaanItem = GudangpenerimaanitmModel::where('kodepenerimaan', $penerimaan->kodepenerimaan)->get();
         return view('products/00_print.print_penerimaan', ['penerimaan' => $penerimaan, 'penerimaanItem' => $penerimaanItem]);
     }
-    public function printBarcode(Request $request)
+    public function printBarcode($id)
     {
-        $decrypted = Crypt::decryptString($request->kodepenerimaan);
-        $penerimaanItem = GudangpenerimaanitmModel::where('kodepenerimaan', $decrypted)->get();
+        $decrypted = Crypt::decryptString($id);
+        $penerimaanItem = GudangpenerimaanqrModel::where('kodekontrak', $decrypted)->get();
         return view('products/00_print.print_penerimaan_qrcode', ['penerimaanItem' => $penerimaanItem]);
         // $pdf = Pdf::loadView('pdf.invoice', $penerimaanItem);
         // return $pdf->download('invoice.pdf');

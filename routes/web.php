@@ -100,7 +100,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('getSupir', 'getSupir')->name('getSupir');
     Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi');
     Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');
-    Route::post('gudang/printBarcode', 'printBarcode')->name('gudang/printBarcode');
+    Route::get('gudang/printBarcode/{id}', 'printBarcode')->name('gudang/printBarcode/{id}');
     Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');

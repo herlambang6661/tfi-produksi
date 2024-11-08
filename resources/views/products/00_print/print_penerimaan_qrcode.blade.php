@@ -106,7 +106,7 @@ date_default_timezone_set('Asia/Jakarta');
                 <b>{{ $item->subkode }}</b>
             </div>
             <div class="qty">
-                <b>QTY: 10 KG</b>
+                <b>QTY: {{ $item->berat_satuan }} KG</b>
             </div>
         </div>
     @endforeach

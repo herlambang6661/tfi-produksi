@@ -19,6 +19,7 @@ use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Http\Controllers\Api\WeatherController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -105,7 +106,14 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');
     Route::POST('getdriver', 'getdriver')->name('getdriver');
-    Route::get('detail/penerimaan', 'detailPenerimaan')->name('detail.penerimaan');
+    Route::post('detail/penerimaan', 'detailPenerimaan')->name('detail.penerimaan');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
+});
+Route::controller(SettingsController::class)->group(function () {
+    Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');
+    Route::post('settings/store', 'store')->name('setting.store');
+    Route::post('settings/update/{id}', 'update')->name('setting.update');
+    Route::post('settings/reset/update/{id}', 'reset')->name('settings.reset');
+    Route::delete('settings/destroy/{id}', 'destroy');
 });

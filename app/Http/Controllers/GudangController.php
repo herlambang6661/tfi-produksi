@@ -252,7 +252,7 @@ class GudangController extends Controller
                         'berat' => $request->berat[$i],
                         'berat_trukpenuh' => $request->berat_penuh[$i],
                         'berat_trukkosong' => $request->berat_kosong[$i],
-                        'verifikasi' => 1,
+                        'verified' => 1,
                         'status' => 3,
                         'dibuat' => Auth::user()->nickname,
                         'updated_at' => date('Y-m-d H:i:s'),

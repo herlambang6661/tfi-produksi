@@ -24,6 +24,7 @@ class GudangpenerimaanitmModel extends Model
         'berat_trukpenuh',
         'berat_trukkosong',
         'supplier',
+        'verified',
         'status',
         'dibuat',
         'created_at',

@@ -105,6 +105,7 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');
     Route::POST('getdriver', 'getdriver')->name('getdriver');
+    Route::get('detail/penerimaan', 'detailPenerimaan')->name('detail.penerimaan');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
 });

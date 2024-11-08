@@ -467,4 +467,16 @@ class GudangController extends Controller
 
         return response()->json('Record canceled successfully');
     }
+
+    public function detailPenerimaan(Request $request)
+    {
+        $verifikasi = GudangpenerimaanModel::where('npb', $request->id)->first();
+        $verifikasiItm = GudangpenerimaanitmModel::where('npb', $request->id)->get();
+        return view('products.03_gudang.detail_penerimaan', [
+            'active' => 'Penerimaan',
+            'judul' => 'Detail Form Penerimaan',
+            'verifikasi' => $verifikasi,
+            'verifikasiItm' => $verifikasiItm,
+        ]);
+    }
 }

@@ -99,7 +99,7 @@ date_default_timezone_set('Asia/Jakarta');
             <div class="qr-container">
                 <img class="qr" src="data:image/png;base64,{{ base64_encode($result->getString()) }}"
                     alt="{{ $item->subkode }}" />
-                <img class="logo" src="{{ asset('photo/icon/tantra.png') }}" alt="Logo" />
+                {{-- <img class="logo" src="{{ asset('photo/icon/tantra.png') }}" alt="Logo" /> --}}
             </div>
 
             <div class="subkode">

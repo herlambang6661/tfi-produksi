@@ -64,7 +64,24 @@ class PenerimaanQR extends Controller
                 ->editColumn('tanggal', function ($row) {
                     return date('d-m-Y', strtotime($row->tanggal));
                 })
-                ->rawColumns(['action', 'status', 'select_orders', 'qrcode'])
+                ->addColumn('usable', function ($row) {
+                    if ($row->usable == 1) {
+                        return '
+                            <span class="status status-green status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Usable
+                            </span>
+                        ';
+                    } else if ($row->usable == 0) {
+                        return '
+                            <span class="status status-red status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Must be Process
+                            </span>
+                        ';
+                    }
+                })
+                ->rawColumns(['action', 'status', 'select_orders', 'qrcode', 'usable'])
                 ->make(true);
         }
 

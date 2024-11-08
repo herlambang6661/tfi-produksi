@@ -12,17 +12,6 @@
             text-transform: uppercase;
         }
 
-        td.cuspad2 {
-            /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        margin-left: 5px; */
-        }
-
         .unselectable {
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -36,6 +25,71 @@
         .small-swal {
             width: 300px !important;
             /* Sesuaikan ukuran modal */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            /* display: none; */
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loader style */
+        .loader {
+            width: 48px;
+            height: 48px;
+            display: block;
+            margin: 15px auto;
+            position: relative;
+            color: #ff0000c3;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader::after,
+        .loader::before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            left: 50%;
+            transform: scale(0.5) translate(0, 0);
+            background-color: #ff0000c3;
+            border-radius: 50%;
+            animation: animloader 1s infinite ease-in-out;
+        }
+
+        .loader::before {
+            background-color: #ffffffba;
+            transform: scale(0.5) translate(-48px, -48px);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animloader {
+            50% {
+                transform: scale(1) translate(-50%, -50%);
+            }
         }
     </style>
     <div class="page">
@@ -172,11 +226,61 @@
                                             <th class="px-1 th py-1" style="width: 1%">Kode Kontrak</th>
                                             <th class="px-1 th py-1">Nomor Qrcode</th>
                                             <th class="px-1 th py-1" style="width: 1%">Berat Satuan</th>
+                                            <th class="px-1 th py-1" style="width: 1%">Package</th>
                                             <th class="px-1 th py-1" style="width: 10%">Qrcode</th>
+                                            <th class="px-1 th py-1" style="width: 10%">Usable</th>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Modal Print QR --}}
+                <div class="modal modal-blur fade" id="modal-printQR-penerimaan" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    <div class="overlay">
+                        <div class="cv-spinner">
+                            <span class="loader"></span>
+                        </div>
+                    </div>
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <form id="formPrintQRPenerimaan" name="formPrintQRPenerimaan" method="post"
+                                action="javascript:void(0)">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <i class="fa-solid fa-truck-ramp-box" style="margin-right: 5px"></i>
+                                        Print QRcode Penerimaan
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="fetched-data-printQRcode"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-blue" id="submitPenerimaan">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-printer">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
+                                            <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" />
+                                            <path
+                                                d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z" />
+                                        </svg>
+                                        Print
+                                    </button>
+
+                                    <button type="button" class="btn btn-link link-secondary ms-auto"
+                                        data-bs-dismiss="modal"><i class="fa-solid fa-fw fa-arrow-rotate-left"></i>
+                                        Tutup</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -284,8 +388,8 @@
                                 {
                                     className: 'btn btn-teal',
                                     text: '<svg style="margin-right: 10px" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-pointer"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z" /></svg>Cetak QR yang dipilih',
-                                    action: function(e, dt, node, config) {
-                                        dt.ajax.reload();
+                                    "action": function(e, node, config) {
+                                        $('#modal-printQR-penerimaan').modal('show')
                                     }
                                 },
                             ],
@@ -327,7 +431,7 @@
                             }],
                             select: {
                                 'style': 'multi',
-                                "selector": 'td:not(:nth-child(6))',
+                                "selector": 'td:not(:nth-child(7))',
                             },
                             columns: [{
                                     title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
@@ -369,9 +473,21 @@
                                     className: "cuspad0 cuspad1 text-center"
                                 },
                                 {
+                                    title: 'Package',
+                                    data: 'package',
+                                    name: 'package',
+                                    className: "cuspad0 cuspad1 text-center"
+                                },
+                                {
                                     title: 'Qrcode',
                                     data: 'qrcode',
                                     name: 'qrcode',
+                                    className: "cuspad0 cuspad1 text-center cursor-pointer"
+                                },
+                                {
+                                    title: 'Usable',
+                                    data: 'usable',
+                                    name: 'usable',
                                     className: "cuspad0 cuspad1 text-center"
                                 },
                             ],
@@ -413,6 +529,38 @@
                                 '<input type="text" class="form-control form-control-sm my-0 border" placeholder="' +
                                 $(this).text().toUpperCase() + '" />'
                             );
+                        });
+
+                        $('#modal-printQR-penerimaan').on('show.bs.modal', function(e) {
+                            $(".overlay").fadeIn(300);
+                            itemTables = [];
+                            $.each(QrTable.rows('.selected').nodes(), function(index, rowId) {
+                                var rows_selected = QrTable.rows('.selected').data();
+                                itemTables.push(rows_selected[index]['id']);
+                            });
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            //menggunakan fungsi ajax untuk pengambilan data
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ url('checkPrintQR') }}',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    id: itemTables,
+                                    jml: itemTables.length,
+                                },
+                                success: function(data) {
+                                    //menampilkan data ke dalam modal
+                                    $('.fetched-data-printQRcode').html(data);
+                                }
+                            }).done(function() {
+                                setTimeout(function() {
+                                    $(".overlay").fadeOut(300);
+                                }, 500);
+                            });
                         });
                     });
                 </script>

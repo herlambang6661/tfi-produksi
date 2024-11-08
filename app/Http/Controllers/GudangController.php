@@ -264,6 +264,11 @@ class GudangController extends Controller
                     if ($dataSurat->berat == $dataItmKontrak->berat) {
                         # code...
                     }
+                    if (stripos($request->jenis[$i], 'Jumbo Bag') !== FALSE) {
+                        $usable = 1;
+                    } else {
+                        $usable = 0;
+                    }
 
                     $urut = 1;
                     for ($j = 0; $j < $request->qty[$i]; $j++) {
@@ -273,11 +278,13 @@ class GudangController extends Controller
                             'npb' => $request->npb,
                             'kodekontrak' => $dataItmKontrak->kodekontrak,
                             'subkode' => $dataItmKontrak->kodekontrak . "-" .  $request->kedatangan_ke[$i] . "-" . sprintf("%03s", $urut),
-                            'nourut' => sprintf("%03s", $j),
+                            'nourut' => sprintf("%03s", $urut),
                             'berat_satuan' => ($request->berat_penuh[$i] - $request->berat_kosong[$i]) / $request->qty[$i],
                             'berat_total' => $request->berat_penuh[$i] - $request->berat_kosong[$i],
                             'qty_total' => $request->qty[$i],
                             'type' => $dataItmKontrak->tipe,
+                            'package' => $request->jenis[$i],
+                            'usable' => $usable,
                             'dibuat' => Auth::user()->nickname,
                             'created_at' => now(),
                         ]);
@@ -479,4 +486,5 @@ class GudangController extends Controller
             'verifikasiItm' => $verifikasiItm,
         ]);
     }
+    public function checkPrintQR(Request $request) {}
 }

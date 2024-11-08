@@ -60,7 +60,7 @@ return new class extends Migration
             $table->string('package')->nullable();
             $table->string('type')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = used, 3 = proses, 4 = close,
-            $table->string('usable')->default(0); // 0 = not usable, 1 = usable
+            $table->string('usable')->default(0); // 0 = must be process, 1 = usable
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

@@ -19,6 +19,7 @@ use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Http\Controllers\Api\WeatherController;
+use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -109,4 +110,11 @@ Route::controller(GudangController::class)->group(function () {
     Route::POST('checkPrintQR', 'checkPrintQR')->name('checkPrintQR');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
+});
+Route::controller(SettingsController::class)->group(function () {
+    Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');
+    Route::post('settings/store', 'store')->name('setting.store');
+    Route::post('settings/update/{id}', 'update')->name('setting.update');
+    Route::post('settings/reset/update/{id}', 'reset')->name('settings.reset');
+    Route::delete('settings/destroy/{id}', 'destroy');
 });

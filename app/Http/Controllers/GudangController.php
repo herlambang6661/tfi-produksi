@@ -479,12 +479,156 @@ class GudangController extends Controller
     {
         $verifikasi = GudangpenerimaanModel::where('npb', $request->id)->first();
         $verifikasiItm = GudangpenerimaanitmModel::where('npb', $request->id)->get();
-        return view('products.03_gudang.detail_penerimaan', [
-            'active' => 'Penerimaan',
-            'judul' => 'Detail Form Penerimaan',
-            'verifikasi' => $verifikasi,
-            'verifikasiItm' => $verifikasiItm,
-        ]);
+
+        if ($verifikasi) {
+            echo '
+            <input type="hidden" id="id" name="id" value="' . $verifikasi->id . '">
+            <style type="text/css">
+                @media screen {
+                    div#headerPrint {
+                        display: none;
+                    }
+                }
+                @media print {
+                    div#headerPrint {
+                        display: block;
+                    }
+                }
+                #modalContent {
+                    padding: 20px; /* Adds padding around all content */
+                }
+                #headerPrint {
+                    font-style: italic;
+                    margin-bottom: 10px;
+                    text-align: left;
+                }
+                .detail-section {
+                    margin-bottom: 15px;
+                    padding: 0 10px;
+                }
+                .detail-item {
+                    margin-bottom: 5px;
+                    display: flex;
+                    flex-direction: column;
+                }
+                .detail-item label {
+                    font-weight: bold;
+                    margin-bottom: 2px;
+                }
+                .detail-item p {
+                    margin: 0;
+                }
+                table {
+                    width: 100%;
+                    margin-top: 20px;
+                    border-collapse: collapse;
+                }
+                table th, table td {
+                    padding: 10px;
+                    border: 1px solid #ddd;
+                }
+                table th {
+                    background-color: #e9f5e9;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                table td {
+                    text-align: center;
+                }
+                .signature-table {
+                    margin-top: 20px;
+                    border: 1px solid #000;
+                    width: 100%;
+                }
+                .signature-table td {
+                    padding: 10px;
+                    border: 1px solid #000;
+                    text-align: center;
+                }
+                .signature-table img {
+                    max-height: 60px;
+                    margin-top: 5px;
+                    display: block;
+                }
+            </style>
+
+            <div id="modalContent">
+
+                <div class="detail-section">
+                    <div class="detail-item">
+                        <label class="form-label">Nomor Penerimaan Barang: ' . $verifikasi->npb . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">Tanggal: ' . $verifikasi->tanggal . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">Nopol: ' . $verifikasi->nopol . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">NIK KTP: ' . $verifikasi->ktp . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">Pengemudi: ' . $verifikasi->driver . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">Operator: ' . $verifikasi->operator . '</label>
+                    </div>
+                    <div class="detail-item">
+                        <label class="form-label">Catatan: ' . nl2br(htmlspecialchars($verifikasi->keterangan)) . '</label>
+                    </div>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Berat (Kontrak)</th>
+                            <th>Berat Truk Penuh</th>
+                            <th>Berat Truk Kosong</th>
+                            <th>Qty</th>
+                            <th>Kedatangan Ke</th>
+                            <th>Jenis Satuan</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+            foreach ($verifikasiItm as $no => $data) {
+                echo '
+                        <tr>
+                            <td>' . $data->berat . '</td>
+                            <td>' . $data->berat_trukpenuh . '</td>
+                            <td>' . $data->berat_trukkosong . '</td>
+                            <td>' . $data->qty . '</td>
+                            <td>' . $data->kedatangan_ke . '</td>
+                            <td>' . $data->package . '</td>
+                        </tr>';
+            }
+
+            echo '
+                    </tbody>
+                </table>
+
+                <table class="signature-table">
+                    <tr>
+                        <td style="width: 30%; text-align: center;">
+                            <b>Diserahkan Oleh</b><br>
+                            <img src="' . asset('sign/driver/' . $verifikasi->signDriver) . '" alt="Sign Driver" style="display: block; margin: auto;"><br>
+                            ' . $verifikasi->driver . '
+                        </td>
+                        <td style="width: 30%; text-align: center;">
+                            <b>Diterima Oleh</b><br>
+                            <img src="' . asset('sign/operator/' . $verifikasi->signOp) . '" alt="Sign Operator" style="display: block; margin: auto;"><br>
+                            ' . $verifikasi->operator . '
+                        </td>
+                        <td style="width: 40%; text-align: center;">
+                            <b>Mengetahui</b><br>
+                            <p style="margin-top: 50px;">____________________</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>';
+        } else {
+            echo '<div>Data not found.</div>';
+        }
     }
     public function checkPrintQR(Request $request) {}
 }

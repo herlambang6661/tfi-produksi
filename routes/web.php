@@ -74,6 +74,7 @@ Route::controller(DaftarController::class)->group(function () {
     Route::post('viewEditwarna', 'viewEditwarna')->name('viewEditwarna');
     Route::post('viewEdittipeSub', 'viewEditTipeSub')->name('viewEdittipeSub');
     Route::post('viewEditsupplier', 'viewEditsupplier')->name('viewEditsupplier');
+    Route::post('daftar/add/daftar', 'viewAddDaftar')->name('daftar.add');
 });
 
 Route::controller(KontrakController::class)->group(function () {

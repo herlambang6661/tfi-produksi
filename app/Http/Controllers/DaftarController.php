@@ -824,4 +824,302 @@ class DaftarController extends Controller
             $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
         }
     }
+
+    public function viewAddDaftar(Request $request)
+    {
+        if ($request->id == 'bahan') {
+            echo '
+                <form id="formTipe" name="formTipe" method="post" action="javascript:void(0)">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <div class="modal-body">
+                        <div class="card-stamp card-stamp-lg">
+                            <div class="card-stamp-icon bg-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                        </div>
+                        <script>
+                            function fetchKar() {
+                                var kode = $("#kode").val();
+                                var nama = $("#nama").val();
+                                console.log(kode);
+                                $("#kode").val(nama.charAt(0));
+                            }
+                        </script>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Bahan Baku</label>
+                            <input type="text" class="form-control border border-dark" name="nama"
+                                id="nama" placeholder="Contoh: Flake, Popcorn" onchange="fetchKar()"
+                                onkeydown="if (event.keyCode == 13)  fetchKar()"
+                                style="text-transform: capitalize;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kode Bahan Baku</label>
+                            <input type="text" class="form-control border border-dark" name="kode"
+                                id="kode" placeholder="Kode dibuat otomatis setelah nama tipe dibuat"
+                                style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitTipe" class="btn btn-primary ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            ';
+        } elseif ($request->id == 'kategori') {
+            echo '
+                <form id="formTipesub" name="formTipesub" method="post" action="javascript:void(0)">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <div class="modal-body">
+                        <div class="card-stamp card-stamp-lg">
+                            <div class="card-stamp-icon bg-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                        </div>
+                        <script>
+                            function fetchSub() {
+                                var kode_kategori = $("#kode_kategori").val();
+                                var nama_kategori = $("#nama_kategori").val();
+                                console.log(kode_kategori);
+                                $("#kode_kategori").val(nama_kategori.charAt(0));
+                            }
+                        </script>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kategori</label>
+                            <input type="text" class="form-control border border-dark" name="nama_kategori"
+                                id="nama_kategori" onchange="fetchSub()"
+                                onkeydown="if (event.keyCode == 13)  fetchSub()"
+                                style="text-transform: uppercase;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kode Kategori</label>
+                            <input type="text" class="form-control border border-dark" name="kode_kategori"
+                                id="kode_kategori" placeholder="Kode dibuat otomatis setelah nama tipe dibuat"
+                                style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitTipeSub" class="btn btn-danger ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            ';
+        } elseif ($request->id == 'warna') {
+            echo '
+                <form id="formWarna" name="formWarna" method="post" action="javascript:void(0)">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <div class="modal-body">
+                        <div class="card-stamp card-stamp-lg">
+                            <div class="card-stamp-icon bg-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                        </div>
+                        <script>
+                            function fetchWarna() {
+                                var kode_warna = $("#kode_warna").val();
+                                var warna = $("#warna").val();
+                                console.log(kode_warna);
+                                $("#kode_warna").val(warna.charAt(0));
+                            }
+                        </script>
+                        <div class="mb-3">
+                            <label class="form-label">Warna</label>
+                            <input type="text" class="form-control border border-dark" name="warna"
+                                id="warna" onchange="fetchWarna()"
+                                onkeydown="if (event.keyCode == 13)  fetchWarna()"
+                                style="text-transform: uppercase;">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kode Warna</label>
+                            <input type="text" class="form-control border border-dark" name="kode_warna"
+                                id="kode_warna" placeholder="Kode dibuat otomatis setelah nama tipe dibuat"
+                                style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitWarna" class="btn btn-purple ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            ';
+        } elseif ($request->id == 'supplier') {
+            echo '
+                <form id="formSupplier" name="formSupplier" method="post" action="javascript:void(0)"
+                    enctype="multipart/form-data" accept-charset="utf-8">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <div class="modal-body">
+                        <div class="card-stamp card-stamp-lg">
+                            <div class="card-stamp-icon bg-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            <div class="d-flex">
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-info-triangle">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z" />
+                                        <path d="M12 9h.01" />
+                                        <path d="M11 12h1v4h1" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="alert-title">Informasi</h4>
+                                    <div class="text-secondary">Mohon hindari penginputan koma "," dalam inputan.
+                                        disarankan menggunakan titik "." untuk mengganti koma
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Jenis Person</label>
+                                <input type="text" name="jenisperson" id="jenisperson" value="Supplier" class="form-control border border-dark cursor-not-allowed bg-dark-lt" readonly>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Nama</label>
+                                <input type="text" class="form-control border border-dark" name="nama"
+                                    id="nama" placeholder="Contoh: Jaya Indah. PT"
+                                    style="text-transform: uppercase;">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">NPWP / No. KTP</label>
+                                <input type="text" class="form-control border border-dark" name="noid"
+                                    id="noid" placeholder="Masukkan Nomor ID Person"
+                                    style="text-transform: uppercase;">
+                                <i class="text-small">jika tdk ada isi dengan tanda -</i>
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="text" class="form-control border border-dark" name="email"
+                                    id="email" placeholder="Masukkan Email">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Telepon</label>
+                                <input type="text" class="form-control border border-dark" name="telp"
+                                    id="telp" placeholder="Masukkan Telepon">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Kodepos</label>
+                                <input type="text" class="form-control border border-dark" name="kopos"
+                                    id="kopos" placeholder="Contoh: 12345">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Kota</label>
+                                <input type="text" class="form-control border border-dark" name="kota"
+                                    id="kota" placeholder="Contoh: Jakarta">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Provinsi</label>
+                                <input type="text" class="form-control border border-dark" name="provinsi"
+                                    id="provinsi" placeholder="Contoh: DKI Jakarta">
+                            </div>
+                            <div class="mb-3 col-md-6">
+                                <label class="form-label">Mata Uang Dipakai</label>
+                                <input type="text" class="form-control border border-dark" name="mtuang"
+                                    id="mtuang" placeholder="Contoh: IDR, USD, EUR, JPY, SGD, CNY"
+                                    style="text-transform: uppercase;">
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Alamat</label>
+                                <input type="text" class="form-control border border-dark" name="alamat"
+                                    id="alamat" placeholder="Masukkan Alamat">
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Pas Foto</label>
+                                <input type="file" class="form-control border border-dark" name="foto1"
+                                    id="foto1" accept="image/*" onchange="preview(pas)">
+                            </div>
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Foto KTP / ID</label>
+                                <input type="file" class="form-control border border-dark" name="foto2"
+                                    id="foto2" accept="image/*" onchange="preview(ktp)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitSupplier" class="btn btn-primary ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            ';
+        } elseif ($request->id == 'jenis') {
+            echo '
+                <form id="formJenis" name="formJenis" method="post" action="javascript:void(0)">
+                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                    <div class="modal-body">
+                        <div class="card-stamp card-stamp-lg">
+                            <div class="card-stamp-icon bg-warning">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jenis</label>
+                            <input type="text" class="form-control border border-dark" name="nama_jenis"
+                                id="warna" style="text-transform: uppercase;"
+                                placeholder="Contoh: Jumbo Bag, Karung">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="submitJenis" class="btn btn-warning ms-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24"
+                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                <path d="M14 4l0 4l-6 0l0 -4" />
+                            </svg>
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            ';
+        }
+    }
 }

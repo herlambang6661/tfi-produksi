@@ -12,17 +12,6 @@
             text-transform: uppercase;
         }
 
-        td.cuspad2 {
-            /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-left: 5px; */
-        }
-
         .unselectable {
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -200,8 +189,42 @@
                             <div class="card card-xl border-success shadow rounded">
                                 <div class="card-stamp card-stamp-lg">
                                     <div class="card-stamp-icon bg-success">
-                                        <i class="fa-solid fa-users"></i>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-writing-sign">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M3 19c3.333 -2 5 -4 5 -6c0 -3 -1 -3 -2 -3s-2.032 1.085 -2 3c.034 2.048 1.658 2.877 2.5 4c1.5 2 2.5 2.5 3.5 1c.667 -1 1.167 -1.833 1.5 -2.5c1 2.333 2.333 3.5 4 3.5h2.5" />
+                                            <path d="M20 17v-12c0 -1.121 -.879 -2 -2 -2s-2 .879 -2 2v12l2 2l2 -2z" />
+                                            <path d="M16 7h4" />
+                                        </svg>
                                     </div>
+                                </div>
+                                <div class="card-header">
+                                    <form action="#" id="form-filter" method="get" autocomplete="off" novalidate=""
+                                        class="">
+                                        <label class="form-label">Tanggal Surat</label>
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" name="" id="filterStart"
+                                                value="{{ date('Y-01-01') }}">
+                                            <span class="input-group-text">
+                                                s/d
+                                            </span>
+                                            <input type="date" class="form-control" name="" id="filterEnd"
+                                                value="{{ date('Y-m-d') }}">
+                                            <button type="button" class="btn btn-primary btn-icon" onclick="syn()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                                    <path d="M21 21l-6 -6" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                                 <div class="table-responsive">
                                     <table style="width:100%; height: 100%;font-size:13px;"
@@ -240,7 +263,8 @@
             </div>
 
             {{-- modal detail --}}
-            <div class="modal modal-blur fade" id="modal-detail-kontrak" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal modal-blur fade" id="modal-detail-kontrak" tabindex="-1" role="dialog"
+                aria-hidden="true">
                 <div class="overlay">
                     <div class="cv-spinner">
                         <span class="loader"></span>
@@ -275,6 +299,10 @@
             @include('shared.footer')
             <script type="text/javascript">
                 var tableKontrak;
+
+                function syn() {
+                    tableKontrak.ajax.reload();
+                }
 
                 function newexportaction(e, dt, button, config) {
                     var self = this;
@@ -381,14 +409,11 @@
                         },
                         "ajax": {
                             "url": "{{ route('getSuratkontrak.index') }}",
-                            // "data": function(data) {
-                            //     data._token = "{{ csrf_token() }}";
-                            //     data.dari = $('#idfilter_dari').val();
-                            //     data.sampai = $('#idfilter_sampai').val();
-                            //     data.dibuat = $('#dibuat').val();
-                            //     data.unit = $('#unit').val();
-                            //     data.status = $('#status').val();
-                            // }
+                            "data": function(data) {
+                                data._token = "{{ csrf_token() }}";
+                                data.dari = $('#filterStart').val();
+                                data.sampai = $('#filterEnd').val();
+                            }
                         },
                         columns: [{
                                 title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',

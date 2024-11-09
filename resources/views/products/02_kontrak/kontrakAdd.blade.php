@@ -12,17 +12,6 @@
             text-transform: uppercase;
         }
 
-        td.cuspad2 {
-            /* padding-top: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-bottom: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-right: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            padding-left: 0.5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-top: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-bottom: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-right: 5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            margin-left: 5px; */
-        }
-
         .unselectable {
             -webkit-user-select: none;
             -webkit-touch-callout: none;
@@ -36,6 +25,72 @@
         .small-swal {
             width: 300px !important;
             /* Sesuaikan ukuran modal */
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            /* display: none; */
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Loader style */
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            display: block;
+            margin: 15px auto;
+            position: relative;
+            color: #ff0000c3;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader::after,
+        .loader::before {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            left: 50%;
+            transform: scale(0.5) translate(0, 0);
+            background-color: #ff0000c3;
+            border-radius: 50%;
+            animation: animloader 1s infinite ease-in-out;
+        }
+
+        .loader::before {
+            background-color: #ffffffba;
+            transform: scale(0.5) translate(-48px, -48px);
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animloader {
+            50% {
+                transform: scale(1) translate(-50%, -50%);
+            }
         }
     </style>
     <div class="page">
@@ -284,7 +339,8 @@
                                                 </a>
                                                 <div class="dropdown-menu">
                                                     <span class="dropdown-header">Pilih Opsi dibawah</span>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-add-daftar" data-id="bahan">
                                                         <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
                                                             width="24" height="24" viewBox="0 0 24 24"
                                                             fill="none" stroke="currentColor" stroke-width="2"
@@ -296,7 +352,8 @@
                                                         </svg>
                                                         Bahan Baku
                                                     </a>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-add-daftar" data-id="kategori">
                                                         <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
                                                             width="24" height="24" viewBox="0 0 24 24"
                                                             fill="none" stroke="currentColor" stroke-width="2"
@@ -310,7 +367,8 @@
                                                         </svg>
                                                         Kategori
                                                     </a>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-add-daftar" data-id="warna">
                                                         <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
                                                             width="24" height="24" viewBox="0 0 24 24"
                                                             fill="none" stroke="currentColor" stroke-width="2"
@@ -325,7 +383,8 @@
                                                         </svg>
                                                         Warna
                                                     </a>
-                                                    <a class="dropdown-item" href="#">
+                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modal-add-daftar" data-id="supplier">
                                                         <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
                                                             width="24" height="24" viewBox="0 0 24 24"
                                                             fill="none" stroke="currentColor" stroke-width="2"
@@ -467,6 +526,39 @@
                     </div>
                 </div>
             </div>
+            {{-- modal daftar --}}
+            <div class="modal modal-blur fade" id="modal-add-daftar" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="overlay">
+                    <div class="cv-spinner">
+                        <span class="loader"></span>
+                    </div>
+                </div>
+                <div class="modal-dialog modal-lg " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round"
+                                    class="icon icon-tabler icons-tabler-outline icon-tabler-contract">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M8 21h-2a3 3 0 0 1 -3 -3v-1h5.5" />
+                                    <path d="M17 8.5v-3.5a2 2 0 1 1 2 2h-2" />
+                                    <path d="M19 3h-11a3 3 0 0 0 -3 3v11" />
+                                    <path d="M9 7h4" />
+                                    <path d="M9 11h4" />
+                                    <path d="M18.42 12.61a2.1 2.1 0 0 1 2.97 2.97l-6.39 6.42h-3v-3z" />
+                                </svg>
+                                Tambah Daftar
+                            </h5>
+                            <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="fetched-data-daftar"></div>
+                    </div>
+                </div>
+            </div>
+            {{-- end modal daftar --}}
             @include('shared.footer')
             <script type="text/javascript">
                 function tambahItem() {
@@ -714,6 +806,132 @@
                                             '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
                                         );
                                         $("#submitSuratkontrak").attr("disabled", false);
+                                    }
+                                });
+                            }
+                        })
+                    }
+
+                    $('#modal-add-daftar').on('show.bs.modal', function(e) {
+                        var button = $(e.relatedTarget)
+                        var id = button.data('id');
+                        $(".overlay").fadeIn(300);
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ route('daftar.add') }}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                id: id,
+                            },
+                            success: function(data) {
+                                $('.fetched-data-daftar').html(data);
+                            }
+                        }).done(function() {
+                            setTimeout(function() {
+                                $(".overlay").fadeOut(300);
+                            }, 500);
+                        });
+                    });
+
+                    if ($("#formSupplier").length > 0) {
+                        $("#formSupplier").validate({
+                            rules: {
+                                nama: {
+                                    required: true,
+                                },
+                                noid: {
+                                    required: true,
+                                },
+                                telp: {
+                                    required: true,
+                                },
+                                kota: {
+                                    required: true,
+                                },
+                                provinsi: {
+                                    required: true,
+                                },
+                                mtuang: {
+                                    required: true,
+                                },
+                                alamat: {
+                                    required: true,
+                                },
+                            },
+                            messages: {
+                                nama: {
+                                    required: "Masukkan Nama Supplier",
+                                },
+                                noid: {
+                                    required: "Nomor ID tidak boleh kosong",
+                                },
+                                telp: {
+                                    required: "Masukkan Telepon Supplier",
+                                },
+                                kota: {
+                                    required: "Masukkan Kota Supplier",
+                                },
+                                provinsi: {
+                                    required: "Masukkan Provinsi Supplier",
+                                },
+                                mtuang: {
+                                    required: "Masukkan Mata Uang Supplier",
+                                },
+                                alamat: {
+                                    required: "Masukkan Alamat Supplier",
+                                },
+                            },
+                            submitHandler: function(form) {
+                                let formData = new FormData(form);
+
+                                $("#submitSupplier").html("Please Wait...");
+                                $("#submitSupplier").attr("disabled", true);
+
+                                $.ajax({
+                                    url: "storedataSupplier",
+                                    type: "POST",
+                                    data: formData,
+                                    contentType: false,
+                                    processData: false,
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: "Mohon Menunggu",
+                                            html: "Sedang memproses data, Proses mungkin membutuhkan beberapa menit.",
+                                            showConfirmButton: false,
+                                            timerProgressBar: true,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                        });
+                                    },
+                                    success: function(response) {
+                                        tableSupplier.ajax.reload(null, false);
+                                        $("#submitSupplier").html("Simpan");
+                                        $("#submitSupplier").attr("disabled", false);
+                                        Swal.fire({
+                                            icon: "success",
+                                            title: "Berhasil",
+                                            html: response,
+                                            showConfirmButton: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
+                                        });
+                                        document.getElementById("formSupplier").reset();
+                                        $("#modal-supplier").modal("hide");
+                                    },
+                                    error: function(data) {
+                                        tableSupplier.ajax.reload(null, false);
+                                        Swal.fire({
+                                            icon: "error",
+                                            title: "Gagal Input",
+                                            html: data.responseJSON.message,
+                                            showConfirmButton: true
+                                        });
+                                        $("#submitSupplier").html(
+                                            " Simpan"
+                                        );
+                                        $("#submitSupplier").attr("disabled", false);
                                     }
                                 });
                             }

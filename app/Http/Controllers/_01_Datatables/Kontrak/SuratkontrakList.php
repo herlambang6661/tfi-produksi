@@ -35,9 +35,9 @@ class SuratkontrakList extends Controller
                     //         ';
                     if ($row->status == 1) {
                         $btn = '<div class="btn-list flex-nowrap">
-                                <form method="POST" action="printPermintaan" target="_blank">
+                                <form method="POST" action="/kontrak/printSuratKontrak" target="_blank">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                    <input type="hidden" name="noform" value="' . $row->noform . '">
+                                    <input type="hidden" name="id" value="' . $row->noform . '">
                                     <button type="submit" class="btn btn-sm btn-link btn-icon">
                                         <i class="fa-solid fa-print" style="margin-right:5px;"></i>
                                     </button>
@@ -68,9 +68,9 @@ class SuratkontrakList extends Controller
                         </div>';
                     } else {
                         $btn = '<div class="btn-list flex-nowrap">
-                                <form method="POST" action="printPermintaan" target="_blank">
+                                <form method="POST" action="/kontrak/printSuratKontrak" target="_blank">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                    <input type="hidden" name="noform" value="' . $row->noform . '">
+                                    <input type="hidden" name="id" value="' . $row->noform . '">
                                     <button type="submit" class="btn btn-sm btn-link btn-icon">
                                         <i class="fa-solid fa-print" style="margin-right:5px;"></i>
                                     </button>

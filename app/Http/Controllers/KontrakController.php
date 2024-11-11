@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Database\Seeders\Daftar_tipe;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class KontrakController extends Controller
 {
@@ -301,5 +302,17 @@ class KontrakController extends Controller
         ]);
 
         return $pdf->download('surat_kontrak.pdf');
+    }
+
+    public function printSuratKontrak(Request $request)
+    {
+        $data = SuratkontrakModel::where('noform', $request->id)->first();
+        $dataSupp = DaftarsupplierModel::where('nama', $data->supplier)->first();
+        $dataItm = SuratkontrakitmModel::where('noform', $data->noform)->get();
+        return view('products.00_print.print_surat_kontrak', [
+            'data' => $data,
+            'dataSupp' => $dataSupp,
+            'dataItm' => $dataItm,
+        ]);
     }
 }

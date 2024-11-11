@@ -77,6 +77,29 @@
             transform: scale(0.5) translate(-48px, -48px);
         }
 
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Optional: Adjust table header and content for mobile */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+
+            table th,
+            table td {
+                padding: 8px;
+            }
+
+            /* Adjust icons for smaller screens */
+            table svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
         @keyframes rotation {
             0% {
                 transform: rotate(0deg);
@@ -403,7 +426,7 @@
 
                                         </div>
                                         <input id="idf" value="1" type="hidden">
-                                        <div class="mb-4">
+                                        <div class="mb-4 table-responsive">
                                             <table id="detail_transaksi" class="control-group text-nowrap" border="0"
                                                 style="width: 100%;text-align:center;font-weight: bold;">
                                                 <thead class="">

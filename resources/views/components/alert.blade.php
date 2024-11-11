@@ -147,29 +147,57 @@
 </script>
 
 <script>
-    function confirmDelete(event, id) {
-        event.preventDefault();
-        Swal.fire({
-            title: 'Hapus Data',
-            html: `
-                <center>
-                    <lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  
-                        background="transparent"  speed="1"  style="width: 200px; height: 200px;"  loop autoplay>
-                    </lottie-player>
-                </center>
-                <br>
-                <h1 class="h4">Sedang menghapus data. Proses mungkin membutuhkan beberapa menit.</h1>
-                <h1 class="h4">
-                    <b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b>
-                </h1>
-            `,
-            showConfirmButton: false,
-            showCancelButton: false,
-            allowOutsideClick: false
-        });
+    let offlineAlert;
 
-        setTimeout(function() {
-            document.getElementById('deleteForm' + id).submit();
-        }, 3000);
+    // Fungsi untuk menampilkan SweetAlert ketika offline
+    function showOfflineAlert() {
+        offlineAlert = Swal.fire({
+            title: 'Koneksi Terputus!',
+            html: `
+                <p>Tidak ada koneksi internet. Silakan cek jaringan Anda.</p>
+                <div class="progress" style="margin-top: 10px;">
+                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                </div>
+            `,
+            icon: 'warning',
+            allowOutsideClick: false, // Menonaktifkan klik di luar SweetAlert
+            allowEscapeKey: false, // Menonaktifkan ESC key
+            showConfirmButton: false, // Menonaktifkan tombol konfirmasi
+            position: 'top-end', // Menempatkan alert di pojok kanan atas
+            toast: true, // Menampilkan alert sebagai toast
+            timerProgressBar: true, // Menampilkan progress bar
+            timer: 0, // Tidak ada timer, tetap tampil sampai koneksi kembali
+            backdrop: true, // Menambahkan backdrop untuk menutupi halaman dan mencegah interaksi
+            didOpen: () => {
+                // Mencegah klik pada elemen lain selama SweetAlert aktif
+                document.body.style.pointerEvents = 'none'; // Menonaktifkan klik pada halaman
+            },
+            willClose: () => {
+                // Mengembalikan interaksi setelah SweetAlert ditutup
+                document.body.style.pointerEvents = ''; // Mengaktifkan kembali klik pada halaman
+            }
+        });
     }
+
+    // Fungsi untuk menutup SweetAlert dan menampilkan pesan koneksi kembali
+    function showOnlineAlert() {
+        if (offlineAlert) {
+            Swal.close(); // Menutup alert offline jika masih terbuka
+
+            // Tampilkan notifikasi koneksi kembali
+            Swal.fire({
+                title: 'Koneksi Kembali Terhubung!',
+                text: 'Koneksi internet Anda sudah kembali.',
+                icon: 'success',
+                position: 'top-end', // Menempatkan alert di pojok kanan atas
+                toast: true, // Menampilkan seperti notifikasi toast
+                timer: 3000, // Menampilkan alert selama 3 detik
+                showConfirmButton: false
+            });
+        }
+    }
+
+    // Event listener untuk deteksi offline/online
+    window.addEventListener('offline', showOfflineAlert);
+    window.addEventListener('online', showOnlineAlert);
 </script>

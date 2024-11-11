@@ -92,6 +92,10 @@
                 transform: scale(1) translate(-50%, -50%);
             }
         }
+
+        #flash-toggle {
+            display: none;
+        }
     </style>
     <div class="page">
         <!-- Sidebar -->
@@ -243,26 +247,26 @@
             <!-- Page body -->
             <div class="page-body">
                 <div class="container-xl">
-
-                    <h1>Scan from WebCam:</h1>
-                    <div id="video-container">
-                        <video id="qr-video"></video>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card card-xl border-primary shadow rounded mb-3">
+                                <video id="qr-video" style="width: 100%; height: 100%;" autoplay playsinline></video>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <b>Device has camera: </b>
+                                    <span id="cam-has-camera"></span>
+                                </div>
+                                <div class="col">
+                                    <b>Camera has flash: </b>
+                                    <span id="cam-has-flash"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                        </div>
                     </div>
-                    <div>
-                        <label>
-                            Highlight Style
-                            <select id="scan-region-highlight-style-select">
-                                <option value="default-style">Default style</option>
-                                <option value="example-style-1">Example custom style 1</option>
-                                <option value="example-style-2">Example custom style 2</option>
-                            </select>
-                        </label>
-                        <label>
-                            <input id="show-scan-region" type="checkbox">
-                            Show scan region canvas
-                        </label>
-                    </div>
-                    <div>
+                    <div style="display: none">
                         <select id="inversion-mode-select">
                             <option value="original">Scan original (dark QR code on bright background)</option>
                             <option value="invert">Scan with inverted colors (bright QR code on dark background)</option>
@@ -270,9 +274,6 @@
                         </select>
                         <br>
                     </div>
-                    <b>Device has camera: </b>
-                    <span id="cam-has-camera"></span>
-                    <br>
                     <div>
                         <b>Preferred camera:</b>
                         <select id="cam-list">
@@ -280,18 +281,16 @@
                             <option value="user">User Facing</option>
                         </select>
                     </div>
-                    <b>Camera has flash: </b>
-                    <span id="cam-has-flash"></span>
                     <div>
                         <button id="flash-toggle">📸 Flash: <span id="flash-state">off</span></button>
                     </div>
-                    <br>
-                    <b>Detected QR code: </b>
-                    <span id="cam-qr-result">None</span>
-                    <br>
-                    <b>Last detected at: </b>
-                    <span id="cam-qr-result-timestamp"></span>
-                    <br>
+
+                    <b style="display: none">Detected QR code: </b>
+                    <span id="cam-qr-result" style="display: none">None</span>
+
+                    <b style="display: none">Last detected at: </b>
+                    <span id="cam-qr-result-timestamp" style="display: none"></span>
+
                     <button id="start-button">Start</button>
                     <button id="stop-button">Stop</button>
                 </div>
@@ -305,7 +304,6 @@
             import QrScanner from "{{ asset('assets/extentions/qr-scanner.min.js') }}";
 
             const video = document.getElementById('qr-video');
-            const videoContainer = document.getElementById('video-container');
             const camHasCamera = document.getElementById('cam-has-camera');
             const camList = document.getElementById('cam-list');
             const camHasFlash = document.getElementById('cam-has-flash');
@@ -336,7 +334,7 @@
 
             const updateFlashAvailability = () => {
                 scanner.hasFlash().then(hasFlash => {
-                    camHasFlash.textContent = hasFlash;
+                    camHasFlash.textContent = hasFlash ? 'Yes' : 'No';
                     flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
                 });
             };
@@ -355,22 +353,10 @@
                 }));
             });
 
-            QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+            QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera ? 'Yes' : 'No');
 
             // for debugging
             window.scanner = scanner;
-
-            document.getElementById('scan-region-highlight-style-select').addEventListener('change', (e) => {
-                videoContainer.className = e.target.value;
-                scanner._updateOverlay(); // reposition the highlight because style 2 sets position: relative
-            });
-
-            document.getElementById('show-scan-region').addEventListener('change', (e) => {
-                const input = e.target;
-                const label = input.parentNode;
-                label.parentNode.insertBefore(scanner.$canvas, label.nextSibling);
-                scanner.$canvas.style.display = input.checked ? 'block' : 'none';
-            });
 
             document.getElementById('inversion-mode-select').addEventListener('change', event => {
                 scanner.setInversionMode(event.target.value);

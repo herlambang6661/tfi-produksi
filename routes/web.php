@@ -107,10 +107,12 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');
     Route::POST('getdriver', 'getdriver')->name('getdriver');
+    Route::POST('getDecryptKode', 'getDecryptKode')->name('getDecryptKode');
     Route::post('detail/penerimaan', 'detailPenerimaan')->name('detail.penerimaan');
     Route::POST('checkPrintQR', 'checkPrintQR')->name('checkPrintQR');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
+    Route::get('gudang/Pengolahan', 'pengolahan')->name('gudang/Pengolahan');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

@@ -91,14 +91,14 @@ date_default_timezone_set('Asia/Jakarta');
             </div>
 
             <?php
-            $qrCode = new QrCode($item->subkode);
+            $qrCode = new QrCode(Crypt::encryptString($item->subkode));
             $writer = new PngWriter();
             $result = $writer->write($qrCode);
             ?>
 
             <div class="qr-container">
                 <img class="qr" src="data:image/png;base64,{{ base64_encode($result->getString()) }}"
-                    alt="{{ $item->subkode }}" />
+                    alt="{{ Crypt::encryptString($item->subkode) }}" />
                 {{-- <img class="logo" src="{{ asset('photo/icon/tantra.png') }}" alt="Logo" /> --}}
             </div>
 

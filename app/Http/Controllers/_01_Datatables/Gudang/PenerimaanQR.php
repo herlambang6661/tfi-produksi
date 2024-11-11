@@ -50,13 +50,13 @@ class PenerimaanQR extends Controller
                 })
                 ->addColumn('qrcode', function ($row) {
 
-                    $qrCode = new QrCode($row->subkode);
+                    $qrCode = new QrCode(Crypt::encryptString($row->subkode));
                     $writer = new PngWriter();
                     $result = $writer->write($qrCode);
                     $res_qrcode = '
                         <div class="qr-container">
                             <img class="qr" src="data:image/png;base64,' . base64_encode($result->getString()) . '"
-                                alt="' . $row->subkode . '" width="50px" height="50px" />
+                                alt="' . Crypt::encryptString($row->subkode) . '" width="50px" height="50px" />
                         </div>
                     ';
                     return $res_qrcode;
@@ -76,7 +76,7 @@ class PenerimaanQR extends Controller
                         return '
                             <span class="status status-red status-lite">
                                 <span class="status-dot status-dot-animated"></span>
-                                Must be Process
+                                Must be Processed
                             </span>
                         ';
                     }

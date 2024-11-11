@@ -466,6 +466,17 @@ class GudangController extends Controller
         }
     }
 
+    public function getDecryptKode(Request $request)
+    {
+        try {
+            $decrypted = Crypt::decryptString($request->keyword);
+            $kode = GudangpenerimaanqrModel::where('subkode', $decrypted)->first();
+            return $kode->subkode;
+        } catch (\Throwable $th) {
+            return 'Kode Tidak Dikenali';
+        }
+    }
+
     public function cancelOrder(Request $request)
     {
         SuratkontrakitmModel::where('id', '=', $request->id)->update([
@@ -631,4 +642,11 @@ class GudangController extends Controller
         }
     }
     public function checkPrintQR(Request $request) {}
+    public function pengolahan(Request $request)
+    {
+        return view('products.03_gudang.pengolahan', [
+            'active' => 'Pengolahan',
+            'judul' => 'Pengolahan Bahan Baku',
+        ]);
+    }
 }

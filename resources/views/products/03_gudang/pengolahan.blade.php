@@ -318,9 +318,9 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="card card-xl border-primary shadow rounded mb-3">
-                                <div class="card-body px-2 py-2">
+                                {{-- <div class="card-body px-2 py-2">
                                     <input type="text" id="inpt-qr" class="form-control">
-                                </div>
+                                </div> --}}
                                 <div class="table-responsive">
                                     <input id="idf" value="1" type="hidden">
                                     <table id="detail_transaksi" class="control-group text-nowrap table-bordered"
@@ -459,9 +459,9 @@
                     beforeSend: function() {
                         scanner.stop();
                         $(".overlay").fadeIn(300);
-                        $("#inpt-qr").val("Memeriksa Data...");
-                        $("#inpt-qr").prop("disabled", true);
-                        $("#inpt-qr").addClass("cursor-not-allowed");
+                        // $("#inpt-qr").val("Memeriksa Data...");
+                        // $("#inpt-qr").prop("disabled", true);
+                        // $("#inpt-qr").addClass("cursor-not-allowed");
                         // Swal.fire({
                         //     title: "Sedang Memeriksa Data",
                         //     html: "Mohon menunggu, sedang mengambil data hasil scanning QR Code",
@@ -482,115 +482,72 @@
                     },
                     success: function(response) {
                         // Swal.hideLoading({showDenyButton: false,});
+                        var zippiSuccess = new Audio("{{ asset('sounds/scan-success.mp3') }}");
+                        var zippiError = new Audio("{{ asset('sounds/scan-error.mp3') }}");
+
                         if (response.success == true) {
-                            var zippi = new Audio("{{ asset('sounds/scan-success.mp3') }}");
-                            zippi.play();
+                            zippiSuccess.play();
                             $(".overlay").fadeOut(300);
 
-                            $("#inpt-qr").val(response.subkode);
-                            $("#inpt-qr").prop("disabled", false);
-                            $("#inpt-qr").removeClass("cursor-not-allowed");
+                            // $("#inpt-qr").val(response.subkode);
+                            // $("#inpt-qr").prop("disabled", false);
+                            // $("#inpt-qr").removeClass("cursor-not-allowed");
 
-                            var idf = document.getElementById("idf").value;
-                            var detail_transaksi = document.getElementById("detail_transaksi");
-                            var tr = document.createElement("tr");
-                            tr.setAttribute("id", "btn-remove" + idf);
+                            if ($("#detail_transaksi").find(".kode_" + response.id).length) {
+                                zippiError.play();
+                                scanner.start();
+                            } else {
+                                var idf = document.getElementById("idf").value;
+                                var detail_transaksi = document.getElementById("detail_transaksi");
+                                var tr = document.createElement("tr");
+                                tr.setAttribute("id", "btn-remove" + idf);
 
-                            // Kolom 1 Hapus
-                            var td = document.createElement("td");
-                            td.setAttribute("align", "center");
-                            td.setAttribute("style",
-                                ""
-                            );
-                            td.innerHTML +=
-                                '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
-                                idf +
-                                ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
-                            tr.appendChild(td);
+                                // Kolom 1 Hapus
+                                var td = document.createElement("td");
+                                td.setAttribute("align", "center");
+                                td.setAttribute("style",
+                                    ""
+                                );
+                                td.innerHTML +=
+                                    '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
+                                    idf +
+                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                                tr.appendChild(td);
 
-                            // Kolom 2 Kode
-                            var td = document.createElement("td");
-                            td.innerHTML += response.subkode;
-                            tr.appendChild(td);
+                                // Kolom 2 Kode
+                                var td = document.createElement("td");
+                                td.innerHTML += response.subkode + '<div class="kode_' + response.id + '">';
+                                tr.appendChild(td);
 
-                            // Kolom 3 BB
-                            var td = document.createElement("td");
-                            td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
-                            tr.appendChild(td);
+                                // Kolom 3 BB
+                                var td = document.createElement("td");
+                                td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
+                                tr.appendChild(td);
 
-                            // Kolom 4 Jenis
-                            var td = document.createElement("td");
-                            td.innerHTML += response.package;
-                            tr.appendChild(td);
+                                // Kolom 4 Jenis
+                                var td = document.createElement("td");
+                                td.innerHTML += response.package;
+                                tr.appendChild(td);
 
-                            // Kolom 5 Berat
-                            var td = document.createElement("td");
-                            td.innerHTML += response.beratsatuan;
-                            tr.appendChild(td);
+                                // Kolom 5 Berat
+                                var td = document.createElement("td");
+                                td.innerHTML += response.beratsatuan;
+                                tr.appendChild(td);
 
-                            // Kolom 6 Supplier
-                            var td = document.createElement("td");
-                            td.innerHTML += response.supplier;
-                            tr.appendChild(td);
+                                // Kolom 6 Supplier
+                                var td = document.createElement("td");
+                                td.innerHTML += response.supplier;
+                                tr.appendChild(td);
 
-                            detail_transaksi.appendChild(tr);
+                                detail_transaksi.appendChild(tr);
 
-                            idf = (idf - 1) + 2;
-                            document.getElementById("idf").value = idf;
+                                idf = (idf - 1) + 2;
+                                document.getElementById("idf").value = idf;
 
-                            scanner.start();
-
-                            // // Kolom 1 Hapus
-                            // var td = document.createElement("td");
-                            // td.setAttribute("align", "center");
-                            // td.setAttribute("style",
-                            //     "border-left-color:#FFFFFF;border-top-color:#FFFFFF;border-bottom-color:#FFFFFF;"
-                            // );
-                            // td.innerHTML +=
-                            //     '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
-                            //     idf +
-                            //     ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
-                            // tr.appendChild(td);
-
-                            // // Kolom 2 Tipe
-                            // var td = document.createElement("td");
-                            // td.innerHTML += "<select name='tipe[]' id='tipe_" + idf +
-                            //     "' class='form-select border-danger' style='width:100%;text-transform: uppercase;'></select>";
-                            // tr.appendChild(td);
-
-                            // Swal.fire({
-                            //     // icon: "question",
-                            //     title: response.subkode.toUpperCase(),
-                            //     html: '<table class="table table-borderless table-sm"> <tr><td width="30%" class="fw-bold text-start">Tipe</td><td>:</td><td>' +
-                            //         response.tipe +
-                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Kategori</td><td>:</td><td>' +
-                            //         response.kategori +
-                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Warna</td><td>:</td><td>' +
-                            //         response.warna +
-                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">No Urut</td><td>:</td><td>' +
-                            //         response.nourut +
-                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Berat Satuan</td><td>:</td><td>' +
-                            //         response.beratsatuan +
-                            //         ' Kg</td></tr> <tr><td width="30%" class="fw-bold text-start">Supplier</td><td>:</td><td>' +
-                            //         response.supplier + '</td></tr></<table>',
-                            //     showDenyButton: true,
-                            //     allowOutsideClick: false,
-                            //     allowEscapeKey: false,
-                            //     confirmButtonText: `<svg style="margin-right: 10px" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg> Tambahkan`,
-                            //     denyButtonText: `<svg style="margin-right: 10px" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> Batal`
-                            // }).then((result) => {
-                            //     /* Read more about isConfirmed, isDenied below */
-                            //     if (result.isConfirmed) {
-                            //         $("#inpt-qr").val(response.subkode);
-                            //         $("#inpt-qr").prop("disabled", false);
-                            //         $("#inpt-qr").removeClass("cursor-not-allowed");
-                            //     } else if (result.isDenied) {
-                            //         scanner.start();
-                            //     }
-                            // });
+                                scanner.start();
+                            }
                         } else if (response.success == false) {
-                            var zippi = new Audio("{{ asset('sounds/scan-error.mp3') }}");
-                            zippi.play();
+                            zippiError.play();
                             Swal.fire({
                                 icon: "error",
                                 title: response.message,
@@ -607,12 +564,11 @@
                         }
                     },
                     error: function(data) {
-                        var zippi = new Audio("{{ asset('sounds/scan-error.mp3') }}");
-                        zippi.play();
+                        zippiError.play();
                         scanner.start();
                         $(".overlay").fadeOut(300);
-                        $("#inpt-qr").val("");
-                        $("#inpt-qr").prop("disabled", false);
+                        // $("#inpt-qr").val("");
+                        // $("#inpt-qr").prop("disabled", false);
                     }
                 });
             }

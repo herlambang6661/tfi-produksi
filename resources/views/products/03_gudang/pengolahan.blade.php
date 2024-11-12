@@ -33,8 +33,8 @@
             z-index: 100;
             width: 100%;
             height: 100%;
-            /* display: none; */
-            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            background: rgba(0, 0, 0, 0.379);
         }
 
         .cv-spinner {
@@ -97,6 +97,11 @@
             display: none;
         }
     </style>
+    <div class="overlay">
+        <div class="cv-spinner">
+            <span class="loader"></span>
+        </div>
+    </div>
     <div class="page">
         <!-- Sidebar -->
         @include('shared.sidebar')
@@ -248,22 +253,154 @@
             <div class="page-body">
                 <div class="container-xl">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="card card-xl border-primary shadow rounded mb-3">
-                                <video id="qr-video" style="width: 100%; height: 100%;" autoplay playsinline></video>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <b>Device has camera: </b>
-                                    <span id="cam-has-camera"></span>
+                        <div class="col-lg-4">
+                            <div class="card card-xl border-primary shadow rounded mb-3 py-1 px-1">
+                                <div class="row">
+                                    <div class="col">
+                                        <b>Device has camera: </b>
+                                        <span id="cam-has-camera"></span>
+                                    </div>
+                                    <div class="col text-end">
+                                        <b>Camera has flash: </b>
+                                        <span id="cam-has-flash"></span>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <b>Camera has flash: </b>
-                                    <span id="cam-has-flash"></span>
+                                <video class="mb-1 rounded" id="qr-video" style="width: 100%; height: 100%;" autoplay
+                                    playsinline>
+                                </video>
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="start-button" class="btn btn-success btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-play">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 4v16l13 -8z" />
+                                            </svg>
+                                            Start
+                                        </button>
+                                        <button id="stop-button" class="btn btn-danger btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M5 5m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                            </svg>
+                                            Stop
+                                        </button>
+                                        <div>
+                                            <button id="flash-toggle" class="btn btn-warning btn-sm">
+                                                📸 Flash:
+                                                <span id="flash-state">off</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row">
+                                            {{-- <label class="col-3 col-form-label">
+                                                <b>Camera:</b>
+                                            </label> --}}
+                                            <div class="col">
+                                                <select id="cam-list" class="form-select form-select-sm border-primary">
+                                                    <option value="environment" selected>
+                                                        Environment Facing (default)
+                                                    </option>
+                                                    <option value="user">User Facing</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
+                            <div class="card card-xl border-primary shadow rounded mb-3">
+                                <div class="card-body px-2 py-2">
+                                    <input type="text" id="inpt-qr" class="form-control">
+                                </div>
+                                <div class="table-responsive">
+                                    <input id="idf" value="1" type="hidden">
+                                    <table id="detail_transaksi" class="control-group text-nowrap table-bordered"
+                                        border="0" style="width: 100%;text-align:center;">
+                                        <thead class="" style="font-weight: bold;">
+                                            <tr>
+                                                <td class="px-0 py-0"></td>
+                                                <td style="width: 200px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
+                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
+                                                    </svg>
+                                                    Kode Bahan Baku
+                                                </td>
+                                                <td style="width: 200px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
+                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M14 4h6v6h-6z" />
+                                                        <path d="M4 14h6v6h-6z" />
+                                                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                    </svg>
+                                                    Bahan Baku
+                                                </td>
+                                                <td style="width: 200px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
+                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M14 4h6v6h-6z" />
+                                                        <path d="M4 14h6v6h-6z" />
+                                                        <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                    </svg>
+                                                    Jenis
+                                                </td>
+                                                <td style="width: 200px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
+                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brand-speedtest">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M5.636 19.364a9 9 0 1 1 12.728 0" />
+                                                        <path d="M16 9l-4 4" />
+                                                    </svg>
+                                                    Berat
+                                                </td>
+                                                <td style="width: 200px">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px"
+                                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path
+                                                            d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
+                                                        <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
+                                                        <path
+                                                            d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
+                                                        <path d="M3 6v10c0 .888 .772 1.45 2 2" />
+                                                        <path d="M3 11c0 .888 .772 1.45 2 2" />
+                                                    </svg>
+                                                    Supplier
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div style="display: none">
@@ -274,25 +411,12 @@
                         </select>
                         <br>
                     </div>
-                    <div>
-                        <b>Preferred camera:</b>
-                        <select id="cam-list">
-                            <option value="environment" selected>Environment Facing (default)</option>
-                            <option value="user">User Facing</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button id="flash-toggle">📸 Flash: <span id="flash-state">off</span></button>
-                    </div>
 
                     <b style="display: none">Detected QR code: </b>
                     <span id="cam-qr-result" style="display: none">None</span>
 
                     <b style="display: none">Last detected at: </b>
                     <span id="cam-qr-result-timestamp" style="display: none"></span>
-
-                    <button id="start-button">Start</button>
-                    <button id="stop-button">Stop</button>
                 </div>
                 @include('shared.footer')
             </div>
@@ -300,6 +424,11 @@
 
         <!--<script src="../qr-scanner.umd.min.js"></script>-->
         <!--<script src="../qr-scanner.legacy.min.js"></script>-->
+        <script type="text/javascript">
+            function hapusElemen(idf) {
+                $("#btn-remove" + idf).remove();
+            }
+        </script>
         <script type="module">
             import QrScanner from "{{ asset('assets/extentions/qr-scanner.min.js') }}";
 
@@ -313,12 +442,179 @@
             const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
 
             function setResult(label, result) {
-                console.log(result.data);
-                label.textContent = result.data;
-                camQrResultTimestamp.textContent = new Date().toString();
-                label.style.color = 'teal';
-                clearTimeout(label.highlightTimeout);
-                label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+                // console.log(result.data);
+                // label.textContent = result.data;
+                // camQrResultTimestamp.textContent = new Date().toString();
+                // label.style.color = 'teal';
+                // clearTimeout(label.highlightTimeout);
+                // label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/getDecryptKode",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        keyword: result.data,
+                    },
+                    beforeSend: function() {
+                        scanner.stop();
+                        $(".overlay").fadeIn(300);
+                        $("#inpt-qr").val("Memeriksa Data...");
+                        $("#inpt-qr").prop("disabled", true);
+                        $("#inpt-qr").addClass("cursor-not-allowed");
+                        // Swal.fire({
+                        //     title: "Sedang Memeriksa Data",
+                        //     html: "Mohon menunggu, sedang mengambil data hasil scanning QR Code",
+                        //     icon: "question",
+                        //     timerProgressBar: true,
+                        //     didOpen: () => {
+                        //         Swal.showLoading();
+                        //         const timer = Swal.getPopup().querySelector("b");
+                        //         timerInterval = setInterval(() => {
+                        //             timer.textContent = `${Swal.getTimerLeft()}`;
+                        //         }, 100);
+                        //     },
+                        //     willClose: () => {
+                        //         clearInterval(timerInterval);
+                        //     }
+                        // });
+                        // Swal.showLoading()
+                    },
+                    success: function(response) {
+                        // Swal.hideLoading({showDenyButton: false,});
+                        if (response.success == true) {
+                            var zippi = new Audio("{{ asset('sounds/scan-success.mp3') }}");
+                            zippi.play();
+                            $(".overlay").fadeOut(300);
+
+                            $("#inpt-qr").val(response.subkode);
+                            $("#inpt-qr").prop("disabled", false);
+                            $("#inpt-qr").removeClass("cursor-not-allowed");
+
+                            var idf = document.getElementById("idf").value;
+                            var detail_transaksi = document.getElementById("detail_transaksi");
+                            var tr = document.createElement("tr");
+                            tr.setAttribute("id", "btn-remove" + idf);
+
+                            // Kolom 1 Hapus
+                            var td = document.createElement("td");
+                            td.setAttribute("align", "center");
+                            td.setAttribute("style",
+                                ""
+                            );
+                            td.innerHTML +=
+                                '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
+                                idf +
+                                ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                            tr.appendChild(td);
+
+                            // Kolom 2 Kode
+                            var td = document.createElement("td");
+                            td.innerHTML += response.subkode;
+                            tr.appendChild(td);
+
+                            // Kolom 3 BB
+                            var td = document.createElement("td");
+                            td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
+                            tr.appendChild(td);
+
+                            // Kolom 4 Jenis
+                            var td = document.createElement("td");
+                            td.innerHTML += response.package;
+                            tr.appendChild(td);
+
+                            // Kolom 5 Berat
+                            var td = document.createElement("td");
+                            td.innerHTML += response.beratsatuan;
+                            tr.appendChild(td);
+
+                            // Kolom 6 Supplier
+                            var td = document.createElement("td");
+                            td.innerHTML += response.supplier;
+                            tr.appendChild(td);
+
+                            detail_transaksi.appendChild(tr);
+
+                            idf = (idf - 1) + 2;
+                            document.getElementById("idf").value = idf;
+
+                            scanner.start();
+
+                            // // Kolom 1 Hapus
+                            // var td = document.createElement("td");
+                            // td.setAttribute("align", "center");
+                            // td.setAttribute("style",
+                            //     "border-left-color:#FFFFFF;border-top-color:#FFFFFF;border-bottom-color:#FFFFFF;"
+                            // );
+                            // td.innerHTML +=
+                            //     '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
+                            //     idf +
+                            //     ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                            // tr.appendChild(td);
+
+                            // // Kolom 2 Tipe
+                            // var td = document.createElement("td");
+                            // td.innerHTML += "<select name='tipe[]' id='tipe_" + idf +
+                            //     "' class='form-select border-danger' style='width:100%;text-transform: uppercase;'></select>";
+                            // tr.appendChild(td);
+
+                            // Swal.fire({
+                            //     // icon: "question",
+                            //     title: response.subkode.toUpperCase(),
+                            //     html: '<table class="table table-borderless table-sm"> <tr><td width="30%" class="fw-bold text-start">Tipe</td><td>:</td><td>' +
+                            //         response.tipe +
+                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Kategori</td><td>:</td><td>' +
+                            //         response.kategori +
+                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Warna</td><td>:</td><td>' +
+                            //         response.warna +
+                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">No Urut</td><td>:</td><td>' +
+                            //         response.nourut +
+                            //         '</td></tr> <tr><td width="30%" class="fw-bold text-start">Berat Satuan</td><td>:</td><td>' +
+                            //         response.beratsatuan +
+                            //         ' Kg</td></tr> <tr><td width="30%" class="fw-bold text-start">Supplier</td><td>:</td><td>' +
+                            //         response.supplier + '</td></tr></<table>',
+                            //     showDenyButton: true,
+                            //     allowOutsideClick: false,
+                            //     allowEscapeKey: false,
+                            //     confirmButtonText: `<svg style="margin-right: 10px" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg> Tambahkan`,
+                            //     denyButtonText: `<svg style="margin-right: 10px" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> Batal`
+                            // }).then((result) => {
+                            //     /* Read more about isConfirmed, isDenied below */
+                            //     if (result.isConfirmed) {
+                            //         $("#inpt-qr").val(response.subkode);
+                            //         $("#inpt-qr").prop("disabled", false);
+                            //         $("#inpt-qr").removeClass("cursor-not-allowed");
+                            //     } else if (result.isDenied) {
+                            //         scanner.start();
+                            //     }
+                            // });
+                        } else if (response.success == false) {
+                            var zippi = new Audio("{{ asset('sounds/scan-error.mp3') }}");
+                            zippi.play();
+                            Swal.fire({
+                                icon: "error",
+                                title: response.message,
+                                text: response.detail,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    scanner.start();
+                                    $(".overlay").fadeOut(300);
+                                }
+                            });
+                        }
+                    },
+                    error: function(data) {
+                        var zippi = new Audio("{{ asset('sounds/scan-error.mp3') }}");
+                        zippi.play();
+                        scanner.start();
+                        $(".overlay").fadeOut(300);
+                        $("#inpt-qr").val("");
+                        $("#inpt-qr").prop("disabled", false);
+                    }
+                });
             }
 
             // ####### Web Cam Scanning #######
@@ -331,6 +627,7 @@
                 highlightScanRegion: true,
                 highlightCodeOutline: true,
             });
+
 
             const updateFlashAvailability = () => {
                 scanner.hasFlash().then(hasFlash => {

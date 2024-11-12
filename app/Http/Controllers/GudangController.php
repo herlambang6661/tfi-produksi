@@ -470,15 +470,46 @@ class GudangController extends Controller
     {
         try {
             $decrypted = Crypt::decryptString($request->keyword);
-            $kode = GudangpenerimaanqrModel::where('subkode', $decrypted)->first();
+            $itmQR = GudangpenerimaanqrModel::where('subkode', $decrypted)->first();
+            $itmPR = GudangpenerimaanitmModel::where('npb', $itmQR->npb)->first();
             // return $kode->subkode;
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Post!',
-                'data'    => $kode
-            ]);
+            if (empty($itmQR)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode Tidak Dikenali',
+                    'detail' => 'Cek kembali QRcode yang Anda Scan',
+                ]);
+            } else {
+                if ($itmQR->usable == '0') {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Kode Ditemukan',
+                        'id' => $itmQR->id,
+                        'npb' => $itmQR->npb,
+                        'kodekontrak' => $itmQR->kodekontrak,
+                        'subkode' => $itmQR->subkode,
+                        'nourut' => $itmQR->nourut,
+                        'beratsatuan' => $itmQR->berat_satuan,
+                        'package' => $itmQR->package,
+                        'tipe' => $itmQR->type,
+                        'kategori' => $itmPR->kategori,
+                        'warna' => $itmPR->warna,
+                        'supplier' => $itmPR->supplier,
+                    ]);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Bahan Baku tdk Dapat Diproses',
+                        'detail' => 'Package Sudah Berupa Jumbo Bag',
+                    ]);
+                }
+            }
         } catch (\Throwable $th) {
-            return 'Kode Tidak Dikenali';
+            return response()->json([
+                'success' => false,
+                'message' => 'Kode Tidak Dikenali',
+                'detail' => 'Cek kembali QRcode yang Anda Scan',
+            ]);
         }
     }
 

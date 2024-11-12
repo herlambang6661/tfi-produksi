@@ -19,7 +19,7 @@ class DaftarController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'log.activity']);
 
         date_default_timezone_set('Asia/Jakarta');
         setlocale(LC_TIME, 'id_ID');

@@ -4,6 +4,13 @@
         .card-sponsor {
             position: relative;
             overflow: hidden;
+            width: 100%;
+            /* Lebar penuh kolom */
+            height: 60px;
+            /* Tinggi lebih pendek */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .card-sponsor::before {
@@ -22,6 +29,7 @@
 
         .card-sponsor:hover::before {
             transform: scale(1.1);
+            /* Efek zoom saat hover */
         }
 
         .card-body {
@@ -49,15 +57,147 @@
                                 Halaman Dashboard
                             </h2>
                         </div>
+                        <!-- Form input moved to the right -->
+                        <div class="col ms-auto d-flex justify-content-end">
+                            <div class="input-icon">
+                                <span class="input-icon-addon">
+                                    <!-- Calendar Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                        viewBox="0 0 24 24" stroke-width="2" stroke="blue" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path
+                                            d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+                                        <path d="M16 3v4" />
+                                        <path d="M8 3v4" />
+                                        <path d="M4 11h16" />
+                                        <path d="M11 15h1" />
+                                        <path d="M12 15v3" />
+                                    </svg>
+                                </span>
+                                <!-- Date Input -->
+                                <input class="form-control w-100" placeholder="Select a date" id="CRMDateRange" readonly />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <!-- Page body -->
             <div class="page-body">
                 <div class="container-xl">
                     <div class="row row-deck row-cards">
+
+                        <div class="col-lg-6">
+                            <div class="card bg-primary text-primary-fg">
+                                <div class="card-stamp">
+                                    <div class="card-stamp-icon bg-white text-primary">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="row row-0">
+                                    <div class="col-5">
+                                        <?php
+                                        $role = Auth::user()->role;
+                                        $username = Auth::user()->username;
+                                        
+                                        $avatarUrl = asset('assets/static/avatars/super.jpg');
+                                        
+                                        if ($role === 'own') {
+                                            if ($username === 'alvin') {
+                                                $avatarUrl = asset('assets/static/avatars/1.jpg');
+                                            } elseif ($username === 'brian') {
+                                                $avatarUrl = asset('assets/static/avatars/2.jpg');
+                                            } elseif ($username === 'felixjesse') {
+                                                $avatarUrl = asset('assets/static/avatars/3.jpg');
+                                            } else {
+                                                $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                            }
+                                        } elseif ($role === 'pur') {
+                                            $avatarUrl = asset('assets/static/avatars/puji.jpg');
+                                        } elseif ($role === 'kng') {
+                                            $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                        } elseif ($role === 'whs') {
+                                            if ($username === 'fahmi') {
+                                                $avatarUrl = asset('assets/static/avatars/fahmi.jpg');
+                                            } elseif ($username === 'rizki') {
+                                                $avatarUrl = asset('assets/static/avatars/rizky.jpg');
+                                            } elseif ($username === 'yanti') {
+                                                $avatarUrl = asset('assets/static/avatars/yanti.jpg');
+                                            } else {
+                                                $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                            }
+                                        }
+                                        ?>
+                                        <img src="<?php echo $avatarUrl; ?>" class="w-100 h-100 object-cover card-img-start"
+                                            alt="Beautiful blonde woman relaxing with a can of coke on a tree stump by the beach" />
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body">
+                                            <table style="width: 100%; border: none;">
+                                                <tr>
+                                                    <td style="text-align: center; padding: 5px 0;" colspan="2">PT.
+                                                        Tantra Fiber Industry</td>
+                                                </tr>
+                                                <tr class="md-5">
+                                                    <td style="padding: 5px 0;"><strong>Login As:</strong></td>
+                                                    <td style="padding: 5px 0;">{{ strtoupper(Auth::user()->role) }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 5px 0;"><strong>Joined:</strong></td>
+                                                    <td style="padding: 5px 0;">
+                                                        {{ \Carbon\Carbon::parse(Auth::user()->created_at)->format('d M Y H:i') }}
+                                                        WIB
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 5px 0;"><strong>Nickname:</strong></td>
+                                                    <td style="padding: 5px 0;">{{ strtoupper(Auth::user()->nickname) }}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="mb-0"><i class="fa-solid fa-location-dot" style="color: red"></i> Weather
+                                    </h3>
+                                </div>
+                                <div class="row row-0 align-items-center p-3">
+                                    <div class="col-4 d-flex flex-column align-items-center">
+                                        <div id="weather-icon" class="mb-3">
+                                            <img src="" alt="Weather Icon" style="width: 100px; height: 100px;">
+                                        </div>
+                                        <div id="location" class="text-muted" style="font-size: 1.1rem;">Location</div>
+                                        <div id="address" class="text-muted" style="font-size: 1.1rem;">Address</div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-body text-center">
+                                            <div id="temperature" class="text-primary" style="font-size: 1.5rem;">Loading
+                                                temperature...</div>
+                                            <div id="condition" class="text-secondary" style="font-size: 1.1rem;">Condition
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Welcome Card -->
-                        <div class="col-md-6 col-lg-10">
+                        <div class="col-md-6 col-lg-12">
                             <div class="card card-sm">
                                 <div class="card-stamp card-stamp-lg">
                                     <div class="card-stamp-icon bg-primary">
@@ -87,48 +227,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Avatar Card -->
-                        <div class="col-lg-2">
-                            <?php
-                            $role = Auth::user()->role;
-                            $username = Auth::user()->username;
-                            
-                            // Default avatar URL
-                            $avatarUrl = asset('assets/static/avatars/super.jpg');
-                            
-                            if ($role === 'own') {
-                                if ($username === 'alvin') {
-                                    $avatarUrl = asset('assets/static/avatars/1.jpg');
-                                } elseif ($username === 'brian') {
-                                    $avatarUrl = asset('assets/static/avatars/2.jpg');
-                                } elseif ($username === 'felixjesse') {
-                                    $avatarUrl = asset('assets/static/avatars/3.jpg');
-                                } else {
-                                    $avatarUrl = asset('assets/static/avatars/avatar.png');
-                                }
-                            } elseif ($role === 'pur') {
-                                $avatarUrl = asset('assets/static/avatars/puji.jpg');
-                            } elseif ($role === 'kng') {
-                                $avatarUrl = asset('assets/static/avatars/avatar.png');
-                            } elseif ($role === 'whs') {
-                                if ($username === 'fahmi') {
-                                    $avatarUrl = asset('assets/static/avatars/fahmi.jpg');
-                                } elseif ($username === 'rizki') {
-                                    $avatarUrl = asset('assets/static/avatars/rizky.jpg');
-                                } elseif ($username === 'yanti') {
-                                    $avatarUrl = asset('assets/static/avatars/yanti.jpg');
-                                } else {
-                                    $avatarUrl = asset('assets/static/avatars/avatar.png');
-                                }
-                            }
-                            ?>
-                            <a href="#" class="card card-sponsor" rel="noopener"
-                                style="background-image: url('{{ $avatarUrl }}')" aria-label="Sponsor Tabler!">
-                                <div class="card-body"></div>
-                            </a>
-                        </div>
-
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-sm">
                                 <div class="card-body">
@@ -407,6 +505,93 @@
                 </div>
             </div>
             @include('shared.footer')
+            <script>
+                window.onload = function() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var lat = position.coords.latitude;
+                            var lon = position.coords.longitude;
+
+                            fetch('/get-weather', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                            .getAttribute('content')
+                                    },
+                                    body: JSON.stringify({
+                                        lat: lat,
+                                        lon: lon
+                                    })
+                                })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('Server responded with error: ' + response.status);
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    document.getElementById('temperature').textContent = "Temperature: " + data
+                                        .temperature + "°C";
+                                    document.getElementById('condition').textContent = "Condition: " + data
+                                        .condition;
+
+                                    var weatherIcon = data.icon;
+                                    var weatherCondition = data.condition
+                                        .toLowerCase();
+
+                                    var iconColor = '';
+                                    if (weatherCondition.includes('clear')) {
+                                        iconColor = '';
+                                    } else if (weatherCondition.includes('cloud')) {
+                                        iconColor = '';
+                                    } else if (weatherCondition.includes('rain') || weatherCondition.includes(
+                                            'storm')) {
+                                        iconColor = '';
+                                    } else {
+                                        iconColor = '';
+                                    }
+
+                                    document.getElementById('weather-icon').innerHTML =
+                                        `<img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon" style="width: 100px; height: 100px; ${iconColor}">`;
+
+                                    document.getElementById('address').textContent = "Location: " + data.address;
+                                })
+                                .catch(err => {
+                                    console.error('Error fetching weather data:', err);
+                                    alert('Failed to fetch weather data: ' + err.message);
+                                });
+                        });
+                    } else {
+                        alert("Geolocation is not supported by this browser.");
+                    }
+                };
+
+                function updateTime() {
+                    const now = new Date();
+
+                    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                    const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+                        'Oktober', 'November', 'Desember'
+                    ];
+
+                    const dayName = days[now.getDay()];
+                    const day = now.getDate();
+                    const month = months[now.getMonth()];
+                    const year = now.getFullYear();
+                    const hour = String(now.getHours()).padStart(2, '0');
+                    const minute = String(now.getMinutes()).padStart(2, '0');
+                    const second = String(now.getSeconds()).padStart(2, '0');
+
+                    const formattedTime = `${dayName}, ${day} ${month} ${year}`;
+                    document.getElementById('CRMDateRange').value = formattedTime;
+                }
+
+                setInterval(updateTime, 1000);
+
+                updateTime();
+            </script>
+
         </div>
     </div>
 @endsection

@@ -182,67 +182,7 @@
                             {{ Auth::user()->alias }}</div>
                     </div>
                 </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <style>
-                        #weather-info {
-                            font-size: 14px;
-                            color: #333;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            margin-bottom: 10px;
-                            position: relative;
-                            /* Ensure the weather icon is placed relative to this container */
-                        }
-
-                        #weather-info .small {
-                            font-size: 12px;
-                            color: #888;
-                        }
-
-                        .dropdown-item svg {
-                            margin-right: 5px;
-                            transition: transform 0.3s;
-                        }
-
-                        .dropdown-item:hover svg {
-                            transform: scale(1.1);
-                        }
-
-                        .dropdown-divider {
-                            margin: 8px 0;
-                        }
-
-                        .weather-icon {
-                            width: 40px;
-                            height: 40px;
-                            position: absolute;
-                            /* Position the icon absolutely inside the weather-info container */
-                            top: 0;
-                            right: 0;
-                        }
-
-                        .weather-info-container {
-                            display: flex;
-                            flex-direction: column;
-                            align-items: flex-start;
-                            padding-top: 30px;
-                            /* Add padding top to prevent overlapping with the icon */
-                        }
-                    </style>
-
-                    <div id="weather-info" class="px-3 py-2 mb-3">
-                        <div class="weather-icon">
-                            <div id="weather-icon"></div>
-                        </div>
-                        <div class="weather-info-container">
-                            <div id="temperature" class="small text-muted">Loading weather...</div>
-                            <div id="condition" class="small text-muted"></div>
-                            <div id="address" class="small text-muted"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <!-- Dropdown items -->
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"> <!-- Dropdown items -->
                     <a href="./profile.html" class="dropdown-item">
                         <svg xmlns="http://www.w3.org/2000/svg" style="margin-right:5px" width="24"
                             height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -310,50 +250,3 @@
         </div>
     </div>
 </header>
-<script>
-    window.onload = function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var lon = position.coords.longitude;
-
-                fetch('/get-weather', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            lat: lat,
-                            lon: lon
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Server responded with error: ' + response.status);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        document.getElementById('temperature').textContent = "Temperature: " + data
-                            .temperature + "°C";
-                        document.getElementById('condition').textContent = "Condition: " + data
-                            .condition;
-
-                        var weatherIcon = data.icon;
-                        document.getElementById('weather-icon').innerHTML =
-                            `<img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon">`;
-
-                        document.getElementById('address').textContent = "Location: " + data.address;
-                    })
-                    .catch(err => {
-                        console.error('Error fetching weather data:', err);
-                        alert('Failed to fetch weather data: ' + err.message);
-                    });
-            });
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    };
-</script>

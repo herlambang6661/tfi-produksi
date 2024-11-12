@@ -13,8 +13,9 @@ class SuratkontrakList extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'log.activity']);
     }
+
     /**
      * Display a listing of the resource.
      *

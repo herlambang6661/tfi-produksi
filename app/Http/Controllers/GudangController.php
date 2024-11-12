@@ -471,7 +471,12 @@ class GudangController extends Controller
         try {
             $decrypted = Crypt::decryptString($request->keyword);
             $kode = GudangpenerimaanqrModel::where('subkode', $decrypted)->first();
-            return $kode->subkode;
+            // return $kode->subkode;
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post!',
+                'data'    => $kode
+            ]);
         } catch (\Throwable $th) {
             return 'Kode Tidak Dikenali';
         }

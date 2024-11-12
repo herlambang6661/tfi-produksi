@@ -763,6 +763,7 @@
                     // Requery the server with the new one-time export settings
                     dt.ajax.reload();
                 }
+
                 $(function() {
                     $(".select2kodekodekontrak").select2({
                         dropdownParent: $("#modal-penerimaan"),

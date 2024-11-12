@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(['auth', 'log.activity']);
         Auth::check();
         date_default_timezone_set('Asia/Jakarta');
         setlocale(LC_TIME, 'id_ID');

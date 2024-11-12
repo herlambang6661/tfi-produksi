@@ -18,6 +18,7 @@ use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
+use App\Http\Controllers\_01_Datatables\Settings\LogList;
 use App\Http\Controllers\Api\WeatherController;
 use App\Http\Controllers\SettingsController;
 
@@ -45,6 +46,7 @@ Route::resource('getPenerimaanQR', PenerimaanQR::class);
 Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class);
 Route::resource('getTipeSub', TipeSubList::class);
+Route::resource('getLogActivity', LogList::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post');
@@ -121,4 +123,6 @@ Route::controller(SettingsController::class)->group(function () {
     Route::post('settings/update/{id}', 'update')->name('setting.update');
     Route::post('settings/reset/update/{id}', 'reset')->name('settings.reset');
     Route::delete('settings/destroy/{id}', 'destroy');
+    Route::get('settings/logActivity', 'logActivity');
+    Route::post('settings/viewLog', 'viewLog')->name('view.log');
 });

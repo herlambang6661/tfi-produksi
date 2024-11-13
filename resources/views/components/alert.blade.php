@@ -149,7 +149,6 @@
 <script>
     let offlineAlert;
 
-    // Fungsi untuk menampilkan SweetAlert ketika offline
     function showOfflineAlert() {
         offlineAlert = Swal.fire({
             title: 'Koneksi Terputus!',
@@ -160,44 +159,39 @@
                 </div>
             `,
             icon: 'warning',
-            allowOutsideClick: false, // Menonaktifkan klik di luar SweetAlert
-            allowEscapeKey: false, // Menonaktifkan ESC key
-            showConfirmButton: false, // Menonaktifkan tombol konfirmasi
-            position: 'top-end', // Menempatkan alert di pojok kanan atas
-            toast: true, // Menampilkan alert sebagai toast
-            timerProgressBar: true, // Menampilkan progress bar
-            timer: 0, // Tidak ada timer, tetap tampil sampai koneksi kembali
-            backdrop: true, // Menambahkan backdrop untuk menutupi halaman dan mencegah interaksi
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            position: 'top-end',
+            toast: true,
+            timerProgressBar: true,
+            timer: 0,
+            backdrop: true,
             didOpen: () => {
-                // Mencegah klik pada elemen lain selama SweetAlert aktif
-                document.body.style.pointerEvents = 'none'; // Menonaktifkan klik pada halaman
+                document.body.style.pointerEvents = 'none';
             },
             willClose: () => {
-                // Mengembalikan interaksi setelah SweetAlert ditutup
-                document.body.style.pointerEvents = ''; // Mengaktifkan kembali klik pada halaman
+                document.body.style.pointerEvents = '';
             }
         });
     }
 
-    // Fungsi untuk menutup SweetAlert dan menampilkan pesan koneksi kembali
     function showOnlineAlert() {
         if (offlineAlert) {
-            Swal.close(); // Menutup alert offline jika masih terbuka
+            Swal.close();
 
-            // Tampilkan notifikasi koneksi kembali
             Swal.fire({
                 title: 'Koneksi Kembali Terhubung!',
                 text: 'Koneksi internet Anda sudah kembali.',
                 icon: 'success',
-                position: 'top-end', // Menempatkan alert di pojok kanan atas
-                toast: true, // Menampilkan seperti notifikasi toast
-                timer: 3000, // Menampilkan alert selama 3 detik
+                position: 'top-end',
+                toast: true,
+                timer: 3000,
                 showConfirmButton: false
             });
         }
     }
 
-    // Event listener untuk deteksi offline/online
     window.addEventListener('offline', showOfflineAlert);
     window.addEventListener('online', showOnlineAlert);
 </script>

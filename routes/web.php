@@ -44,18 +44,16 @@ Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getPenerimaanQR', PenerimaanQR::class);
 Route::resource('getScanner', ScanBarcodeList::class);
-Route::resource('getJenis', JenisList::class);
+Route::resource('getJenis', JenisList::class)->middleware('log.activity');
 Route::resource('getTipeSub', TipeSubList::class);
 Route::resource('getLogActivity', LogList::class);
 
 Route::controller(AuthController::class)->group(function () {
-    Route::post('post-login', 'postLogin')->name('login.post');
+    Route::post('post-login', 'postLogin')->name('login.post')->middleware('log.activity');
 });
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
 Route::post('/update-location', [DashboardController::class, 'updateLocation'])->name('update.location');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-
-Route::post('/get-weather', [WeatherController::class, 'getWeather'])->name('get.weather');
 
 Route::controller(DaftarController::class)->group(function () {
     Route::get('daftar/tipe', 'tipe')->name('daftar/tipe');

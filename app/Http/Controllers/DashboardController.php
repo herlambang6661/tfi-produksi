@@ -32,7 +32,6 @@ class DashboardController extends Controller
                 'judul' => 'Dashboard',
                 'weatherData' => 'N/A',
                 'activity' => $activity,
-
             ]);
         }
 

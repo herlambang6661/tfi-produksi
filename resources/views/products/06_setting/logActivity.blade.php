@@ -330,7 +330,7 @@
                                 className: "cuspad0 cuspad1 text-center"
                             },
                             {
-                                title: 'username',
+                                title: 'nama',
                                 data: 'username',
                                 name: 'username',
                                 className: "cuspad0 cuspad1 text-center"

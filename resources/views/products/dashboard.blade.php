@@ -236,14 +236,14 @@
                                                     height="60" />
                                                 <div>
                                                     <h6 class="mb-2" style="font-size: 12px;">
-                                                        @if (is_array($weatherData))
+                                                        {{-- @if (is_array($weatherData))
                                                             {{ ($weatherData['neighbourhood'] ?? 'Unknown') .
-                                                                (!empty($weatherData['suburb']) ? ', ' . $weatherData['suburb'] : '') .
-                                                                (!empty($weatherData['city_district']) ? ', ' . $weatherData['city_district'] : '') }}
+                                                            ($weatherData['suburb'] ? ', ' . $weatherData['suburb'] : '') .
+                                                            ($weatherData['city_district'] ? ', ' . $weatherData['city_district'] : '') ?:
+                                                                $weatherData['track'] }}
                                                         @else
                                                             {{ $weatherData }}
-                                                        @endif
-
+                                                        @endif --}}
                                                     </h6>
                                                     <div class="fs--2 fw-semi-bold">
                                                         <div class="text-warning">

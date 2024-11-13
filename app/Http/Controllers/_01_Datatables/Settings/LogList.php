@@ -44,12 +44,13 @@ class LogList extends Controller
                 })
                 ->addColumn('username', function ($row) {
                     $users = User::where('id', $row->user_id)->first();
-                    return $users->username;
+                    return $users ? $users->username : 'Unknown User';
                 })
+
                 ->addColumn('created_at', function ($row) {
                     return Carbon::parse($row->created_at)->translatedFormat('d F Y H:i:s');
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'username'])
                 ->make(true);
         }
         return view('products.06_setting.logActivity');

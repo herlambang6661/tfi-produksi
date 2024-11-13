@@ -15,6 +15,8 @@ use App\Models\GudangpenerimaanitmModel;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Models\DaftarJenisModel;
 use App\Models\GudangpenerimaanqrModel;
+use App\Models\GudangpengolahanitmModel;
+use App\Models\GudangpengolahanModel;
 use App\Models\SuratkontrakitmModel;
 use Svg\Tag\Rect;
 
@@ -684,5 +686,79 @@ class GudangController extends Controller
             'active' => 'Pengolahan',
             'judul' => 'Pengolahan Bahan Baku',
         ]);
+    }
+    public function storePengolahan(Request $request)
+    {
+        try {
+            // Validasi untuk menanggulangi error
+            $request->validate(
+                [
+                    'tanggal' => 'required',
+                    'operator' => 'required',
+                    'id_item' => 'required',
+                ],
+                [
+                    'tanggal.required' => 'Tanggal Proses wajib diisi',
+                    'operator.required' => 'Operator',
+                    'id_itm.required' => 'ID Kosong',
+                ]
+            );
+            //generate noform
+            $checkkodeolah = GudangpengolahanModel::orderBy('kodeolah', 'desc')->first();
+            if ($checkkodeolah) {
+                $y = substr($checkkodeolah->kodeolah, 0, 3);
+                if ($y == 'O' . date('y')) {
+                    $query = GudangpengolahanModel::where(
+                        'npb',
+                        'like',
+                        '%' . 'O' . date('y') . '%'
+                    )->orderBy('kodeolah', 'desc')->first();
+                    $noUrut = (int) substr($query->kodeolah, -4);
+                    $noUrut++;
+                    $char = 'O' . date('y');
+                    $kode_olah = $char . sprintf("%04s", $noUrut);
+                } else {
+                    $kode_olah = 'O' . date('y') . "0001";
+                }
+            } else {
+                $kode_olah = 'O' . date('y') . "0001";
+            }
+            // insert data Pengolahan
+            GudangpengolahanModel::insert([
+                'tanggal' => $request->tanggal,
+                'kodeolah' => $kode_olah,
+                'operator' => $request->operator,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            // insert data Pengolahan item
+            for ($i = 0; $i < count($request->id_item); $i++) {
+                $dataBales = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->first();
+                GudangpengolahanitmModel::insert([
+                    'tanggal' => $request->tanggal,
+                    'kodeolah' => $kode_olah,
+                    'subkode' => $dataBales->subkode,
+                    'package' => $dataBales->package,
+                    'berat' => $dataBales->berat_satuan,
+                    'operator' => $request->operator,
+                    // 'tipe' => $dataKontrak->tipe,
+                    // 'kategori' => $dataKontrak->kategori,
+                    // 'warna' => $dataKontrak->warna,
+                    // 'berat' => $request->berat[$i],
+                    // 'qty' => $request->qty[$i],
+                    // 'supplier' => $getSupplier->supplier,
+                    'dibuat' => Auth::user()->nickname,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+                // update Gudang penerimaanqr
+                GudangpenerimaanqrModel::where('id', $request->id_item[$i])->update(['status' => '2', 'kodeolah' => $kode_olah, 'updated_at' => date('Y-m-d H:i:s')]); //change status to processed
+            }
+            $arr = array('msg' => 'Data Pengolahan telah berhasil disimpan. Kode Olah : ' . $kode_olah . '', 'status' => true);
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // DEBUG IN CASE OF ERROR
+            // dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+        }
     }
 }

@@ -16,6 +16,7 @@ use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
 use App\Http\Controllers\_01_Datatables\Kontrak\KontrakList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
+use App\Http\Controllers\_01_Datatables\Gudang\Pengolahan;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 use App\Http\Controllers\_01_Datatables\Settings\LogList;
@@ -43,6 +44,7 @@ Route::resource('getSuratkontrak', SuratkontrakList::class);
 Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getPenerimaanQR', PenerimaanQR::class);
+Route::resource('getPengolahan', Pengolahan::class);
 Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class)->middleware('log.activity');
 Route::resource('getTipeSub', TipeSubList::class);
@@ -115,6 +117,7 @@ Route::controller(GudangController::class)->group(function () {
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
     Route::get('gudang/Pengolahan', 'pengolahan')->name('gudang/Pengolahan');
+    Route::post('storedataPengolahan', 'storePengolahan')->name('storedataPengolahan')->middleware('log.activity');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

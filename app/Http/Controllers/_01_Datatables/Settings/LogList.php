@@ -13,7 +13,7 @@ class LogList extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'log.activity']);
+        $this->middleware('auth');
     }
 
     public function index(Request $request)

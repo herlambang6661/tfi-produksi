@@ -16,7 +16,7 @@ class PenerimaanQR extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'log.activity']);
+        $this->middleware('auth');
     }
 
     /**

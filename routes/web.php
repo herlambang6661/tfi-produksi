@@ -52,6 +52,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post');
 });
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
+Route::post('/update-location', [DashboardController::class, 'updateLocation'])->name('update.location');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/get-weather', [WeatherController::class, 'getWeather'])->name('get.weather');
@@ -59,36 +60,36 @@ Route::post('/get-weather', [WeatherController::class, 'getWeather'])->name('get
 Route::controller(DaftarController::class)->group(function () {
     Route::get('daftar/tipe', 'tipe')->name('daftar/tipe');
     Route::get('daftar/supplier', 'supplier')->name('daftar/supplier');
-    Route::post('storedataTipe', 'storeTipe')->name('storedataTipe');
-    Route::post('storedataEditTipe', 'storeEditTipe')->name('storedataEditTipe');
-    Route::post('storedataEditWarna', 'storeEditWarna')->name('storedataEditWarna');
-    Route::post('storedataEdittipeSub', 'storeEditTipeSub')->name('storedataEdittipeSub');
-    Route::post('viewdataEditjenis', 'viewEditJenis')->name('viewdataEditJenis');
-    Route::post('storeEditjenis', 'storeEditJenis')->name('storeEditJenis');
-    Route::post('storedataEditSupplier', 'storeEditSupplier')->name('storedataEditSupplier');
-    Route::post('updatedataSupplier/{id}', 'updateSupplier')->name('Updatedatasupplier');
-    Route::post('storedataWarna', 'storeWarna')->name('storedataWarna');
-    Route::post('storedataTipesub', 'storeTipesub')->name('storedataTipesub');
-    Route::post('storedataSupplier', 'storeSupplier')->name('storedataSupplier');
-    Route::post('storejenis', 'storeJenis')->name('store.jenis');
+    Route::post('storedataTipe', 'storeTipe')->name('storedataTipe')->middleware('log.activity');
+    Route::post('storedataEditTipe', 'storeEditTipe')->name('storedataEditTipe')->middleware('log.activity');
+    Route::post('storedataEditWarna', 'storeEditWarna')->name('storedataEditWarna')->middleware('log.activity');
+    Route::post('storedataEdittipeSub', 'storeEditTipeSub')->name('storedataEdittipeSub')->middleware('log.activity');
+    Route::post('viewdataEditjenis', 'viewEditJenis')->name('viewdataEditJenis')->middleware('log.activity');
+    Route::post('storeEditjenis', 'storeEditJenis')->name('storeEditJenis')->middleware('log.activity');
+    Route::post('storedataEditSupplier', 'storeEditSupplier')->name('storedataEditSupplier')->middleware('log.activity');
+    Route::post('updatedataSupplier/{id}', 'updateSupplier')->name('Updatedatasupplier')->middleware('log.activity');
+    Route::post('storedataWarna', 'storeWarna')->name('storedataWarna')->middleware('log.activity');
+    Route::post('storedataTipesub', 'storeTipesub')->name('storedataTipesub')->middleware('log.activity');
+    Route::post('storedataSupplier', 'storeSupplier')->name('storedataSupplier')->middleware('log.activity');
+    Route::post('storejenis', 'storeJenis')->name('store.jenis')->middleware('log.activity');
     Route::get('getkodetipe', 'getkodetipe')->name('getkodetipe');
-    Route::post('viewEdittipe', 'viewEdittipe')->name('viewEdittipe');
-    Route::post('viewEditwarna', 'viewEditwarna')->name('viewEditwarna');
-    Route::post('viewEdittipeSub', 'viewEditTipeSub')->name('viewEdittipeSub');
-    Route::post('viewEditsupplier', 'viewEditsupplier')->name('viewEditsupplier');
-    Route::post('daftar/add/daftar', 'viewAddDaftar')->name('daftar.add');
+    Route::post('viewEdittipe', 'viewEdittipe')->name('viewEdittipe')->middleware('log.activity');
+    Route::post('viewEditwarna', 'viewEditwarna')->name('viewEditwarna')->middleware('log.activity');
+    Route::post('viewEdittipeSub', 'viewEditTipeSub')->name('viewEdittipeSub')->middleware('log.activity');
+    Route::post('viewEditsupplier', 'viewEditsupplier')->name('viewEditsupplier')->middleware('log.activity');
+    Route::post('daftar/add/daftar', 'viewAddDaftar')->name('daftar.add')->middleware('log.activity');
 });
 
 Route::controller(KontrakController::class)->group(function () {
     Route::get('kontrak/suratkontrak', 'suratKontrak')->name('kontrak/suratkontrak');
     Route::get('kontrak/suratkontrak/tambah', 'suratKontrakAdd')->name('kontrakAdd');
-    Route::post('storedataSuratkontrak', 'store')->name('storedataSuratkontrak');
+    Route::post('storedataSuratkontrak', 'store')->name('storedataSuratkontrak')->middleware('log.activity');
     Route::post('kontrak/getWarnaByTipe', 'getWarnaByTipe')->name('kontrak/getWarnaByTipe');
     Route::get('kontrak/getKategori', 'getKategori')->name('getKT');
     Route::get('kontrak/getBahanBahu', 'getBahanBaku')->name('getBB');
     Route::get('kontrak/getWarna', 'getWarna')->name('getWR');
     Route::get('getsupplierKontrak', 'getsupplierKontrak')->name('getsupplierKontrak');
-    Route::post('viewKontrak', 'detailKontrak')->name('detail.kontrak');
+    Route::post('viewKontrak', 'detailKontrak')->name('detail.kontrak')->middleware('log.activity');
     Route::get('getPengemudi', 'getPengemudi')->name('getPengemudi');
     Route::get('/get-pdf', 'getPDF')->name('download.pdf');
     Route::post('kontrak/printSuratKontrak', 'printSuratKontrak')->name('kontrak/printSuratKontrak');
@@ -99,13 +100,13 @@ Route::controller(GudangController::class)->group(function () {
     Route::get('getkodeKontrak', 'getkodeKontrak')->name('getkodeKontrak');
     Route::get('getjeniss', 'getJeniss')->name('getjeniss');
     Route::post('gudang/getTipeByKode', 'getTipeByKode')->name('gudang/getTipeByKode');
-    Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan');
-    Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}');
-    Route::get('/gudang/penerimaan/printQrcode/{id}', 'printQrcode')->name('/gudang/penerimaan/printQrcode/{id}');
+    Route::post('storedataPenerimaan', 'storePenerimaan')->name('storedataPenerimaan')->middleware('log.activity');
+    Route::get('/gudang/penerimaan/verifikasi/{id}', 'verifikasi')->name('/gudang/penerimaan/verifikasi/{id}')->middleware('log.activity');
+    Route::get('/gudang/penerimaan/printQrcode/{id}', 'printQrcode')->name('/gudang/penerimaan/printQrcode/{id}')->middleware('log.activity');
     Route::post('getSupir', 'getSupir')->name('getSupir');
-    Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi');
+    Route::post('storedataVerifikasi', 'storeVerifikasi')->name('storedataVerifikasi')->middleware('log.activity');
     Route::post('gudang/printPenerimaan', 'printPenerimaan')->name('gudang/printPenerimaan');
-    Route::get('gudang/printBarcode/{id}', 'printBarcode')->name('gudang/printBarcode/{id}');
+    Route::get('gudang/printBarcode/{id}', 'printBarcode')->name('gudang/printBarcode/{id}')->middleware('log.activity');
     Route::post('/getLastKendaraanKe', 'getLastKendaraanKe')->name('getLastKendaraanKe');
     Route::post('gudang/batal/proses', 'cancelOrder')->name('gudang.cancelOrder');
     Route::get('getPackage', 'getPackage')->name('getPackage');
@@ -119,10 +120,10 @@ Route::controller(GudangController::class)->group(function () {
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');
-    Route::post('settings/store', 'store')->name('setting.store');
-    Route::post('settings/update/{id}', 'update')->name('setting.update');
-    Route::post('settings/reset/update/{id}', 'reset')->name('settings.reset');
-    Route::delete('settings/destroy/{id}', 'destroy');
+    Route::post('settings/store', 'store')->name('setting.store')->middleware('log.activity');
+    Route::put('settings/update/{id}', 'update')->name('setting.update')->middleware('log.activity');
+    Route::post('settings/reset/update/{id}', 'reset')->name('settings.reset')->middleware('log.activity');
+    Route::delete('settings/destroy/{id}', 'destroy')->middleware('log.activity');
     Route::get('settings/logActivity', 'logActivity');
     Route::post('settings/viewLog', 'viewLog')->name('view.log');
 });

@@ -170,31 +170,107 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="mb-0"><i class="fa-solid fa-location-dot" style="color: red"></i> Weather
-                                    </h3>
-                                </div>
-                                <div class="row row-0 align-items-center p-3">
-                                    <div class="col-4 d-flex flex-column align-items-center">
-                                        <div id="weather-icon" class="mb-3">
-                                            <img src="" alt="Weather Icon" style="width: 100px; height: 100px;">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="card h-md-100">
+                                <div class="card-header d-flex align-items-center justify-content-between pb-0">
+                                    <h4><i class="fa-solid fa-location-dot" style="color: red"></i> Weather</h4>
+                                    <div class="dropdown font-sans-serif btn-reveal-trigger ms-auto">
+                                        <button
+                                            class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal"
+                                            type="button" id="dropdown-weather-update" data-bs-toggle="dropdown"
+                                            data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                                            <span class="fas fa-ellipsis-h fs--2"></span>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end border py-2"
+                                            aria-labelledby="dropdown-weather-update">
+                                            <a class="dropdown-item text-primary" href="{{ url()->current() }}"><i
+                                                    class="fas fa-sync fs--1"></i><span class="ms-1">Reload</span></a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item text-warning"><strong>Informasi Cuaca</strong></a>
+                                            <a class="dropdown-item"><strong>Pressure:</strong>
+                                                {{ $weatherData['main']['pressure'] ?? 'N/A' }} hPa</a>
+                                            <a class="dropdown-item"><strong>Humidity:</strong>
+                                                {{ $weatherData['main']['humidity'] ?? 'N/A' }}%</a>
+                                            <a class="dropdown-item"><strong>Wind:</strong>
+                                                {{ $weatherData['wind']['speed'] ?? 'N/A' }}
+                                                m/s,
+                                                {{ $weatherData['wind']['deg'] ?? 'N/A' }}°</a>
+                                            <a class="dropdown-item"><strong>Cloudiness:</strong>
+                                                {{ $weatherData['clouds']['all'] ?? 'N/A' }}%</a>
+                                            <a class="dropdown-item"><strong>Visibility:</strong>
+                                                {{ $weatherData['visibility'] ?? 'N/A' }}
+                                                m</a>
+                                            <a class="dropdown-item"><strong>Sunrise:</strong>
+                                                {{ isset($weatherData['sys']['sunrise']) ? date('H:i:s', $weatherData['sys']['sunrise']) : 'N/A' }}
+                                                WIB</a>
+                                            <a class="dropdown-item"><strong>Sunset:</strong>
+                                                {{ isset($weatherData['sys']['sunset']) ? date('H:i:s', $weatherData['sys']['sunset']) : 'N/A' }}
+                                                WIB</a>
+                                            <a class="dropdown-item text-warning"><strong>Informasi Lokasi</strong></a>
+                                            <a class="dropdown-item"
+                                                style="white-space: normal; word-wrap: break-word; max-width: 200px; font-size: 10px;">
+                                                {{ $weatherData['display_name'] ?? 'Unknown' }}
+                                            </a>
                                         </div>
-                                        <div id="location" class="text-muted" style="font-size: 1.1rem;">Location</div>
-                                        <div id="address" class="text-muted" style="font-size: 1.1rem;">Address</div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="card-body text-center">
-                                            <div id="temperature" class="text-primary" style="font-size: 1.5rem;">Loading
-                                                temperature...</div>
-                                            <div id="condition" class="text-secondary" style="font-size: 1.1rem;">Condition
+                                </div>
+                                <div class="card-body pt-2">
+                                    <div class="row g-0 h-100 align-items-center">
+                                        <div class="col">
+                                            <div class="d-flex align-items-center">
+                                                @php
+                                                    $temperature = $weatherData['temperature'] ?? null;
+                                                    $iconPath = 'assets/static/weather-icon.png';
+
+                                                    if ($temperature !== null) {
+                                                        if ($temperature > 30) {
+                                                            $iconPath = 'assets/static/weather-icon.png';
+                                                        } elseif ($temperature > 20) {
+                                                            $iconPath = 'assets/static/weather.jpg';
+                                                        } else {
+                                                            $iconPath = 'assets/static/weather-icon-cold.png';
+                                                        }
+                                                    }
+                                                @endphp
+                                                <img class="me-3" src="{{ asset($iconPath) }}" alt=""
+                                                    height="60" />
+                                                <div>
+                                                    <h6 class="mb-2" style="font-size: 12px;">
+                                                        @if (is_array($weatherData))
+                                                            {{ ($weatherData['neighbourhood'] ?? 'Unknown') .
+                                                                (!empty($weatherData['suburb']) ? ', ' . $weatherData['suburb'] : '') .
+                                                                (!empty($weatherData['city_district']) ? ', ' . $weatherData['city_district'] : '') }}
+                                                        @else
+                                                            {{ $weatherData }}
+                                                        @endif
+
+                                                    </h6>
+                                                    <div class="fs--2 fw-semi-bold">
+                                                        <div class="text-warning">
+                                                            {{ isset($weatherData['weather'][0]['main']) ? ucfirst($weatherData['weather'][0]['main']) : 'N/A' }}
+                                                        </div>
+                                                        Precipitation:
+                                                        {{ $weatherData['weather'][0]['description'] ?? 'N/A' }}
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-auto text-center ps-2">
+                                            <div class="fs-4 fw-normal font-sans-serif text-primary mb-1 lh-1">
+                                                {{ isset($weatherData['main']['temp']) ? round($weatherData['main']['temp'], 2) . '°C' : 'N/A' }}
+                                            </div>
+                                            <div class="fs--1 text-800">
+                                                {{ isset($weatherData['main']['temp_max']) ? round($weatherData['main']['temp_max'], 2) . '°C' : 'N/A' }}&deg;
+                                                /
+                                                {{ isset($weatherData['main']['temp_min']) ? round($weatherData['main']['temp_min'], 2) . '°C' : 'N/A' }}&deg;
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Welcome Card -->
                         <div class="col-md-6 col-lg-12">
@@ -347,6 +423,89 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Activity Log -->
+                        {{-- <div class="col-lg-5">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">Activity Logs <a href="{{ url('settings/logActivity') }}"
+                                                    class="ms-1 me-1 text-primary">View All</a type="button"></h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col">
+                                                    <h4 class="text-primary fw-normal">
+                                                        {{ \App\Models\ActivityLog::where('created_at', '>=', now()->subDays(1))->count() }}
+                                                        Data Activity Hari Ini</h4>
+                                                    <p class="fs--2 fw-semi-bold text-500 mb-0">
+                                                        {{ \App\Models\ActivityLog::count() }}
+                                                        data activity keseluruhan</p>
+                                                </div>
+                                                <div class="col-auto pe-0 text-end">
+                                                    <div class="echart-call-duration" data-echart-responsive="true"
+                                                        data-echarts='{"series":[{"type":"line","data":[8,15,12,14,18,12,12,25,13,12,10,13,35],"color":"#f5803e","areaStyle":{"color":{"colorStops":[{"offset":0,"color":"#f5803e3A"},{"offset":1,"color":"#f5803e0A"}]}}}],"grid":{"bottom":"-10px","right":"0px"}}'>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h6 class="mb-0">{{ \App\Models\ActivityLog::count() }} Recent Activity</h6>
+                                        </div>
+                                        <div class="card-body scrollbar recent-activity-body-height ps-2">
+
+                                            @foreach ($activity as $key => $logs)
+                                                <div class="row g-3 timeline timeline-primary timeline-past pb-card">
+                                                    <div class="col-auto ps-4 ms-2">
+                                                        <div class="ps-2">
+                                                            <div
+                                                                class="icon-item icon-item-sm rounded-circle bg-200 shadow-none">
+                                                                <span class="text-primary fas fa-code-branch"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="row gx-0 border-bottom pb-card">
+                                                            <div class="col">
+                                                                <h6 class="text-800 mb-1">{{ $logs->nickname }} -
+                                                                    {{ $logs->username }}</h6>
+                                                                <p class="fs--1 text-600 mb-0">IP Address :
+                                                                    {{ $logs->ip_address }}</p>
+                                                                <p class="fs--1 text-600 mb-0">Akses Page :
+                                                                    {{ $logs->description }}</p>
+                                                                <p class="fs--1 text-600 mb-0">Method :
+                                                                    {{ $logs->action }}</p>
+                                                                <p class="fs--1 text-600 mb-0">Status :
+                                                                    {{ $logs->status_code }}
+                                                                    ({{ $logs->status_description }})
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <p class="fs--2 text-500 mb-0">
+                                                                    {{ \Carbon\Carbon::parse($logs->updated_at)->diffForHumans() }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+                                        <div class="card-footer bg-light p-0"><a
+                                                class="btn btn-sm btn-link d-block w-100 py-2"
+                                                href="{{ url('settings/logActivity') }}">All Activity<span
+                                                    class="fas fa-chevron-right ms-1 fs--2"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
                     </div>
                     @if (Auth::user()->role === 'own' || Auth::user()->role === 'pur' || Auth::user()->role === 'kng')
                         <div class="row row-deck row-cards mt-1">
@@ -506,66 +665,32 @@
             </div>
             @include('shared.footer')
             <script>
-                window.onload = function() {
+                function getLocation() {
                     if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            var lat = position.coords.latitude;
-                            var lon = position.coords.longitude;
-
-                            fetch('/get-weather', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                            .getAttribute('content')
-                                    },
-                                    body: JSON.stringify({
-                                        lat: lat,
-                                        lon: lon
-                                    })
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error('Server responded with error: ' + response.status);
-                                    }
-                                    return response.json();
-                                })
-                                .then(data => {
-                                    document.getElementById('temperature').textContent = "Temperature: " + data
-                                        .temperature + "°C";
-                                    document.getElementById('condition').textContent = "Condition: " + data
-                                        .condition;
-
-                                    var weatherIcon = data.icon;
-                                    var weatherCondition = data.condition
-                                        .toLowerCase();
-
-                                    var iconColor = '';
-                                    if (weatherCondition.includes('clear')) {
-                                        iconColor = '';
-                                    } else if (weatherCondition.includes('cloud')) {
-                                        iconColor = '';
-                                    } else if (weatherCondition.includes('rain') || weatherCondition.includes(
-                                            'storm')) {
-                                        iconColor = '';
-                                    } else {
-                                        iconColor = '';
-                                    }
-
-                                    document.getElementById('weather-icon').innerHTML =
-                                        `<img src="https://openweathermap.org/img/wn/${weatherIcon}.png" alt="Weather Icon" style="width: 100px; height: 100px; ${iconColor}">`;
-
-                                    document.getElementById('address').textContent = "Location: " + data.address;
-                                })
-                                .catch(err => {
-                                    console.error('Error fetching weather data:', err);
-                                    alert('Failed to fetch weather data: ' + err.message);
-                                });
-                        });
+                        navigator.geolocation.getCurrentPosition(sendLocationToServer);
                     } else {
-                        alert("Geolocation is not supported by this browser.");
+                        console.log("Geolocation is not supported by this browser.");
                     }
-                };
+                }
+
+                function sendLocationToServer(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    fetch('/update-location', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            latitude,
+                            longitude
+                        })
+                    })
+                }
+
+                document.addEventListener('DOMContentLoaded', getLocation);
 
                 function updateTime() {
                     const now = new Date();

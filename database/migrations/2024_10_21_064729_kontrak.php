@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('dibeli');
             $table->longText('keterangan')->nullable();
             $table->integer('lock')->default(0);
+            $table->integer('olahan')->default(0);
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });
@@ -34,7 +35,7 @@ return new class extends Migration
             $table->integer('berat');
             $table->decimal('harga', 13, 2);
             $table->integer('lock')->default(0);
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = partial, 4 = used, 5 = close
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = partial, 4 = used, 5 = close, 99 = processed
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

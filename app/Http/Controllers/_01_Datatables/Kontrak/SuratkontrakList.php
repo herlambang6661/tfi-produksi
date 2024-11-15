@@ -24,7 +24,7 @@ class SuratkontrakList extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = SuratkontrakitmModel::where('status', '>', 0)->whereBetween('tanggal', [$request->dari, $request->sampai])->get();
+            $data = SuratkontrakitmModel::where('status', '>', 0)->where('status', '<', 5)->whereBetween('tanggal', [$request->dari, $request->sampai])->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()

@@ -502,7 +502,7 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table style="width:100%; height: 100%;font-size:13px;"
-                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-listBB">
+                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover datatable datatable-listBB">
                                         <tfoot>
                                             <tr>
                                                 <th class="px-1 py-1 text-center" style="width: 1%">
@@ -521,9 +521,7 @@
                                                 <th class="px-1 th py-1" style="width: 1%"></th>
                                                 <th class="px-1 th py-1" style="width: 1%">Tanggal</th>
                                                 <th class="px-1 th py-1" style="width: 1%">Kode Olah</th>
-                                                <th class="px-1 th py-1">Kode QR</th>
-                                                <th class="px-1 th py-1" style="width: 1%">Jenis</th>
-                                                <th class="px-1 th py-1" style="width: 1%">Berat</th>
+                                                <th class="px-1 th py-1">List Produk</th>
                                                 <th class="px-1 th py-1" style="width: 1%">Operator</th>
                                             </tr>
                                         </tfoot>
@@ -1009,21 +1007,9 @@
                             className: "cuspad0 cuspad1 text-center"
                         },
                         {
-                            title: 'Kode QR',
+                            title: 'List Produk',
                             data: 'subkode',
                             name: 'subkode',
-                            className: "cuspad0 cuspad1 text-start"
-                        },
-                        {
-                            title: 'Jenis',
-                            data: 'package',
-                            name: 'package',
-                            className: "cuspad0 cuspad1 text-start"
-                        },
-                        {
-                            title: 'Berat',
-                            data: 'berat',
-                            name: 'berat',
                             className: "cuspad0 cuspad1 text-start"
                         },
                         {

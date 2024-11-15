@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('signDriver')->nullable();
             $table->string('signOp')->nullable();
             $table->string('keterangan')->nullable();
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = partial, 4 = close
+            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = signed, 3 = partial, 4 = close, 99 = processed
             $table->string('verified')->default(0);
             $table->string('dibuat')->nullable();
             $table->timestamps();

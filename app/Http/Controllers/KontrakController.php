@@ -128,7 +128,7 @@ class KontrakController extends Controller
             ]);
 
             //generate noform
-            $checknoform = SuratkontrakModel::latest('noform')->first();
+            $checknoform = SuratkontrakModel::where('olahan', '!=', '1')->latest('noform')->first();
             if ($checknoform) {
                 $y = substr($checknoform->noform, 0, 2);
                 if (date('y') == $y) {

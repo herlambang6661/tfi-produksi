@@ -6,22 +6,22 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KontrakController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Api\WeatherController;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeList;
 use App\Http\Controllers\_01_Datatables\Daftar\JenisList;
 use App\Http\Controllers\_01_Datatables\Daftar\WarnaList;
+use App\Http\Controllers\_01_Datatables\Settings\LogList;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\_01_Datatables\Daftar\TipeSubList;
 use App\Http\Controllers\_01_Datatables\Daftar\SupplierList;
+use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
 use App\Http\Controllers\_01_Datatables\Kontrak\KontrakList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
-use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanQR;
-use App\Http\Controllers\_01_Datatables\Gudang\Pengolahan;
+use App\Http\Controllers\_01_Datatables\Gudang\PengolahanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
-use App\Http\Controllers\_01_Datatables\Settings\LogList;
-use App\Http\Controllers\Api\WeatherController;
-use App\Http\Controllers\SettingsController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -44,7 +44,7 @@ Route::resource('getSuratkontrak', SuratkontrakList::class);
 Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getPenerimaanQR', PenerimaanQR::class);
-Route::resource('getPengolahan', Pengolahan::class);
+Route::resource('getPengolahan', PengolahanList::class);
 Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class)->middleware('log.activity');
 Route::resource('getTipeSub', TipeSubList::class);
@@ -116,8 +116,10 @@ Route::controller(GudangController::class)->group(function () {
     Route::POST('checkPrintQR', 'checkPrintQR')->name('checkPrintQR');
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
-    Route::get('gudang/Pengolahan', 'pengolahan')->name('gudang/Pengolahan');
+    Route::get('gudang/pengolahan', 'pengolahan')->name('gudang/pengolahan');
     Route::post('storedataPengolahan', 'storePengolahan')->name('storedataPengolahan')->middleware('log.activity');
+    Route::get('gudang/pengolahan/proses/{id}', 'prosesPengolahan')->name('gudang/pengolahan/proses/{id}');
+    Route::post('storedataFixPengolahan', 'storeFixPengolahan')->name('storedataFixPengolahan');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

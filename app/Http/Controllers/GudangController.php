@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Svg\Tag\Rect;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use App\Models\DaftartipeModel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\DaftarJenisModel;
+use App\Models\DaftarwarnaModel;
 use App\Models\SuratkontrakModel;
-use App\Models\DaftarsupplierModel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
+use App\Models\SuratkontrakitmModel;
 use Illuminate\Support\Facades\Auth;
 use App\Models\GudangpenerimaanModel;
-use Illuminate\Support\Facades\Crypt;
-use App\Models\GudangpenerimaanitmModel;
-use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
-use App\Models\DaftarJenisModel;
-use App\Models\GudangpenerimaanqrModel;
-use App\Models\GudangpengolahanitmModel;
 use App\Models\GudangpengolahanModel;
-use App\Models\SuratkontrakitmModel;
-use Svg\Tag\Rect;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\GudangpenerimaanqrModel;
+use App\Models\GudangpenerimaanitmModel;
+use App\Models\GudangpengolahanitmModel;
+use App\Models\DaftarTipeSubKategoriModel;
 
 class GudangController extends Controller
 {
@@ -754,6 +756,144 @@ class GudangController extends Controller
                 GudangpenerimaanqrModel::where('id', $request->id_item[$i])->update(['status' => '2', 'kodeolah' => $kode_olah, 'updated_at' => date('Y-m-d H:i:s')]); //change status to processed
             }
             $arr = array('msg' => 'Data Pengolahan telah berhasil disimpan. Kode Olah : ' . $kode_olah . '', 'status' => true);
+            return Response()->json($arr);
+        } catch (\Illuminate\Database\QueryException $e) {
+            // DEBUG IN CASE OF ERROR
+            // dd($e);
+            $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+        }
+    }
+
+    public function prosesPengolahan($id)
+    {
+        $decrypted = Crypt::decryptString($id);
+        $pengolahan = GudangpengolahanModel::where('kodeolah', $decrypted)->first();
+        // $pengolahanItm = GudangpengolahanitmModel::where('kodeolah', $decrypted)->get();
+        $pengolahanItm = DB::table('gudang_pengolahanitm as o')
+            ->select('o.id', 'o.subkode', 'o.package', 'o.berat', 'p.type', 'q.kategori', 'q.warna')
+            ->where('o.kodeolah', $decrypted)
+            ->join('gudang_penerimaanqrcode as p', 'o.subkode', '=', 'p.subkode')
+            ->join('gudang_penerimaanitm as q', 'p.npb', '=', 'q.npb')
+            ->get();
+        return view('products.03_gudang.pengolahanProses', [
+            'active' => 'Pengolahan',
+            'judul' => 'Proses Pengolahan Bahan Baku',
+            'pengolahan' => $pengolahan,
+            'pengolahanItm' => $pengolahanItm,
+        ]);
+    }
+
+    public function storeFixPengolahan(Request $request)
+    {
+        try {
+            // Validasi untuk menanggulangi error
+            $request->validate(
+                [
+                    'tipe' => 'required',
+                    'kategori' => 'required',
+                    'warna' => 'required',
+                    'berat' => 'required',
+                    'qty' => 'required',
+                    'satuan' => 'required',
+                    'kedatangan' => 'required',
+                ],
+                [
+                    'tipe.required' => 'Kolom Tipe Tidak Boleh Kosong',
+                    'kategori.required' => 'Kolom Kategori Tidak Boleh Kosong',
+                    'warna.required' => 'Kolom Warna Tidak Boleh Kosong',
+                    'berat.required' => 'Kolom Berat Tidak Boleh Kosong',
+                    'qty.required' => 'Kolom Qty Tidak Boleh Kosong',
+                    'satuan.required' => 'Kolom Satuan Tidak Boleh Kosong',
+                    'kedatangan.required' => 'Kolom Kedatangan Tidak Boleh Kosong',
+                ]
+            );
+
+            //generate noform
+            $checknpb = GudangpenerimaanModel::orderBy('npb', 'desc')->first();
+            if ($checknpb) {
+                $y = substr($checknpb->npb, 0, 3);
+                if ($y == 'P' . date('y')) {
+                    $query = GudangpenerimaanModel::where(
+                        'npb',
+                        'like',
+                        '%' . 'P' . date('y') . '%'
+                    )->orderBy('npb', 'desc')->first();
+                    $noUrut = (int) substr($query->npb, -4);
+                    $noUrut++;
+                    $char = 'P' . date('y');
+                    $kode_npb = $char . sprintf("%04s", $noUrut);
+                } else {
+                    $kode_npb = 'P' . date('y') . "0001";
+                }
+            } else {
+                $kode_npb = 'P' . date('y') . "0001";
+            }
+            // insert data penerimaan
+            GudangpenerimaanModel::insert([
+                'tanggal' => $request->tanggal,
+                'npb' => $kode_npb,
+                // 'nopol' => $request->nopol,
+                // 'ktp' => $request->nik,
+                // 'driver' => $request->driver,
+                'operator' => Auth::user()->nickname,
+                // 'keterangan' => $request->keterangan,
+                'status' => 2,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            // generate kodeseri
+            $gettipe        = DaftartipeModel::where('id', $request->tipe)->first();
+            $getkategori    = DaftarTipeSubKategoriModel::where('id', $request->kategori)->first();
+            $getwarna       = DaftarwarnaModel::where('id', $request->warna)->first();
+            $char = $gettipe->kode . $getkategori->kode_kategori . $getwarna->kode_warna . date('y');
+            $getkodeseri = SuratkontrakitmModel::where('id_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
+            if ($getkodeseri) {
+                $kdseri = $getkodeseri->id_kontrak;
+                $noUrutKodeseri = (int) substr($kdseri, -3);
+                $noUrutKodeseri++;
+                $kdseri = $char . sprintf("%03s", $noUrutKodeseri);
+            } else {
+                $kdseri = $char . "001";
+            }
+            // insert data penerimaan item
+            GudangpenerimaanitmModel::insert([
+                'tanggal' => $request->tanggal,
+                'npb' => $kode_npb,
+                'kodekontrak' => $kdseri,
+                'tipe' => $gettipe->nama,
+                'kategori' => $getkategori->nama_kategori,
+                'warna' => $getwarna->warna,
+                'berat' => $request->berat,
+                'qty' => $request->qty,
+                'package' => $request->satuan,
+                'kedatangan_ke' => $request->kedatangan,
+                'verified' => 1,
+                'status' => 99,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            $urut = 1;
+            for ($a = 0; $a < $request->qty; $a++) {
+                GudangpenerimaanqrModel::insert([
+                    'tanggal' => $request->tanggal,
+                    'npb' => $kode_npb,
+                    'kodekontrak' => $kdseri,
+                    'subkode' => $kdseri . "-" .  $request->kedatangan . "-" . sprintf("%03s", $urut),
+                    'nourut' => sprintf("%03s", $urut),
+                    'berat_satuan' => $request->berat / $request->qty,
+                    'berat_total' => $request->berat,
+                    'qty_total' => $request->qty,
+                    'package' => $request->satuan,
+                    'type' => $gettipe->nama,
+                    'usable' => 1,
+                    'status' => 1,
+                    'dibuat' => Auth::user()->nickname,
+                    'created_at' => now(),
+                ]);
+                $urut++;
+            }
+
+            $arr = array('msg' => 'Data Pengolahan telah berhasil Diproses. Kode berubah menjadi : ' . $kdseri . '', 'status' => true);
             return Response()->json($arr);
         } catch (\Illuminate\Database\QueryException $e) {
             // DEBUG IN CASE OF ERROR

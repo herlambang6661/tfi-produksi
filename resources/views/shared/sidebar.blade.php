@@ -407,7 +407,7 @@
                                 {{-- @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'Pengolahan' ? 'active' : '' }}"
-                                    href="{{ url('gudang/Pengolahan') }}">
+                                    href="{{ url('gudang/pengolahan') }}">
                                     <svg style="margin-right: 5px" xmlns="http://www.w3.org/2000/svg" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"

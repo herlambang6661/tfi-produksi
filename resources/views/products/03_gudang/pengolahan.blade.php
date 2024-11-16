@@ -596,11 +596,9 @@
                         if (response.success == true) {
                             zippiSuccess.play();
                             $(".overlay").fadeOut(300);
-
                             // $("#inpt-qr").val(response.subkode);
                             // $("#inpt-qr").prop("disabled", false);
                             // $("#inpt-qr").removeClass("cursor-not-allowed");
-
                             if ($("#detail_transaksi").find(".kode_" + response.id).length) {
                                 zippiError.play();
                                 scanner.start();
@@ -615,7 +613,6 @@
                                 var detail_transaksi = document.getElementById("detail_transaksi");
                                 var tr = document.createElement("tr");
                                 tr.setAttribute("id", "btn-remove" + idf);
-
                                 // Kolom 1 Hapus
                                 var td = document.createElement("td");
                                 td.setAttribute("align", "center");
@@ -627,38 +624,30 @@
                                     idf +
                                     ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
                                 tr.appendChild(td);
-
                                 // Kolom 2 Kode
                                 var td = document.createElement("td");
                                 td.innerHTML += response.subkode + '<div class="kode_' + response.id +
                                     '"><input type="hidden" name="id_item[]" value="' + response.id + '"></div>';
                                 tr.appendChild(td);
-
                                 // Kolom 3 BB
                                 var td = document.createElement("td");
                                 td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
                                 tr.appendChild(td);
-
                                 // Kolom 4 Jenis
                                 var td = document.createElement("td");
                                 td.innerHTML += response.package;
                                 tr.appendChild(td);
-
                                 // Kolom 5 Berat
                                 var td = document.createElement("td");
                                 td.innerHTML += response.beratsatuan;
                                 tr.appendChild(td);
-
                                 // Kolom 6 Supplier
                                 var td = document.createElement("td");
                                 td.innerHTML += response.supplier;
                                 tr.appendChild(td);
-
                                 detail_transaksi.appendChild(tr);
-
                                 idf = (idf - 1) + 2;
                                 document.getElementById("idf").value = idf;
-
                                 scanner.start();
                             }
                         } else if (response.success == false) {
@@ -687,9 +676,7 @@
                     }
                 });
             }
-
             // ####### Web Cam Scanning #######
-
             const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
                 onDecodeError: error => {
                     camQrResult.textContent = error;
@@ -698,14 +685,12 @@
                 highlightScanRegion: true,
                 highlightCodeOutline: true,
             });
-
             const updateFlashAvailability = () => {
                 scanner.hasFlash().then(hasFlash => {
                     camHasFlash.textContent = hasFlash ? 'Yes' : 'No';
                     flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
                 });
             };
-
             scanner.start().then(() => {
                 updateFlashAvailability();
                 // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
@@ -719,32 +704,24 @@
                     camList.add(option);
                 }));
             });
-
             QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera ? 'Yes' : 'No');
-
             // for debugging
             window.scanner = scanner;
-
             document.getElementById('inversion-mode-select').addEventListener('change', event => {
                 scanner.setInversionMode(event.target.value);
             });
-
             camList.addEventListener('change', event => {
                 scanner.setCamera(event.target.value).then(updateFlashAvailability);
             });
-
             flashToggle.addEventListener('click', () => {
                 scanner.toggleFlash().then(() => flashState.textContent = scanner.isFlashOn() ? 'on' : 'off');
             });
-
             document.getElementById('start-button').addEventListener('click', () => {
                 scanner.start();
             });
-
             document.getElementById('stop-button').addEventListener('click', () => {
                 scanner.stop();
             });
-
             document.getElementById('tombolStart').addEventListener('click', () => {
                 scanner.start();
             });
@@ -879,8 +856,12 @@
                                     title: 'Berhasil',
                                     html: response.msg,
                                     showConfirmButton: true,
+                                    showDenyButton: true,
                                     allowOutsideClick: false,
                                     allowEscapeKey: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Ok',
+                                    denyButtonText: '<i class="fa-solid fa-print"></i> Print Formulir',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         tablePengolahan.ajax.reload(null, false);
@@ -891,6 +872,9 @@
 
                                         // window.location.href =
                                         //     "{{ route('gudang/penerimaan') }}";
+                                    } else if (result.isDenied) {
+                                        // url ke print
+                                        // window.location.href = "{{ route('gudang/penerimaan') }}";
                                     }
                                 });
                                 document.getElementById("formPengolahan").reset();

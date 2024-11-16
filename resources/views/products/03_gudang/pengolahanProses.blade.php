@@ -82,11 +82,13 @@
                                 <div class="row row-cards">
                                     <div class="col-md-12 text-center">
                                         <img src="{{ asset('photo/illustration/karung.png') }}" width="100px"
-                                            class="object-cover card-img-start" alt="Karung" />
+                                            class="object-cover card-img-start" alt="Karung"
+                                            style="-webkit-filter: drop-shadow(5px 5px 5px #222);filter: drop-shadow(5px 5px 5px #222);" />
                                         <img src="{{ asset('photo/illustration/arrow.png') }}" width="100px"
                                             class="object-cover card-img-start" alt="Karung" />
                                         <img src="{{ asset('photo/illustration/jumbobag2.png') }}" width="100px"
-                                            class="object-cover card-img-start" alt="Karung" />
+                                            class="object-cover card-img-start" alt="Karung"
+                                            style="-webkit-filter: drop-shadow(5px 5px 5px #222);filter: drop-shadow(5px 5px 5px #222);" />
                                     </div>
                                 </div>
                             </div>
@@ -94,18 +96,26 @@
                                 <form id="formPengolahan" name="formPengolahan" method="post" action="javascript:void(0)">
                                     <div class="row">
                                         @csrf
+                                        <input type="hidden" name="id_pengolahan" id="id_pengolahan"
+                                            value="{{ $pengolahan->id }}">
                                         <div class="col-md-6">
                                             <div class="table-responsive">
                                                 <h3>List Bahan Baku</h3>
-                                                <table class="table table-sm table-bordered text-nowrap">
+                                                <table class="table table-sm table-bordered text-nowrap border-orange">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width: 1%" class="text-center">No</th>
-                                                            <th>Kodekontrak</th>
-                                                            <th style="width: 1%" class="text-center">Jenis</th>
-                                                            <th style="width: 1%" class="text-center">Kategori</th>
-                                                            <th style="width: 1%" class="text-center">Warna</th>
-                                                            <th style="width: 1%">Berat</th>
+                                                            <th style="width: 1%" class="text-center bg-orange-lt">No
+                                                            </th>
+                                                            <th class=" bg-orange-lt">Kodekontrak</th>
+                                                            <th style="width: 1%" class="text-center bg-orange-lt">Jenis
+                                                            </th>
+                                                            <th style="width: 1%" class="text-center bg-orange-lt">Kategori
+                                                            </th>
+                                                            <th style="width: 1%" class="text-center bg-orange-lt">Warna
+                                                            </th>
+                                                            <th style="width: 1%" class="text-center bg-orange-lt">Satuan
+                                                            </th>
+                                                            <th style="width: 1%" class=" bg-orange-lt">Berat</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -113,18 +123,19 @@
                                                             $no = 1;
                                                         @endphp
                                                         @foreach ($pengolahanItm as $item)
-                                                            <input type="hidden" name="id[]"
-                                                                value="{{ $item->id }}">
+                                                            <input type="hidden" name="id_bahanBaku[]"
+                                                                value="{{ $item->id_qr }}">
                                                             <tr>
-                                                                <td class="text-center">{{ $no++ }}</td>
-                                                                <td>{{ $item->subkode }}</td>
-                                                                <td class="text-center">{{ $item->package }}</td>
-                                                                <td class="text-center">{{ $item->kategori }}</td>
-                                                                <td class="text-center">{{ $item->warna }}</td>
-                                                                <td class="text-center">
+                                                                <td class="text-center py-2">{{ $no++ }}</td>
+                                                                <td class=" py-2">{{ $item->kodekontrak }}</td>
+                                                                <td class="text-center py-2">{{ $item->type }}</td>
+                                                                <td class="text-center py-2">{{ $item->kategori }}</td>
+                                                                <td class="text-center py-2">{{ $item->warna }}</td>
+                                                                <td class="text-center py-2">{{ $item->package }}</td>
+                                                                <td class="text-center py-0">
                                                                     <input type="number" name="berat_satuan[]"
                                                                         style="width: 100px" value="{{ $item->berat }}"
-                                                                        class="form-control">
+                                                                        class="form-control border-white">
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -159,7 +170,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="mb-1">
-                                                            <label class="form-label required">Berat Bahan Baku</label>
+                                                            <label class="form-label required">Berat Total</label>
                                                             <input name='berat' id='berat' type="number"
                                                                 class="form-control" min="0" autocomplete="off">
                                                         </div>
@@ -313,7 +324,7 @@
                             kedatangan: {
                                 required: true,
                             },
-                            "id[]": "required",
+                            "id_bahanBaku[]": "required",
                             "berat_satuan[]": "required",
                         },
                         messages: {
@@ -341,8 +352,8 @@
                             kedatangan: {
                                 required: 'Kolom ini tidak boleh kosong',
                             },
-                            "id[]": "Kolom ini tidak boleh kosong",
-                            "berat_satuan[]": "required",
+                            "id_bahanBaku[]": "Kolom ini tidak boleh kosong",
+                            "berat_satuan[]": "Kolom ini tidak boleh kosong",
                         },
                         highlight: function(element) {
                             // add a class "errorClass" to the element
@@ -384,6 +395,7 @@
                                         '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-device-floppy" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" /><path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M14 4l0 4l-6 0l0 -4" /></svg> Simpan'
                                     );
                                     $("#submitPengolahan").attr("disabled", false);
+                                    console.log(response);
                                     Swal.fire({
                                         icon: 'success',
                                         title: 'Berhasil',

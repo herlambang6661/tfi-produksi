@@ -32,11 +32,6 @@ class DaftarSeeder extends Seeder
                 'nama' => 'Waste',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
-            [
-                'kode' => 'O',
-                'nama' => 'Others',
-                'created_at' => date('Y-m-d H:i:s'),
-            ],
         ];
 
         $kategori = [
@@ -48,11 +43,6 @@ class DaftarSeeder extends Seeder
             [
                 'kode_kategori' => 'K',
                 'nama_kategori' => 'Kerikil',
-                'created_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'kode_kategori' => 'O',
-                'nama_kategori' => 'Others',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
         ];
@@ -83,11 +73,6 @@ class DaftarSeeder extends Seeder
                 'warna' => 'Mambo',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
-            [
-                'kode_warna' => 'O',
-                'warna' => 'Others',
-                'created_at' => date('Y-m-d H:i:s'),
-            ],
         ];
 
         $jenis = [
@@ -97,10 +82,6 @@ class DaftarSeeder extends Seeder
             ],
             [
                 'nama_jenis' => 'Karung',
-                'created_at' => date('Y-m-d H:i:s'),
-            ],
-            [
-                'nama_jenis' => 'Others',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
         ];

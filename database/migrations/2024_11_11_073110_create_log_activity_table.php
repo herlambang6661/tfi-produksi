@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
-            $table->string('referer_url')->nullable();
+            $table->longText('referer_url')->nullable();
             $table->integer('status_code')->nullable();
             $table->string('status_description')->nullable();
             $table->json('request_data')->nullable();

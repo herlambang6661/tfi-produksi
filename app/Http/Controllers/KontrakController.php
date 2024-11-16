@@ -44,7 +44,6 @@ class KontrakController extends Controller
             'tipe' => $getTipe,
         ]);
     }
-
     public function getBahanBaku(Request $request)
     {
         if ($request->has('q')) {
@@ -57,7 +56,6 @@ class KontrakController extends Controller
         }
         return Response()->json($kabag);
     }
-
     public function getWarnaByTipe(Request $request)
     {
         $getWarna = DaftarwarnaModel::where('id_tipe', $request->tipe)->get();
@@ -66,7 +64,6 @@ class KontrakController extends Controller
             echo '<option value="' . $value->warna . '">' . $value->warna . '</option>';
         }
     }
-
     public function getKategori(Request $request)
     {
         if ($request->has('q')) {
@@ -115,7 +112,6 @@ class KontrakController extends Controller
         }
         return Response()->json($kabag);
     }
-
     public function store(Request $request)
     {
         try {
@@ -151,7 +147,6 @@ class KontrakController extends Controller
                 'supplier' => $request->supplier,
                 'dibeli' => $request->dibeli,
                 'keterangan' => $request->keterangan,
-
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
@@ -194,7 +189,6 @@ class KontrakController extends Controller
             return response()->json(['msg' => 'Something went wrong. Please try later. ' . $e->getMessage(), 'status' => false], 500);
         }
     }
-
     public function detailKontrak(Request $request)
     {
         $data = SuratkontrakModel::where('noform', $request->id)->first();
@@ -303,7 +297,6 @@ class KontrakController extends Controller
 
         return $pdf->download('surat_kontrak.pdf');
     }
-
     public function printSuratKontrak(Request $request)
     {
         $data = SuratkontrakModel::where('noform', $request->id)->first();

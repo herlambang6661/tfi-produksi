@@ -117,7 +117,7 @@ Route::controller(GudangController::class)->group(function () {
     //Scanner
     Route::get('gudang/scanner', 'scanner')->name('gudang.scanner');
     Route::get('gudang/pengolahan', 'pengolahan')->name('gudang/pengolahan');
-    Route::post('storedataPengolahan', 'storePengolahan')->name('storedataPengolahan')->middleware('log.activity');
+    Route::post('storedataPengolahan', 'storePengolahan')->name('storedataPengolahan');
     Route::get('gudang/pengolahan/proses/{id}', 'prosesPengolahan')->name('gudang/pengolahan/proses/{id}');
     Route::post('storedataFixPengolahan', 'storeFixPengolahan')->name('storedataFixPengolahan');
 });

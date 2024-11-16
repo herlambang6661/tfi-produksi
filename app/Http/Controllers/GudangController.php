@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\DaftarJenisModel;
 use App\Models\DaftarwarnaModel;
 use App\Models\SuratkontrakModel;
+use PHPUnit\Event\Code\Throwable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Models\SuratkontrakitmModel;
@@ -702,7 +703,7 @@ class GudangController extends Controller
                 [
                     'tanggal.required' => 'Tanggal Proses wajib diisi',
                     'operator.required' => 'Operator',
-                    'id_itm.required' => 'ID Kosong',
+                    'id_item.required' => 'Tidak ada barang yang di scan',
                 ]
             );
             //generate noform
@@ -711,7 +712,7 @@ class GudangController extends Controller
                 $y = substr($checkkodeolah->kodeolah, 0, 3);
                 if ($y == 'O' . date('y')) {
                     $query = GudangpengolahanModel::where(
-                        'npb',
+                        'kodeolah',
                         'like',
                         '%' . 'O' . date('y') . '%'
                     )->orderBy('kodeolah', 'desc')->first();
@@ -739,16 +740,10 @@ class GudangController extends Controller
                 GudangpengolahanitmModel::insert([
                     'tanggal' => $request->tanggal,
                     'kodeolah' => $kode_olah,
-                    'subkode' => $dataBales->subkode,
+                    'kodekontrak' => $dataBales->subkode,
                     'package' => $dataBales->package,
                     'berat' => $dataBales->berat_satuan,
                     'operator' => $request->operator,
-                    // 'tipe' => $dataKontrak->tipe,
-                    // 'kategori' => $dataKontrak->kategori,
-                    // 'warna' => $dataKontrak->warna,
-                    // 'berat' => $request->berat[$i],
-                    // 'qty' => $request->qty[$i],
-                    // 'supplier' => $getSupplier->supplier,
                     'dibuat' => Auth::user()->nickname,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -770,9 +765,9 @@ class GudangController extends Controller
         $pengolahan = GudangpengolahanModel::where('kodeolah', $decrypted)->first();
         // $pengolahanItm = GudangpengolahanitmModel::where('kodeolah', $decrypted)->get();
         $pengolahanItm = DB::table('gudang_pengolahanitm as o')
-            ->select('o.id', 'o.subkode', 'o.package', 'o.berat', 'p.type', 'q.kategori', 'q.warna')
+            ->select('o.id', 'o.kodekontrak', 'o.package', 'o.berat', 'p.type', 'q.kategori', 'q.warna', 'p.id as id_qr')
             ->where('o.kodeolah', $decrypted)
-            ->join('gudang_penerimaanqrcode as p', 'o.subkode', '=', 'p.subkode')
+            ->join('gudang_penerimaanqrcode as p', 'o.kodekontrak', '=', 'p.subkode')
             ->join('gudang_penerimaanitm as q', 'p.npb', '=', 'q.npb')
             ->get();
         return view('products.03_gudang.pengolahanProses', [
@@ -785,29 +780,106 @@ class GudangController extends Controller
 
     public function storeFixPengolahan(Request $request)
     {
+        // Validasi untuk menanggulangi error
+        $request->validate(
+            [
+                'tipe' => 'required',
+                'kategori' => 'required',
+                'warna' => 'required',
+                'berat' => 'required',
+                'qty' => 'required',
+                'satuan' => 'required',
+                'kedatangan' => 'required',
+            ],
+            [
+                'tipe.required' => 'Kolom Tipe Tidak Boleh Kosong',
+                'kategori.required' => 'Kolom Kategori Tidak Boleh Kosong',
+                'warna.required' => 'Kolom Warna Tidak Boleh Kosong',
+                'berat.required' => 'Kolom Berat Tidak Boleh Kosong',
+                'qty.required' => 'Kolom Qty Tidak Boleh Kosong',
+                'satuan.required' => 'Kolom Satuan Tidak Boleh Kosong',
+                'kedatangan.required' => 'Kolom Kedatangan Tidak Boleh Kosong',
+            ]
+        );
         try {
-            // Validasi untuk menanggulangi error
-            $request->validate(
-                [
-                    'tipe' => 'required',
-                    'kategori' => 'required',
-                    'warna' => 'required',
-                    'berat' => 'required',
-                    'qty' => 'required',
-                    'satuan' => 'required',
-                    'kedatangan' => 'required',
-                ],
-                [
-                    'tipe.required' => 'Kolom Tipe Tidak Boleh Kosong',
-                    'kategori.required' => 'Kolom Kategori Tidak Boleh Kosong',
-                    'warna.required' => 'Kolom Warna Tidak Boleh Kosong',
-                    'berat.required' => 'Kolom Berat Tidak Boleh Kosong',
-                    'qty.required' => 'Kolom Qty Tidak Boleh Kosong',
-                    'satuan.required' => 'Kolom Satuan Tidak Boleh Kosong',
-                    'kedatangan.required' => 'Kolom Kedatangan Tidak Boleh Kosong',
-                ]
-            );
+            $Pengolahan = GudangpengolahanModel::where('id',  $request->id_pengolahan)->first();
+            $list_bahanBaku = GudangpengolahanitmModel::where('kodeolah', $Pengolahan->kodeolah)->get();
+            // =================================================================================
+            // =================================================================================
+            // ============================ Surat Kontrak dan Kontrak Item =====================
+            // =================================================================================
+            // =================================================================================
+            //generate noform
+            $checknoform = SuratkontrakModel::where('olahan', '1')->latest('noform')->first();
+            if ($checknoform) {
+                $y = substr($checknoform->noform, 1, 2);
+                if (date('y') == $y) {
+                    $query = SuratkontrakModel::where(
+                        'noform',
+                        'like',
+                        '%L' . date('y') . '%'
+                    )->orderBy('noform', 'desc')->first();
+                    $noUrut = (int) substr($query->noform, -4);
+                    $noUrut++;
+                    $char = 'L' . date('y-');
+                    $kode_noform = $char . sprintf("%04s", $noUrut);
+                } else {
+                    $kode_noform = 'L' . date('y-') . "0001";
+                }
+            } else {
+                $kode_noform = 'L' . date('y-') . "0001";
+            }
 
+            SuratkontrakModel::insert([
+                'entitas' => 'TFI',
+                'noform' => $kode_noform,
+                'tanggal' => $request->tanggal,
+                'supplier' => 'Tantra Fiber Industri. PT',
+                'dibeli' => '',
+                'keterangan' => 'Hasil Olahan Bahan Baku dari ' . implode(', ', $list_bahanBaku->pluck('kodekontrak')->toArray()),
+                'lock' => 1,
+                'olahan' => 1,
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+
+            // for ($i = 0; $i < count($request->tipe); $i++) {
+            $gettipe        = DaftartipeModel::where('id', $request->tipe)->first();
+            $getkategori    = DaftarTipeSubKategoriModel::where('id', $request->kategori)->first();
+            $getwarna       = DaftarwarnaModel::where('id', $request->warna)->first();
+            $character = $gettipe->kode . $getkategori->kode_kategori . $getwarna->kode_warna . date('y');
+
+            // generate kodeseri. ex: WBP24001, FBP24001
+            $getkodeseri = SuratkontrakitmModel::where('id_kontrak', 'like', '%' . $character . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
+            if ($getkodeseri) {
+                $kdseri = $getkodeseri->id_kontrak;
+                $noUrutKodeseri = (int) substr($kdseri, -3);
+                $noUrutKodeseri++;
+                $kdseri = $character . sprintf("%03s", $noUrutKodeseri);
+            } else {
+                $kdseri = $character . "001";
+            }
+            SuratkontrakitmModel::insert([
+                'noform' => $kode_noform,
+                'id_kontrak' => $kdseri,
+                'tanggal' => $request->tanggal,
+                'tipe' => $gettipe->nama,
+                'kategori' => $getkategori->nama_kategori,
+                'warna' => $getwarna->warna,
+                'berat' => $request->berat,
+                'harga' => 0,
+                'status' => 99, // 99 = proccessed result
+                'lock' => 1, // 1 = this item has been locked and can't be deleted
+                'dibuat' => Auth::user()->nickname,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]);
+            // }
+
+            // =================================================================================
+            // =================================================================================
+            // ============================ Penerimaan dan Penerimaan Item =====================
+            // =================================================================================
+            // =================================================================================
             //generate noform
             $checknpb = GudangpenerimaanModel::orderBy('npb', 'desc')->first();
             if ($checknpb) {
@@ -820,8 +892,8 @@ class GudangController extends Controller
                     )->orderBy('npb', 'desc')->first();
                     $noUrut = (int) substr($query->npb, -4);
                     $noUrut++;
-                    $char = 'P' . date('y');
-                    $kode_npb = $char . sprintf("%04s", $noUrut);
+                    $char_penerimaan = 'P' . date('y');
+                    $kode_npb = $char_penerimaan . sprintf("%04s", $noUrut);
                 } else {
                     $kode_npb = 'P' . date('y') . "0001";
                 }
@@ -836,25 +908,12 @@ class GudangController extends Controller
                 // 'ktp' => $request->nik,
                 // 'driver' => $request->driver,
                 'operator' => Auth::user()->nickname,
-                // 'keterangan' => $request->keterangan,
+                'keterangan' => 'Hasil Olahan Bahan Baku dari ' . implode(', ', $list_bahanBaku->pluck('kodekontrak')->toArray()),
                 'status' => 2,
+                'verified' => 1,
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
-            // generate kodeseri
-            $gettipe        = DaftartipeModel::where('id', $request->tipe)->first();
-            $getkategori    = DaftarTipeSubKategoriModel::where('id', $request->kategori)->first();
-            $getwarna       = DaftarwarnaModel::where('id', $request->warna)->first();
-            $char = $gettipe->kode . $getkategori->kode_kategori . $getwarna->kode_warna . date('y');
-            $getkodeseri = SuratkontrakitmModel::where('id_kontrak', 'like', '%' . $char . '%')->where('status', '>', 0)->latest('id_kontrak')->first();
-            if ($getkodeseri) {
-                $kdseri = $getkodeseri->id_kontrak;
-                $noUrutKodeseri = (int) substr($kdseri, -3);
-                $noUrutKodeseri++;
-                $kdseri = $char . sprintf("%03s", $noUrutKodeseri);
-            } else {
-                $kdseri = $char . "001";
-            }
             // insert data penerimaan item
             GudangpenerimaanitmModel::insert([
                 'tanggal' => $request->tanggal,
@@ -867,8 +926,9 @@ class GudangController extends Controller
                 'qty' => $request->qty,
                 'package' => $request->satuan,
                 'kedatangan_ke' => $request->kedatangan,
+                'supplier' => 'Tantra Fiber Industri. PT',
                 'verified' => 1,
-                'status' => 99,
+                'status' => 99, // 99 = hasil olahan / processed result
                 'dibuat' => Auth::user()->nickname,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
@@ -892,13 +952,30 @@ class GudangController extends Controller
                 ]);
                 $urut++;
             }
+            for ($i = 0; $i < count($request->id_bahanBaku); $i++) {
+                $updateOldQR = GudangpenerimaanqrModel::where('id',  $request->id_bahanBaku[$i])->update([
+                    'kodeolah' => $Pengolahan->kodeolah,
+                    'kode_berubah' => $kdseri,
+                    'status' => 4, // 4 = closed can't be used cause it has been processed
+                    'updated_at' => now(),
+                ]);
+            }
+            $updatePengolahan = GudangpengolahanModel::where('id',  $request->id_pengolahan)->update([
+                'status' => 3, // 3 = closed
+                'updated_at' => now(),
+            ]);
+            $updatePengolahanItm = GudangpengolahanitmModel::where('kodeolah',  $Pengolahan->kodeolah)->update([
+                'status' => 3, // 3 = closed
+                'updated_at' => now(),
+            ]);
 
             $arr = array('msg' => 'Data Pengolahan telah berhasil Diproses. Kode berubah menjadi : ' . $kdseri . '', 'status' => true);
             return Response()->json($arr);
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (Throwable $e) {
             // DEBUG IN CASE OF ERROR
             // dd($e);
             $arr = array('msg' => 'Something goes to wrong. Please try later. ' . $e, 'status' => false);
+            return Response()->json($arr);
         }
     }
 }

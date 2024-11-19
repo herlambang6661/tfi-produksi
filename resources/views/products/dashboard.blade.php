@@ -321,17 +321,15 @@
                                                     height="50" />
                                                 <div>
                                                     <h6 class="mb-2" style="font-size: 12px;">
-                                                        {{-- {{ isset($locationData['suburb'], $locationData['city_district']) 
-                                                            ? $locationData['suburb'] . ' - ' . $locationData['city_district'] 
-                                                            : ($weatherData['city'] ?? 'Unknown') }} --}}
 
-                                                        {{ isset($locationData['suburb'], $locationData['city_district']) &&
+
+                                                        {{-- {{ isset($locationData['suburb'], $locationData['city_district']) &&
                                                         $locationData['suburb'] &&
                                                         $locationData['city_district']
                                                             ? $locationData['suburb'] . ' - ' . $locationData['city_district']
                                                             : ($weatherData['display_name']
                                                                 ? collect(explode(',', $weatherData['display_name']))->slice(2, 2)->implode(', ')
-                                                                : $weatherData['city'] ?? 'Unknown') }}
+                                                                : $weatherData['city'] ?? 'Unknown') }} --}}
 
                                                     </h6>
                                                     <div class="fs--2 fw-semi-bold">
@@ -777,6 +775,13 @@
                             longitude
                         })
                     })
+                    // .then(response => response.json())
+                    // .then(data => {
+                    //     console.log('Success:', data);
+                    // })
+                    // .catch(error => {
+                    //     console.error('Error:', error);
+                    // });
                 }
 
                 document.addEventListener('DOMContentLoaded', getLocation);

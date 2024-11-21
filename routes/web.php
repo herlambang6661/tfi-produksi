@@ -52,9 +52,9 @@ Route::resource('getLogActivity', LogList::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post')->middleware('log.activity');
+    Route::post('/update-location', 'updateLocation')->name('update.location');
 });
 Route::get('dashboard', [DashboardController::class, 'dashboard']);
-Route::post('/update-location', [DashboardController::class, 'updateLocation'])->name('update.location');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::controller(DaftarController::class)->group(function () {

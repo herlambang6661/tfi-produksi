@@ -38,20 +38,35 @@ class WeatherService
 
     public function getLocationName($latitude, $longitude)
     {
-        $response = Http::get($this->nominatimBaseUrl, [
-            'lat' => $latitude,
-            'lon' => $longitude,
-            'format' => 'json',
-            'addressdetails' => 1,
-        ]);
+        $url = $this->nominatimBaseUrl . "?lat={$latitude}&lon={$longitude}&format=json&addressdetails=1";
+
+        $response = Http::withHeaders([
+            'User-Agent'    => 'TFI/Produksi (Administrator)',
+            'Accept'        => 'application/json',
+            'Connection'    => 'keep-alive',
+        ])->get($url);
+
+        // dd($response->json());
+
+        if (!$response->successful()) {
+            return [
+                // 'village' => 'Unknown',
+                // 'city' => 'Unknown',
+                // 'city_district' => 'Unknown',
+                'display_name' => 'Unknown',
+            ];
+        }
 
         $locationData = $response->json();
         $address = $locationData['address'] ?? [];
+        // dd($address);
 
         return [
-            'neighbourhood' => $address['neighbourhood'] ?? ($address['city_block'] ?? 'Unknown'),
-            'suburb' => $address['suburb'] ?? 'Unknown',
-            'city_district' => $address['city_district'] ?? 'Unknown',
+            // 'village' => $address['village'] ?? ($address['city_block'] ?? 'Unknown'),
+            'neighbourhood' => $address['neighbourhood'] ?? null,
+            'city_district' => $address['city_district'] ?? null,
+            // 'city' => $address['city'] ?? null,
+            'suburb' => $address['suburb'] ?? null,
             'display_name' => $locationData['display_name'] ?? 'Unknown',
         ];
     }

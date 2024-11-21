@@ -88,7 +88,54 @@
                 <div class="container-xl">
                     <div class="row row-deck row-cards">
 
-                        <div class="col-lg-6">
+                        <div class="col-md-6 col-xl-3">
+                            <a class="card card-link" href="{{ url()->current() }}">
+                                <div class="card-cover card-cover-blurred text-center"
+                                    style="background-image: url(photo/icon/tantra.png)">
+                                    <?php
+                                    $role = Auth::user()->role;
+                                    $username = Auth::user()->username;
+                                    
+                                    $avatarUrl = asset('assets/static/avatars/super.jpg');
+                                    
+                                    if ($role === 'own') {
+                                        if ($username === 'alvin') {
+                                            $avatarUrl = asset('assets/static/avatars/1.jpg');
+                                        } elseif ($username === 'brian') {
+                                            $avatarUrl = asset('assets/static/avatars/2.jpg');
+                                        } elseif ($username === 'felixjesse') {
+                                            $avatarUrl = asset('assets/static/avatars/3.jpg');
+                                        } else {
+                                            $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                        }
+                                    } elseif ($role === 'pur') {
+                                        $avatarUrl = asset('assets/static/avatars/puji.jpg');
+                                    } elseif ($role === 'kng') {
+                                        $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                    } elseif ($role === 'whs') {
+                                        if ($username === 'fahmi') {
+                                            $avatarUrl = asset('assets/static/avatars/fahmi.jpg');
+                                        } elseif ($username === 'rizki') {
+                                            $avatarUrl = asset('assets/static/avatars/rizky.jpg');
+                                        } elseif ($username === 'yanti') {
+                                            $avatarUrl = asset('assets/static/avatars/yanti.jpg');
+                                        } else {
+                                            $avatarUrl = asset('assets/static/avatars/avatar.png');
+                                        }
+                                    }
+                                    ?>
+                                    <span class="avatar avatar-xl avatar-thumb rounded"
+                                        style="background-image: url(<?php echo $avatarUrl; ?>)"></span>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="card-title mb-1">{{ strtoupper(Auth::user()->username) }}</div>
+                                    <div class="text-primary">
+                                        {{ \Carbon\Carbon::parse(Auth::user()->created_at)->format('d M Y H:i') }}
+                                        WIB</div>
+                                </div>
+                            </a>
+                        </div>
+                        {{-- <div class="col-lg-6">
                             <div class="card bg-primary text-primary-fg">
                                 <div class="card-stamp">
                                     <div class="card-stamp-icon bg-white text-primary">
@@ -168,9 +215,9 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-6 col-md-9">
                             <div class="card h-md-100">
                                 <div class="card-header d-flex align-items-center justify-content-between pb-0">
                                     <h4><i class="fa-solid fa-location-dot" style="color: red"></i> Weather</h4>
@@ -218,7 +265,7 @@
                                     <div class="row g-0 h-100 align-items-center">
                                         <div class="col">
                                             <div class="d-flex align-items-center">
-                                                @php
+                                                {{-- @php
                                                     $temperature = $weatherData['temperature'] ?? null;
                                                     $iconPath = 'assets/static/weather-icon.png';
 
@@ -231,13 +278,56 @@
                                                             $iconPath = 'assets/static/weather-icon-cold.png';
                                                         }
                                                     }
+                                                @endphp --}}
+                                                @php
+                                                    $temperature = $weatherData['main']['temp'] ?? null;
+                                                    $weatherCondition = $weatherData['weather'][0]['main'] ?? 'Clear';
+                                                    $currentTime = date('H');
+                                                    $iconClass = 'fas fa-sun';
+
+                                                    if ($temperature !== null) {
+                                                        if ($temperature > 30) {
+                                                            $iconClass = 'fas fa-thermometer-full';
+                                                        } elseif ($temperature > 20) {
+                                                            $iconClass = 'fas fa-thermometer-half';
+                                                        } else {
+                                                            $iconClass = 'fas fa-thermometer-quarter';
+                                                        }
+                                                    }
+
+                                                    switch ($weatherCondition) {
+                                                        case 'Rain':
+                                                            $iconClass = 'assets/static/shower.png';
+                                                            break;
+                                                        case 'Clouds':
+                                                            $iconClass = 'assets/static/weather.png';
+                                                            break;
+                                                        case 'Clear':
+                                                            if ($currentTime >= 6 && $currentTime < 18) {
+                                                                $iconClass = 'assets/static/weather-icon.png';
+                                                            } else {
+                                                                $iconClass = 'assets/static/moon.png';
+                                                            }
+                                                            break;
+                                                        case 'Snow':
+                                                            $iconClass = 'assets/static/snowflake.png';
+                                                            break;
+                                                        default:
+                                                            $iconClass = 'assets/static/weather.png';
+                                                            break;
+                                                    }
                                                 @endphp
-                                                <img class="me-3" src="{{ asset($iconPath) }}" alt=""
-                                                    height="60" />
+                                                <img class="me-3" src="{{ asset($iconClass) }}" alt=""
+                                                    height="50" />
                                                 <div>
                                                     <h6 class="mb-2" style="font-size: 12px;">
-                                                        {{ $weatherData['display_name'] ?? 'Unknown' }}
-
+                                                        {{ isset($locationData['suburb'], $locationData['city_district']) &&
+                                                        $locationData['suburb'] &&
+                                                        $locationData['city_district']
+                                                            ? $locationData['suburb'] . ' - ' . $locationData['city_district']
+                                                            : ($weatherData['display_name']
+                                                                ? collect(explode(',', $weatherData['display_name']))->slice(2, 2)->implode(', ')
+                                                                : $weatherData['city'] ?? 'Unknown') }}
 
                                                     </h6>
                                                     <div class="fs--2 fw-semi-bold">
@@ -265,7 +355,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- Welcome Card -->
                         <div class="col-md-6 col-lg-12">
@@ -683,6 +772,13 @@
                             longitude
                         })
                     })
+                    // .then(response => response.json())
+                    // .then(data => {
+                    //     console.log('Success:', data);
+                    // })
+                    // .catch(error => {
+                    //     console.error('Error:', error);
+                    // });
                 }
 
                 document.addEventListener('DOMContentLoaded', getLocation);

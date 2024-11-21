@@ -168,7 +168,7 @@
                             <div class="btn-list">
                                 <ul class="nav">
                                     <a href="#tabs-input"
-                                        class="active btn btn-outline-dark d-none d-sm-inline-block border border-dark"
+                                        class="btn btn-outline-dark d-none d-sm-inline-block border border-dark"
                                         data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
                                         style="margin-right: 10px" id="tombolStart">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -188,7 +188,7 @@
                                         Input Pengolahan BB
                                     </a>
                                     <a href="#tabs-listBB"
-                                        class="btn btn-outline-dark d-none d-sm-inline-block border border-dark"
+                                        class="active btn btn-outline-dark d-none d-sm-inline-block border border-dark"
                                         data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
                                         style="margin-right: 10px" id="tombolStop">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -207,8 +207,7 @@
                                     </a>
                                 </ul>
                                 <ul class="nav">
-                                    <a href="#tabs-input"
-                                        class="active btn btn-outline-dark d-sm-none btn-icon border border-dark"
+                                    <a href="#tabs-input" class="btn btn-outline-dark d-sm-none btn-icon border border-dark"
                                         data-bs-toggle="tab" aria-selected="true" role="tab"
                                         aria-label="List Item Permintaan" style="margin-right: 10px">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -227,7 +226,7 @@
                                         </svg>
                                     </a>
                                     <a href="#tabs-listBB"
-                                        class="btn btn-outline-dark d-sm-none btn-icon border border-dark"
+                                        class="active btn btn-outline-dark d-sm-none btn-icon border border-dark"
                                         data-bs-toggle="tab" aria-selected="true" role="tab"
                                         aria-label="List Item Permintaan" style="margin-right: 10px">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -253,7 +252,7 @@
             <div class="page-body">
                 <div class="container-xl">
                     <div class="tab-content">
-                        <div class="tab-pane fade active show" id="tabs-input" role="tabpanel">
+                        <div class="tab-pane fade" id="tabs-input" role="tabpanel">
                             <div class="row">
                                 <div class="col-lg-4">
                                     <div class="card card-xl border-primary shadow rounded mb-3 py-1 px-1">
@@ -319,7 +318,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-8">
+                                <div class="col-lg-8" onkeydown="return event.key != 'Enter';">
                                     <div class="card card-xl border-primary shadow rounded mb-3">
                                         <div class="table-responsive">
                                             <form id="formPengolahan" name="formPengolahan" method="post"
@@ -328,15 +327,23 @@
                                                 <input id="idf" value="1" type="hidden">
                                                 <div class="card-body px-1 py-1 my-1 mx-1">
                                                     <div class="row">
-                                                        <div class="mb-3 col-md-6">
+                                                        <div class="col-md-6">
                                                             <label class="form-label">Tanggal Input</label>
-                                                            <input type="date" class="form-control" name="tanggal"
-                                                                id="tanggal" value="{{ date('Y-m-d') }}">
+                                                            <input type="date" class="form-control border-dark"
+                                                                name="tanggal" id="tanggal"
+                                                                value="{{ date('Y-m-d') }}">
                                                         </div>
-                                                        <div class="mb-3 col-md-6">
+                                                        <div class="col-md-6">
                                                             <label class="form-label">Operator</label>
-                                                            <input type="text" class="form-control" name="operator"
-                                                                id="operator" value="{{ Auth::user()->nickname }}">
+                                                            <input type="text" class="form-control border-dark"
+                                                                name="operator" id="operator"
+                                                                value="{{ Auth::user()->nickname }}">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label class="form-label">Kode</label>
+                                                            <input type="text" class="form-control border-dark"
+                                                                name="qrText" id="qrText"
+                                                                onkeydown = "if (event.keyCode == 13)  fetchQr()">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -457,7 +464,7 @@
                             <b style="display: none">Last detected at: </b>
                             <span id="cam-qr-result-timestamp" style="display: none"></span>
                         </div>
-                        <div class="tab-pane fade" id="tabs-listBB" role="tabpanel">
+                        <div class="tab-pane fade active show" id="tabs-listBB" role="tabpanel">
                             <div class="card card-xl border-primary shadow rounded">
                                 <div class="card-stamp card-stamp-lg">
                                     <div class="card-stamp-icon bg-primary">
@@ -563,6 +570,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         keyword: result.data,
+                        type: "scan",
                     },
                     beforeSend: function() {
                         scanner.stop();
@@ -691,19 +699,6 @@
                     flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
                 });
             };
-            scanner.start().then(() => {
-                updateFlashAvailability();
-                // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
-                // at the same time which can result in listCamera's unconstrained stream also being offered to the scanner.
-                // Note that we can also start the scanner after listCameras, we just have it this way around in the demo to
-                // start the scanner earlier.
-                QrScanner.listCameras(true).then(cameras => cameras.forEach(camera => {
-                    const option = document.createElement('option');
-                    option.value = camera.id;
-                    option.text = camera.label;
-                    camList.add(option);
-                }));
-            });
             QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera ? 'Yes' : 'No');
             // for debugging
             window.scanner = scanner;
@@ -717,13 +712,39 @@
                 scanner.toggleFlash().then(() => flashState.textContent = scanner.isFlashOn() ? 'on' : 'off');
             });
             document.getElementById('start-button').addEventListener('click', () => {
-                scanner.start();
+                // scanner.start();
+                scanner.start().then(() => {
+                    updateFlashAvailability();
+                    // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
+                    // at the same time which can result in listCamera's unconstrained stream also being offered to the scanner.
+                    // Note that we can also start the scanner after listCameras, we just have it this way around in the demo to
+                    // start the scanner earlier.
+                    QrScanner.listCameras(true).then(cameras => cameras.forEach(camera => {
+                        const option = document.createElement('option');
+                        option.value = camera.id;
+                        option.text = camera.label;
+                        camList.add(option);
+                    }));
+                });
             });
             document.getElementById('stop-button').addEventListener('click', () => {
                 scanner.stop();
             });
             document.getElementById('tombolStart').addEventListener('click', () => {
-                scanner.start();
+                // scanner.start();
+                scanner.start().then(() => {
+                    updateFlashAvailability();
+                    // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
+                    // at the same time which can result in listCamera's unconstrained stream also being offered to the scanner.
+                    // Note that we can also start the scanner after listCameras, we just have it this way around in the demo to
+                    // start the scanner earlier.
+                    QrScanner.listCameras(true).then(cameras => cameras.forEach(camera => {
+                        const option = document.createElement('option');
+                        option.value = camera.id;
+                        option.text = camera.label;
+                        camList.add(option);
+                    }));
+                });
             });
             document.getElementById('tombolStop').addEventListener('click', () => {
                 scanner.stop();
@@ -1135,6 +1156,115 @@
                     })
                 });
             });
+
+
+            function fetchQr() {
+                var qrcode = $("#qrText").val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: "POST",
+                    url: "/getDecryptKode",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        keyword: qrcode,
+                        type: "text",
+                    },
+                    beforeSend: function() {
+                        scanner.stop();
+                        $(".overlay").fadeIn(300);
+                    },
+                    success: function(response) {
+                        // Swal.hideLoading({showDenyButton: false,});
+                        var zippiSuccess = new Audio("{{ asset('sounds/scan-success.mp3') }}");
+                        var zippiError = new Audio("{{ asset('sounds/scan-error.mp3') }}");
+
+                        if (response.success == true) {
+                            zippiSuccess.play();
+                            $(".overlay").fadeOut(300);
+                            // $("#inpt-qr").val(response.subkode);
+                            // $("#inpt-qr").prop("disabled", false);
+                            // $("#inpt-qr").removeClass("cursor-not-allowed");
+                            if ($("#detail_transaksi").find(".kode_" + response.id).length) {
+                                zippiError.play();
+                                scanner.start();
+                                $("#notifications").html(
+                                    '<div class="alert alert-important alert-danger alert-dismissible" role="alert"><div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
+                                )
+                                setTimeout(function() {
+                                    $("#notifications").html('')
+                                }, 3000);
+                            } else {
+                                var idf = document.getElementById("idf").value;
+                                var detail_transaksi = document.getElementById("detail_transaksi");
+                                var tr = document.createElement("tr");
+                                tr.setAttribute("id", "btn-remove" + idf);
+                                // Kolom 1 Hapus
+                                var td = document.createElement("td");
+                                td.setAttribute("align", "center");
+                                td.setAttribute("style",
+                                    ""
+                                );
+                                td.innerHTML +=
+                                    '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
+                                    idf +
+                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                                tr.appendChild(td);
+                                // Kolom 2 Kode
+                                var td = document.createElement("td");
+                                td.innerHTML += response.subkode + '<div class="kode_' + response.id +
+                                    '"><input type="hidden" name="id_item[]" value="' + response.id + '"></div>';
+                                tr.appendChild(td);
+                                // Kolom 3 BB
+                                var td = document.createElement("td");
+                                td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
+                                tr.appendChild(td);
+                                // Kolom 4 Jenis
+                                var td = document.createElement("td");
+                                td.innerHTML += response.package;
+                                tr.appendChild(td);
+                                // Kolom 5 Berat
+                                var td = document.createElement("td");
+                                td.innerHTML += response.beratsatuan;
+                                tr.appendChild(td);
+                                // Kolom 6 Supplier
+                                var td = document.createElement("td");
+                                td.innerHTML += response.supplier;
+                                tr.appendChild(td);
+                                detail_transaksi.appendChild(tr);
+                                idf = (idf - 1) + 2;
+                                document.getElementById("idf").value = idf;
+                                scanner.start();
+                            }
+                        } else if (response.success == false) {
+                            zippiError.play();
+                            Swal.fire({
+                                icon: "error",
+                                title: response.message,
+                                text: response.detail,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    scanner.start();
+                                    $(".overlay").fadeOut(300);
+                                }
+                            });
+                        }
+                    },
+                    error: function(data) {
+                        zippiError.play();
+                        scanner.start();
+                        $(".overlay").fadeOut(300);
+                        // $("#inpt-qr").val("");
+                        // $("#inpt-qr").prop("disabled", false);
+                    }
+                });
+            }
         </script>
     </div>
 @endsection

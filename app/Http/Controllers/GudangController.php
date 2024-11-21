@@ -474,7 +474,11 @@ class GudangController extends Controller
     public function getDecryptKode(Request $request)
     {
         try {
-            $decrypted = Crypt::decryptString($request->keyword);
+            if ($request->type == 'scan') {
+                $decrypted = Crypt::decryptString($request->keyword);
+            } elseif ($request->type == 'text') {
+                $decrypted = $request->keyword;
+            }
             $itmQR = GudangpenerimaanqrModel::where('subkode', $decrypted)->first();
             $itmPR = GudangpenerimaanitmModel::where('npb', $itmQR->npb)->first();
             // return $kode->subkode;
@@ -486,25 +490,33 @@ class GudangController extends Controller
                 ]);
             } else {
                 if ($itmQR->usable == '0') {
-                    return response()->json([
-                        'success' => true,
-                        'message' => 'Kode Ditemukan',
-                        'id' => $itmQR->id,
-                        'npb' => $itmQR->npb,
-                        'kodekontrak' => $itmQR->kodekontrak,
-                        'subkode' => $itmQR->subkode,
-                        'nourut' => $itmQR->nourut,
-                        'beratsatuan' => $itmQR->berat_satuan,
-                        'package' => $itmQR->package,
-                        'tipe' => $itmQR->type,
-                        'kategori' => $itmPR->kategori,
-                        'warna' => $itmPR->warna,
-                        'supplier' => $itmPR->supplier,
-                    ]);
+                    if ($itmQR->status == 4) {
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Tidak Dapat Diproses',
+                            'detail' => 'Package Sudah Pernah Diproses',
+                        ]);
+                    } else {
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Kode Ditemukan',
+                            'id' => $itmQR->id,
+                            'npb' => $itmQR->npb,
+                            'kodekontrak' => $itmQR->kodekontrak,
+                            'subkode' => $itmQR->subkode,
+                            'nourut' => $itmQR->nourut,
+                            'beratsatuan' => $itmQR->berat_satuan,
+                            'package' => $itmQR->package,
+                            'tipe' => $itmQR->type,
+                            'kategori' => $itmPR->kategori,
+                            'warna' => $itmPR->warna,
+                            'supplier' => $itmPR->supplier,
+                        ]);
+                    }
                 } else {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Bahan Baku tdk Dapat Diproses',
+                        'message' => 'Tidak Dapat Diproses',
                         'detail' => 'Package Sudah Berupa Jumbo Bag',
                     ]);
                 }

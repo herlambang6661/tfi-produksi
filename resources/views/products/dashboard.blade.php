@@ -321,15 +321,13 @@
                                                     height="50" />
                                                 <div>
                                                     <h6 class="mb-2" style="font-size: 12px;">
-
-
-                                                        {{-- {{ isset($locationData['suburb'], $locationData['city_district']) &&
+                                                        {{ isset($locationData['suburb'], $locationData['city_district']) &&
                                                         $locationData['suburb'] &&
                                                         $locationData['city_district']
                                                             ? $locationData['suburb'] . ' - ' . $locationData['city_district']
                                                             : ($weatherData['display_name']
                                                                 ? collect(explode(',', $weatherData['display_name']))->slice(2, 2)->implode(', ')
-                                                                : $weatherData['city'] ?? 'Unknown') }} --}}
+                                                                : $weatherData['city'] ?? 'Unknown') }}
 
                                                     </h6>
                                                     <div class="fs--2 fw-semi-bold">
@@ -357,7 +355,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- Welcome Card -->
                         <div class="col-md-6 col-lg-12">

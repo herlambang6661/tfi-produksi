@@ -45,4 +45,18 @@ class AuthController extends Controller
         Auth::logout();
         return Redirect('/');
     }
+
+    public function updateLocation(Request $request)
+    {
+        $request->validate([
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+        ]);
+
+        // Simpan lokasi ke session atau database
+        session(['latitude' => $request->latitude]);
+        session(['longitude' => $request->longitude]);
+
+        return response()->json(['status' => 'Location updated']);
+    }
 }

@@ -23,9 +23,9 @@ class KontrakList extends Controller
     {
         if ($request->ajax()) {
             if ($request->status == '*') {
-                $data = SuratkontrakitmModel::whereBetween('tanggal', [$request->dari, $request->sampai])->get();
+                $data = SuratkontrakitmModel::whereBetween('tanggal', [$request->dari, $request->sampai])->orderBy('id', 'DESC')->get();
             } else {
-                $data = SuratkontrakitmModel::where('status', $request->status)->whereBetween('tanggal', [$request->dari, $request->sampai])->get();
+                $data = SuratkontrakitmModel::where('status', $request->status)->whereBetween('tanggal', [$request->dari, $request->sampai])->orderBy('id', 'DESC')->get();
             }
 
             return DataTables::of($data)

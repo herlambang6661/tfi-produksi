@@ -50,7 +50,6 @@ class PenerimaanQR extends Controller
                     return $opsi;
                 })
                 ->addColumn('qrcode', function ($row) {
-
                     $qrCode = new QrCode(Crypt::encryptString($row->subkode));
                     $writer = new PngWriter();
                     $result = $writer->write($qrCode);

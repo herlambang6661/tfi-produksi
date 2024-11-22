@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KontrakController;
+use App\Http\Controllers\ProduksiController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Api\WeatherController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\_01_Datatables\Kontrak\KontrakList;
 use App\Http\Controllers\_01_Datatables\Gudang\PenerimaanList;
 use App\Http\Controllers\_01_Datatables\Gudang\PengolahanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
+use App\Http\Controllers\_01_Datatables\Produksi\PengebonanList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 
 Route::get('/', function () {
@@ -45,6 +47,7 @@ Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
 Route::resource('getPenerimaanQR', PenerimaanQR::class);
 Route::resource('getPengolahan', PengolahanList::class);
+Route::resource('getPengebonan', PengebonanList::class);
 Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class)->middleware('log.activity');
 Route::resource('getTipeSub', TipeSubList::class);
@@ -120,6 +123,10 @@ Route::controller(GudangController::class)->group(function () {
     Route::post('storedataPengolahan', 'storePengolahan')->name('storedataPengolahan');
     Route::get('gudang/pengolahan/proses/{id}', 'prosesPengolahan')->name('gudang/pengolahan/proses/{id}');
     Route::post('storedataFixPengolahan', 'storeFixPengolahan')->name('storedataFixPengolahan');
+});
+Route::controller(ProduksiController::class)->group(function () {
+    Route::get('produksi/pengebonan', 'pengebonan')->name('produksi.pengebonan');
+    Route::POST('produksi/getDecryptBon', 'getDecryptKode')->name('getDecryptKode.decrypt');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

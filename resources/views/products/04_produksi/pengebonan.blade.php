@@ -102,7 +102,7 @@
             <span class="loader"></span>
         </div>
     </div>
-    <div class="page bg-primary-lt">
+    <div class="page bg-success-lt">
         <!-- Sidebar -->
         @include('shared.sidebar')
         <!-- Navbar -->
@@ -118,24 +118,16 @@
                             <h2 class="page-title">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-qrcode">
+                                    stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-apps">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path
                                         d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                    <path d="M7 17l0 .01" />
-                                    <path
-                                        d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                    <path d="M7 7l0 .01" />
                                     <path
                                         d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                    <path d="M17 7l0 .01" />
-                                    <path d="M14 14l3 0" />
-                                    <path d="M20 14l0 .01" />
-                                    <path d="M14 14l0 3" />
-                                    <path d="M14 20l3 0" />
-                                    <path d="M17 17l3 0" />
-                                    <path d="M20 17l0 3" />
+                                    <path
+                                        d="M14 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+                                    <path d="M14 7l6 0" />
+                                    <path d="M17 4l0 6" />
                                 </svg>
                                 {{ $judul }}
                             </h2>
@@ -149,13 +141,13 @@
                                     </li>
                                     <li class="breadcrumb-item">
                                         <a href="#">
-                                            <i class="fa-solid fa-warehouse"></i>
-                                            Gudang
+                                            <i class="fa-solid fa-industry"></i>
+                                            Produksi
                                         </a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         <a href="#">
-                                            <i class="fa-solid fa-qrcode"></i>
+                                            <i class="fa-solid fa-people-carry-box"></i>
                                             {{ $judul }}
                                         </a>
                                     </li>
@@ -185,7 +177,7 @@
                                             <path
                                                 d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
                                         </svg>
-                                        Input Pengolahan BB
+                                        Input Pengebonan
                                     </a>
                                     <a href="#tabs-listBB"
                                         class="active btn btn-outline-dark d-none d-sm-inline-block border border-dark"
@@ -194,7 +186,7 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-check text-primary">
+                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-check text-success">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                             <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
                                             <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
@@ -203,7 +195,7 @@
                                             <path d="M11 12l9 0" />
                                             <path d="M11 18l9 0" />
                                         </svg>
-                                        List Pengolahan BB
+                                        List Pengebonan
                                     </a>
                                 </ul>
                                 <ul class="nav">
@@ -255,7 +247,7 @@
                         <div class="tab-pane fade" id="tabs-input" role="tabpanel">
                             <div class="row">
                                 <div class="col-lg-4">
-                                    <div class="card card-xl border-primary shadow rounded mb-3 py-1 px-1">
+                                    <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
                                         <div class="row" style="font-size: 10px">
                                             <div class="col">
                                                 <b>Device has camera: </b>
@@ -306,7 +298,7 @@
                                             </label> --}}
                                                     <div class="col">
                                                         <select id="cam-list"
-                                                            class="form-select form-select-sm border-primary">
+                                                            class="form-select form-select-sm border-success">
                                                             <option value="environment" selected>
                                                                 Environment Facing (default)
                                                             </option>
@@ -319,9 +311,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-8" onkeydown="return event.key != 'Enter';">
-                                    <div class="card card-xl border-primary shadow rounded mb-3">
+                                    <div class="card card-xl border-success shadow rounded mb-3">
                                         <div class="table-responsive">
-                                            <form id="formPengolahan" name="formPengolahan" method="post"
+                                            <form id="formPengebonan" name="formPengebonan" method="post"
                                                 action="javascript:void(0)">
                                                 @csrf
                                                 <input id="idf" value="1" type="hidden">
@@ -441,8 +433,8 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
-                                                    <button id="submitPengolahan" type="submit"
-                                                        class="btn btn-primary">Proses</button>
+                                                    <button id="submitPengebonan" type="submit"
+                                                        class="btn btn-success">Proses</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -465,9 +457,9 @@
                             <span id="cam-qr-result-timestamp" style="display: none"></span>
                         </div>
                         <div class="tab-pane fade active show" id="tabs-listBB" role="tabpanel">
-                            <div class="card card-xl border-primary shadow rounded">
+                            <div class="card card-xl border-success shadow rounded">
                                 <div class="card-stamp card-stamp-lg">
-                                    <div class="card-stamp-icon bg-primary">
+                                    <div class="card-stamp-icon bg-success">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -492,7 +484,7 @@
                                                     class="form-control border-dark" value="{{ date('Y-m-d') }}">
                                             </div>
                                             <div class="col-auto mb-1">
-                                                <button type="button" class="btn btn-primary btn-icon" onclick="syn()">
+                                                <button type="button" class="btn btn-success btn-icon" onclick="syn()">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -565,7 +557,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/getDecryptKode",
+                    url: "{{ route('getDecryptKode.decrypt') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         keyword: result.data,
@@ -750,10 +742,10 @@
             });
         </script>
         <script type="text/javascript">
-            var tablePengolahan;
+            var tablePengebonan;
 
             function syn() {
-                tablePengolahan.ajax.reload();
+                tablePengebonan.ajax.reload();
             }
 
             function newexportaction(e, dt, button, config) {
@@ -801,8 +793,8 @@
             function hapusElemen(idf) {
                 $("#btn-remove" + idf).remove();
             }
-            if ($("#formPengolahan").length > 0) {
-                $("#formPengolahan").validate({
+            if ($("#formPengebonan").length > 0) {
+                $("#formPengebonan").validate({
                     rules: {
                         tanggal: {
                             required: true,
@@ -837,16 +829,16 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         });
-                        $('#submitPengolahan').html(
+                        $('#submitPengebonan').html(
                             '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
-                        $("#submitPengolahan").attr("disabled", true);
+                        $("#submitPengebonan").attr("disabled", true);
                         $.ajax({
-                            url: "{{ url('storedataPengolahan') }}",
+                            url: "{{ url('storedataPengebonan') }}",
                             type: "POST",
                             data: formData,
                             contentType: false,
                             processData: false,
-                            // data: $('#formPengolahan').serialize(),
+                            // data: $('#formPengebonan').serialize(),
                             beforeSend: function() {
                                 Swal.fire({
                                     title: 'Mohon Menunggu',
@@ -858,8 +850,8 @@
                                 })
                             },
                             success: function(response) {
-                                $('#submitPengolahan').html('Proses');
-                                $("#submitPengolahan").attr("disabled", false);
+                                $('#submitPengebonan').html('Proses');
+                                $("#submitPengebonan").attr("disabled", false);
                                 // const Toast = Swal.mixin({
                                 //     toast: true,
                                 //     position: "top-end",
@@ -888,7 +880,7 @@
                                     denyButtonText: '<i class="fa-solid fa-print"></i> Print Formulir',
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        tablePengolahan.ajax.reload(null, false);
+                                        tablePengebonan.ajax.reload(null, false);
                                         // for (let index = 0; index < array.length; index++) {
                                         //     const element = array[index];
                                         //     $("#btn-remove" + idf).remove();
@@ -901,23 +893,23 @@
                                         // window.location.href = "{{ route('gudang/penerimaan') }}";
                                     }
                                 });
-                                document.getElementById("formPengolahan").reset();
-                                tablePengolahan.ajax.reload(null, false);
+                                document.getElementById("formPengebonan").reset();
+                                tablePengebonan.ajax.reload(null, false);
                                 $('#modal-penerimaan').modal('hide');
                             },
                             error: function(data) {
-                                tablePengolahan.ajax.reload(null, false);
+                                tablePengebonan.ajax.reload(null, false);
                                 // console.log('Error:', data);
                                 // const obj = JSON.parse(data.responseJSON);
-                                console.log($('#formPengolahan').serialize());
+                                console.log($('#formPengebonan').serialize());
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Gagal Input',
                                     html: data.responseJSON.message,
                                     showConfirmButton: true
                                 });
-                                $('#submitPengolahan').html('Proses');
-                                $("#submitPengolahan").attr("disabled", false);
+                                $('#submitPengebonan').html('Proses');
+                                $("#submitPengebonan").attr("disabled", false);
                             }
                         });
                     }
@@ -925,7 +917,7 @@
             }
 
             $(function() {
-                tablePengolahan = $('.datatable-listBB').DataTable({
+                tablePengebonan = $('.datatable-listBB').DataTable({
                     "processing": true, //Feature control the processing indicator.
                     "serverSide": false, //Feature control DataTables' server-side processing mode.
                     "scrollX": false,
@@ -943,14 +935,14 @@
                             extend: 'copyHtml5',
                             className: 'btn btn-teal',
                             text: '<i class="fa fa-copy text-white"></i> Salin',
-                            action: newexportaction,
+                            // action: newexportaction,
                         },
                         {
                             extend: 'excelHtml5',
                             autoFilter: true,
                             className: 'btn btn-success',
                             text: '<i class="fa fa-file-excel text-white"></i> Excel',
-                            action: newexportaction,
+                            // action: newexportaction,
                         },
                         {
                             extend: 'pdfHtml5',
@@ -981,7 +973,7 @@
                         },
                     },
                     "ajax": {
-                        "url": "{{ route('getPengolahan.index') }}",
+                        "url": "{{ route('getPengebonan.index') }}",
                         "data": function(data) {
                             data._token = "{{ csrf_token() }}";
                             data.dari = $('#filterStart-listBB').val();
@@ -1123,7 +1115,7 @@
                                             })
                                         },
                                         success: function(data) {
-                                            tablePengolahan.ajax.reload(null,
+                                            tablePengebonan.ajax.reload(null,
                                                 false);
                                             Swal.fire({
                                                 icon: 'success',
@@ -1133,7 +1125,7 @@
                                             });
                                         },
                                         error: function(data) {
-                                            tablePengolahan.ajax.reload(null,
+                                            tablePengebonan.ajax.reload(null,
                                                 false);
                                             console.log('Error:', data
                                                 .responseText);
@@ -1147,7 +1139,7 @@
                                         }
                                     });
                                 } else {
-                                    tablePengolahan.ajax.reload(null, false);
+                                    tablePengebonan.ajax.reload(null, false);
                                     Swal.fire({
                                         icon: "error",
                                         title: "Batal",
@@ -1170,7 +1162,7 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "/getDecryptKode",
+                    url: "{{ route('getDecryptKode.decrypt') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
                         keyword: qrcode,

@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\_01_Datatables\Gudang;
+namespace App\Http\Controllers\_01_Datatables\Produksi;
 
-use Carbon\Carbon;
-use Endroid\QrCode\QrCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Endroid\QrCode\Writer\PngWriter;
-use App\Models\GudangpengolahanModel;
 use Illuminate\Support\Facades\Crypt;
 use App\Models\GudangpengolahanitmModel;
+use App\Models\ProduksipengebonanitmModel;
 use Yajra\DataTables\Facades\DataTables;
 
-class PengolahanList extends Controller
+class PengebonanList extends Controller
 {
     public function __construct()
     {
@@ -27,8 +24,8 @@ class PengolahanList extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = GudangpengolahanModel::whereBetween('tanggal', [$request->dari, $request->sampai])->get();
-            // $data = GudangpengolahanModel::all();
+            $data = ProduksipengebonanitmModel::whereBetween('tanggal', [$request->dari, $request->sampai])->get();
+            // $data = ProduksipengebonanitmModel::all();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -126,7 +123,7 @@ class PengolahanList extends Controller
 
         // if ($getCount <= 1) {
         //     DB::table('permintaanitm')->where('kodeseri', '=', $id)->delete();
-        GudangpengolahanModel::where('id', '=', $id)->update([
+        ProduksipengebonanitmModel::where('id', '=', $id)->update([
             'status' => 0,
         ]);
         return response()->json('Record deleted successfully.');

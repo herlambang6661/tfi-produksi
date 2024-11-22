@@ -779,8 +779,8 @@ class GudangController extends Controller
         $pengolahanItm = DB::table('gudang_pengolahanitm as o')
             ->select('o.id', 'o.kodekontrak', 'o.package', 'o.berat', 'p.type', 'q.kategori', 'q.warna', 'p.id as id_qr')
             ->where('o.kodeolah', $decrypted)
-            ->join('gudang_penerimaanqrcode as p', 'o.kodekontrak', '=', 'p.subkode')
-            ->join('gudang_penerimaanitm as q', 'p.npb', '=', 'q.npb')
+            ->leftJoin('gudang_penerimaanqrcode as p', 'o.kodekontrak', '=', 'p.subkode')
+            ->leftJoin('gudang_penerimaanitm as q', 'p.kodekontrak', '=', 'q.kodekontrak')
             ->get();
         return view('products.03_gudang.pengolahanProses', [
             'active' => 'Pengolahan',

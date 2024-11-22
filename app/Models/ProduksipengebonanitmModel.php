@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ProduksipengebonanitmModel extends Model
+{
+    protected $table = "produksi_pengebonanitm";
+
+    protected $fillable = [
+        'tanggal',
+        'kodeproduksi',
+        'subkode',
+        'package',
+        'type',
+        'kategori',
+        'warna',
+        'berat',
+        'operator',
+        'status',
+        'dibuat',
+        'created_at',
+        'updated_at',
+    ];
+}

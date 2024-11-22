@@ -23,16 +23,16 @@ use App\Http\Controllers\_01_Datatables\Gudang\PengolahanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return view('products.dashboard', [
-            'active' => 'Dashboard',
-            'judul' => 'Dashboard',
-        ]);
-    } else {
-        return view('login');
-    }
-});
+// Route::get('/', function () {
+//     if (Auth::check()) {
+//         return view('products.dashboard', [
+//             'active' => 'Dashboard',
+//             'judul' => 'Dashboard',
+//         ]);
+//     } else {
+//         return view('login');
+//     }
+// });
 Route::get('login', function () {
     return view('login');
 })->name('login');
@@ -54,7 +54,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post')->middleware('log.activity');
     Route::post('/update-location', 'updateLocation')->name('update.location');
 });
-Route::get('dashboard', [DashboardController::class, 'dashboard']);
+Route::get('/', [DashboardController::class, 'dashboard']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::controller(DaftarController::class)->group(function () {

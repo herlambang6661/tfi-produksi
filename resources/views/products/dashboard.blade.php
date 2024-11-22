@@ -49,34 +49,35 @@
                 <div class="container-xl">
                     <div class="row g-2 align-items-center">
                         <div class="col">
-                            <!-- Page pre-title -->
-                            <div class="page-pretitle">
-                                Selamat Datang
-                            </div>
-                            <h2 class="page-title">
-                                Halaman Dashboard
-                            </h2>
-                        </div>
-                        <!-- Form input moved to the right -->
-                        <div class="col ms-auto d-flex justify-content-end">
-                            <div class="input-icon">
-                                <span class="input-icon-addon">
-                                    <!-- Calendar Icon -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="blue" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path
-                                            d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
-                                        <path d="M16 3v4" />
-                                        <path d="M8 3v4" />
-                                        <path d="M4 11h16" />
-                                        <path d="M11 15h1" />
-                                        <path d="M12 15v3" />
-                                    </svg>
-                                </span>
-                                <!-- Date Input -->
-                                <input class="form-control w-100" placeholder="Select a date" id="CRMDateRange" readonly />
+                            <div class="card bg-100 shadow-none border">
+                                <div class="row gx-0 flex-between-center">
+                                    <!-- Bagian Kiri -->
+                                    <div class="col-sm-9 d-flex align-items-center">
+                                        <img class="ms-n2" src="{{ asset('assets/static/crm-bar-chart.png') }}"
+                                            alt="" width="100" />
+                                        <div>
+                                            <h5 class="text-primary fs--1 mb-0">Welcome to E-Produksi Online
+                                                <strong>{{ Auth::user()->name }} 🎉</strong>
+                                            </h5>
+                                            <h4 class="text-primary fw-bold mb-0">
+                                                <span class="text-info fw-medium">
+                                                    Aplikasi Produksi ini adalah aplikasi untuk Kedatangan barang sampai
+                                                    dengan
+                                                    identifikasi Produk di PT.
+                                                    Tantra Fiber Industry.</b>
+                                                </span>
+                                            </h4>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Bagian Kanan -->
+                                    <div class="col-md-3 p-4">
+                                        <img class="ms-n4 d-md-none d-lg-block"
+                                            src="{{ asset('assets/static/crm-line-chart.png') }}" alt=""
+                                            width="150" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -357,7 +358,7 @@
                         </div>
 
                         <!-- Welcome Card -->
-                        <div class="col-md-6 col-lg-12">
+                        {{-- <div class="col-md-6 col-lg-12">
                             <div class="card card-sm">
                                 <div class="card-stamp card-stamp-lg">
                                     <div class="card-stamp-icon bg-primary">
@@ -386,7 +387,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-sm-6 col-lg-3">
                             <div class="card card-sm">
                                 <div class="card-body">

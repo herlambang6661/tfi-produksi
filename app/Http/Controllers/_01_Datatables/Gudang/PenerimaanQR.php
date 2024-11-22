@@ -54,13 +54,19 @@ class PenerimaanQR extends Controller
                     $qrCode = new QrCode(Crypt::encryptString($row->subkode));
                     $writer = new PngWriter();
                     $result = $writer->write($qrCode);
-                    $res_qrcode = '
-                        <div class="qr-container">
+                    // $res_qrcode = '
+                    //     <div class="qr-container">
+                    //         <img class="qr" src="data:image/png;base64,' . base64_encode($result->getString()) . '"
+                    //             alt="' . Crypt::encryptString($row->subkode) . '" width="50px" height="50px" />
+                    //     </div>
+                    // ';
+                    // return $res_qrcode;
+                    return '
+                        <a data-fslightbox="gallery" href="data:image/png;base64,' . base64_encode($result->getString()) . '" target="_blank">
                             <img class="qr" src="data:image/png;base64,' . base64_encode($result->getString()) . '"
-                                alt="' . Crypt::encryptString($row->subkode) . '" width="50px" height="50px" />
-                        </div>
+                            alt="' . Crypt::encryptString($row->subkode) . '" width="50px" height="50px" />
+                        </a>
                     ';
-                    return $res_qrcode;
                 })
                 ->editColumn('tanggal', function ($row) {
                     return date('d-m-Y', strtotime($row->tanggal));
@@ -78,6 +84,38 @@ class PenerimaanQR extends Controller
                             <span class="status status-red status-lite">
                                 <span class="status-dot status-dot-animated"></span>
                                 Must be Processed
+                            </span>
+                        ';
+                    }
+                })
+                ->addColumn('status', function ($row) {
+                    // 0 = deleted, 1 = open, 2 = processed, 3 = used, 4 = close,
+                    if ($row->status == 1) {
+                        return '
+                            <span class="status status-green status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Open
+                            </span>
+                        ';
+                    } elseif ($row->status == 2) {
+                        return '
+                            <span class="status status-blue status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Processed
+                            </span>
+                        ';
+                    } elseif ($row->status == 3) {
+                        return '
+                            <span class="status status-red status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Used
+                            </span>
+                        ';
+                    } elseif ($row->status == 4) {
+                        return '
+                            <span class="status status-grey status-lite">
+                                <span class="status-dot status-dot-animated"></span>
+                                Close
                             </span>
                         ';
                     }

@@ -221,14 +221,16 @@
                                                     <path d="M4 18h4" />
                                                 </svg>
                                             </th>
+                                            <th class="px-1 th py-1" style="width: 10%">Qrcode</th>
                                             <th class="px-1 th py-1" style="width: 1%">Tipe</th>
                                             <th class="px-1 th py-1" style="width: 1%">NPB</th>
                                             <th class="px-1 th py-1" style="width: 1%">Kode Kontrak</th>
                                             <th class="px-1 th py-1">Nomor Qrcode</th>
                                             <th class="px-1 th py-1" style="width: 1%">Berat Satuan</th>
                                             <th class="px-1 th py-1" style="width: 1%">Package</th>
-                                            <th class="px-1 th py-1" style="width: 10%">Qrcode</th>
                                             <th class="px-1 th py-1" style="width: 10%">Usable</th>
+                                            <th class="px-1 th py-1" style="width: 10%">Status</th>
+                                            <th class="px-1 th py-1" style="width: 10%">Kode Berubah</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -431,7 +433,7 @@
                             }],
                             select: {
                                 'style': 'multi',
-                                "selector": 'td:not(:nth-child(7))',
+                                "selector": 'td:not(:nth-child(1))',
                             },
                             columns: [{
                                     title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
@@ -441,6 +443,12 @@
                                     orderable: false,
                                     searchable: false,
                                     visible: false,
+                                },
+                                {
+                                    title: 'Qrcode',
+                                    data: 'qrcode',
+                                    name: 'qrcode',
+                                    className: "cuspad0 cuspad1 text-center cursor-pointer"
                                 },
                                 {
                                     title: 'Tipe',
@@ -479,15 +487,21 @@
                                     className: "cuspad0 cuspad1 text-center"
                                 },
                                 {
-                                    title: 'Qrcode',
-                                    data: 'qrcode',
-                                    name: 'qrcode',
-                                    className: "cuspad0 cuspad1 text-center cursor-pointer"
-                                },
-                                {
                                     title: 'Usable',
                                     data: 'usable',
                                     name: 'usable',
+                                    className: "cuspad0 cuspad1 text-center"
+                                },
+                                {
+                                    title: 'Status',
+                                    data: 'status',
+                                    name: 'status',
+                                    className: "cuspad0 cuspad1 text-center"
+                                },
+                                {
+                                    title: 'Kode Berubah',
+                                    data: 'kode_berubah',
+                                    name: 'kode_berubah',
                                     className: "cuspad0 cuspad1 text-center"
                                 },
                             ],

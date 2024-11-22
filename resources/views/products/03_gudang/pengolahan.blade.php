@@ -509,7 +509,7 @@
                                 </div>
                                 <div class="table-responsive">
                                     <table style="width:100%; height: 100%;font-size:13px;"
-                                        class="table table-sm table-bordered table-striped table-vcenter card-table table-hover datatable datatable-listBB">
+                                        class="table table-sm table-bordered table-vcenter card-table table-hover datatable datatable-listBB">
                                         <tfoot>
                                             <tr>
                                                 <th class="px-1 py-1 text-center" style="width: 1%">

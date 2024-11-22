@@ -84,28 +84,28 @@ class PengolahanList extends Controller
                 ->addColumn('status', function ($row) {
                     if ($row->status == 0) {
                         return '
-                            <span class="status status-dark status-lite">
+                            <span class="status status-dark status-lite border-dark">
                                 <span class="status-dot status-dot-animated"></span>
                                 Canceled
                             </span>
                         ';
                     } else if ($row->status == 1) {
                         return '
-                            <span class="status status-blue status-lite">
+                            <span class="status status-blue status-lite border-blue">
                                 <span class="status-dot status-dot-animated"></span>
                                 Open
                             </span>
                         ';
                     } else if ($row->status == 2) {
                         return '
-                            <span class="status status-red status-lite">
+                            <span class="status status-red status-lite border-red">
                                 <span class="status-dot status-dot-animated"></span>
                                 Processed
                             </span>
                         ';
                     } else if ($row->status == 3) {
                         return '
-                            <span class="status status-green status-lite">
+                            <span class="status status-green status-lite border-green">
                                 <span class="status-dot status-dot-animated"></span>
                                 Close
                             </span>

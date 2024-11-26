@@ -682,7 +682,7 @@
                                                 </div>
                                                 <div class="card-body py-2 px-2">
                                                     <div class="text-end">
-                                                        <button
+                                                        <button type="button"
                                                             class="btn btn-icon bg-dark btn-sm text-success border-success mb-1"
                                                             id="btnClearHistory" style="opacity: 0.75;">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -1605,7 +1605,7 @@
                     historyCommand.insertAdjacentHTML('beforeend', "\n");
                     historyCommand.insertAdjacentHTML('beforeend',
                         '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4" /><path d="M17 8l4 4l-4 4" /><path d="M14 4l-4 16" /></svg> Command History : '
-                        );
+                    );
                     historyCommand.insertAdjacentHTML('beforeend', "\n");
                     historyCommand.insertAdjacentHTML('beforeend',
                         '===================================================================');

@@ -45,6 +45,6 @@ class DashboardController extends Controller
                 'activity' => $activity,
             ]);
         }
-        return redirect("/")->withErrors(['error' => 'Opps! You do not have access'])->withInput();
+        return redirect("login")->withSuccess('Opps! You do not have access');
     }
 }

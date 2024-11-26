@@ -37,6 +37,16 @@
             background: rgba(0, 0, 0, 0.379);
         }
 
+        .overlayModals {
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background: rgba(0, 0, 0, 0.379);
+        }
+
         .cv-spinner {
             height: 100%;
             display: flex;
@@ -162,7 +172,7 @@
                                     <a href="#tabs-input"
                                         class="btn btn-outline-dark d-none d-sm-inline-block border border-dark"
                                         data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
-                                        style="margin-right: 10px" id="tombolStart">
+                                        style="margin-right: 10px" id="tombolStop">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round"
@@ -247,7 +257,14 @@
                         <div class="tab-pane fade" id="tabs-input" role="tabpanel">
                             <div class="row">
                                 <div class="col-lg-4">
+                                    <div class="card card-xl border-success shadow rounded mb-1 py-1 px-1">
+                                        <b class="text-center">Tulis Kode</b>
+                                        <input type="text" class="form-control border-success" name="qrText"
+                                            id="qrText" onkeydown = "if (event.keyCode == 13)  fetchQr()"
+                                            placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                                    </div>
                                     <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
+                                        <b class="text-center">Scan QR Code</b>
                                         <div class="row" style="font-size: 10px">
                                             <div class="col">
                                                 <b>Device has camera: </b>
@@ -294,8 +311,8 @@
                                             <div class="col">
                                                 <div class="row">
                                                     {{-- <label class="col-3 col-form-label">
-                                                <b>Camera:</b>
-                                            </label> --}}
+                                                        <b>Camera:</b>
+                                                    </label> --}}
                                                     <div class="col">
                                                         <select id="cam-list"
                                                             class="form-select form-select-sm border-success">
@@ -331,13 +348,42 @@
                                                                 name="operator" id="operator"
                                                                 value="{{ Auth::user()->nickname }}">
                                                         </div>
-                                                        <div class="col-md-12">
-                                                            <label class="form-label">Kode</label>
-                                                            <input type="text" class="form-control border-dark"
-                                                                name="qrText" id="qrText"
-                                                                onkeydown = "if (event.keyCode == 13)  fetchQr()">
-                                                        </div>
                                                     </div>
+                                                </div>
+                                                <div class="card-body px-1 pt-2 pb-1 mt-1 mx-1">
+                                                    <a href="#modalTambahItem"
+                                                        class="btn btn-link bg-dark-lt border-primary text-dark"
+                                                        data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
+                                                        title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
+                                                        data-id="' . $row->id . '">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                                            <path d="M21 21l-6 -6" />
+                                                        </svg>
+                                                        Cari Bahan Baku
+                                                    </a>
+                                                    <button id="tambahItem" type="button"
+                                                        class="btn btn-link bg-dark-lt border-success text-dark">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="text-success icon icon-tabler icons-tabler-outline icon-tabler-file-spreadsheet">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                            <path
+                                                                d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                            <path d="M8 11h8v7h-8z" />
+                                                            <path d="M8 15h8" />
+                                                            <path d="M11 11v7" />
+                                                        </svg>
+                                                        Import Dari Excel
+                                                    </button>
                                                 </div>
                                                 <div class="card-body px-1 py-1 my-1 mx-1 text-end">
                                                     <table id="detail_transaksi"
@@ -433,8 +479,20 @@
                                                     </table>
                                                 </div>
                                                 <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
-                                                    <button id="submitPengebonan" type="submit"
-                                                        class="btn btn-success">Proses</button>
+                                                    <button id="submitPengebonan" type="submit" class="btn btn-success">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path
+                                                                d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                                            <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                            <path d="M14 4l0 4l-6 0l0 -4" />
+                                                        </svg>
+                                                        Proses
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -529,6 +587,235 @@
                         </div>
                     </div>
                 </div>
+                {{-- Modals --}}
+                <div class="modal modal-blur fade" id="modalTambahItem" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    {{-- <div class="overlayModals">
+                        <div class="cv-spinner">
+                            <span class="loader">
+                            </span>
+                        </div>
+                    </div> --}}
+                    <div class="modal-dialog modal-xl text-dark" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-database-search">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3" />
+                                        <path d="M4 6v6c0 1.657 3.582 3 8 3m8 -3.5v-5.5" />
+                                        <path d="M4 12v6c0 1.657 3.582 3 8 3" />
+                                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                        <path d="M20.2 20.2l1.8 1.8" />
+                                    </svg>
+                                    Cari Item Pengebonan
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formFilterPengebonan" name="formFilterPengebonan" method="post"
+                                    action="javascript:void(0)">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Nomor QR code</label>
+                                                <input type="text" class="form-control" id="filter_noQR"
+                                                    placeholder="Cth: FBB0001-1-001">
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">ID Kontrak</label>
+                                                <input type="text" class="form-control" id="filter_idKontrak"
+                                                    placeholder="Cth: FBB0001">
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">No. Penerimaan Barang</label>
+                                                <input type="text" class="form-control" id="filter_npb"
+                                                    placeholder="Cth: P240001">
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Supplier</label>
+                                                <input type="text" class="form-control" id="filter_supplier"
+                                                    placeholder="Cth: Tantra Fiber Industri. PT">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Tanggal Kedatangan</label>
+                                                <input type="date" class="form-control" id="filter_tanggal">
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Tipe Bahan Baku</label>
+                                                <select name='tipe' class='form-select' id="filter_tipe"
+                                                    style='width:100%;text-transform: uppercase;'></select>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Kategori</label>
+                                                <select name='kategori' class='form-select' id="filter_kategori"
+                                                    style='width:100%;text-transform: uppercase;'></select>
+                                            </div>
+                                            <div class="mb-1">
+                                                <label class="form-label">Warna</label>
+                                                <select name='warna' class='form-select' id="filter_warna"
+                                                    style='width:100%;text-transform: uppercase;'></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="card bg-success text-success-fg">
+                                                <div class="card-stamp">
+                                                    <div class="card-stamp-icon bg-white text-primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-code">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M7 8l-4 4l4 4" />
+                                                            <path d="M17 8l4 4l-4 4" />
+                                                            <path d="M14 4l-4 16" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body py-2 px-2">
+                                                    <div class="text-end">
+                                                        <button
+                                                            class="btn btn-icon bg-dark btn-sm text-success border-success mb-1"
+                                                            id="btnClearHistory" style="opacity: 0.75;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                height="24" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M4 7l16 0" />
+                                                                <path d="M10 11l0 6" />
+                                                                <path d="M14 11l0 6" />
+                                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <pre style="font-size: 12px; font-weight: bold; max-height: 260px;opacity: 0.75;" id="historyCommand"
+                                                        class="text-green border shadow font-monospace">===================================================================
+<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4" /><path d="M17 8l4 4l-4 4" /><path d="M14 4l-4 16" /></svg> Command History : 
+===================================================================
+>> Accessed at {{ now()->format('d-m-Y H:i:s') }}</pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 text-end mt-3">
+                                            <button type="button" id="btnFilter" class="btn btn-primary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                                    <path d="M21 21l-6 -6" />
+                                                </svg>
+                                                Cari
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="hr-text mx-3">
+                                    <span>Hasil</span>
+                                </div>
+                                <div id="hasil" class="text-center">
+                                    <i>Silahkan Isi Form diatas terlebih dahulu</i>
+                                </div>
+                                <div class="cursor-wait placeholder-glow" id="tunggu" style="display: none">
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-auto">
+                                            <div class="avatar placeholder"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="placeholder col-12"></div>
+                                            <div class="placeholder col-12"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div>
+                                <div class="placeholder col-12"></div> --}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-link link-secondary ms-auto"
+                                    data-bs-dismiss="modal">
+                                    Kembali
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- Modals --}}
                 @include('shared.footer')
             </div>
         </div>
@@ -1150,8 +1437,183 @@
                         }
                     })
                 });
-            });
 
+                // $('#modalTambahItem').on('show.bs.modal', function(e) {
+                //     var rowid = $(e.relatedTarget).data('id');
+                //     console.log(rowid);
+                //     $(".overlayModals").fadeIn(300);
+
+                //     $.ajaxSetup({
+                //         headers: {
+                //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //         }
+                //     });
+                //     //menggunakan fungsi ajax untuk pengambilan data
+                //     $.ajax({
+                //         type: 'POST',
+                //         // url: '{{ url('listKaryawan') }}',
+                //         data: {
+                //             "_token": "{{ csrf_token() }}",
+                //             id: rowid,
+                //         },
+                //         success: function(data) {
+                //             $('.fetched-data-karyawan').html(
+                //                 data); //menampilkan data ke dalam modal
+                //             // alert(itemTables);
+                //         }
+                //     }).done(function() {
+                //         setTimeout(function() {
+                //             $(".overlayModals").fadeOut(300);
+                //         }, 500);
+                //     });
+                // });
+
+                $("#filter_tipe").select2({
+                    dropdownParent: $("#modalTambahItem"),
+                    language: "id",
+                    width: '100%',
+                    height: '100%',
+                    allowClear: true,
+                    placeholder: "Pilih Tipe Bahan Baku",
+                    ajax: {
+                        url: "{{ route('getBB') }}",
+                        dataType: 'json',
+                        delay: 200,
+                        processResults: function(response) {
+                            return {
+                                results: $.map(response, function(item) {
+                                    return {
+                                        text: (!item.kode ? '' : item.kode + ' - ') + item.nama
+                                            .toUpperCase(),
+                                        id: item.id,
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    },
+                });
+                $("#filter_kategori").select2({
+                    dropdownParent: $("#modalTambahItem"),
+                    language: "id",
+                    width: '100%',
+                    height: '100%',
+                    allowClear: true,
+                    placeholder: "Pilih Kategori",
+                    ajax: {
+                        url: "{{ route('getKT') }}",
+                        dataType: 'json',
+                        delay: 200,
+                        processResults: function(response) {
+                            return {
+                                results: $.map(response, function(item) {
+                                    return {
+                                        text: (!item.kode_kategori ? '' : item.kode_kategori +
+                                                ' - ') + item
+                                            .nama_kategori.toUpperCase(),
+                                        id: item.id,
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    },
+                });
+                $("#filter_warna").select2({
+                    dropdownParent: $("#modalTambahItem"),
+                    language: "id",
+                    width: '100%',
+                    height: '100%',
+                    allowClear: true,
+                    placeholder: "Pilih Warna",
+                    ajax: {
+                        url: "{{ route('getWR') }}",
+                        dataType: 'json',
+                        delay: 200,
+                        processResults: function(response) {
+                            return {
+                                results: $.map(response, function(item) {
+                                    return {
+                                        text: (!item.kode_warna ? '' : item.kode_warna + ' - ') +
+                                            item
+                                            .warna.toUpperCase(),
+                                        id: item.id,
+                                    }
+                                })
+                            };
+                        },
+                        cache: true
+                    },
+                });
+                $("#btnFilter").click(function() {
+                    var noQR = document.getElementById("filter_noQR").value;
+                    var idKontrak = document.getElementById("filter_idKontrak").value;
+                    var npb = document.getElementById("filter_npb").value;
+                    var supplier = document.getElementById("filter_supplier").value;
+                    var tanggal = document.getElementById("filter_tanggal").value;
+                    var tipe = document.getElementById("filter_tipe").value;
+                    var kategori = document.getElementById("filter_kategori").value;
+                    var warna = document.getElementById("filter_warna").value;
+                    var historyCommand = document.getElementById("historyCommand");
+                    var txtTipe = $('#filter_tipe :selected').text();
+                    var txtKategori = $('#filter_kategori :selected').text();
+                    var txtWarna = $('#filter_warna :selected').text();
+                    historyCommand.insertAdjacentHTML('beforeend', '<div id="two">>> Mencari : ' +
+                        (noQR ? noQR + ' ' : '') +
+                        (idKontrak ? idKontrak + ' ' : '') +
+                        (npb ? npb + ' ' : '') +
+                        (supplier ? supplier + ' ' : '') +
+                        (tanggal ? tanggal + ' ' : '') +
+                        (tipe ? txtTipe + ' ' : '') +
+                        (kategori ? txtKategori + ' ' : '') +
+                        (warna ? txtWarna + ' ' : '') + '</div>');
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('pengebonan.getItemPengebonan') }}",
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            // keyword: id,
+                            noQR: noQR,
+                            idKontrak: idKontrak,
+                            npb: npb,
+                            supplier: supplier,
+                            tanggal: tanggal,
+                            tipe: tipe,
+                            kategori: kategori,
+                            warna: warna,
+                        },
+                        beforeSend: function() {
+                            $("#tunggu").fadeIn();
+                            $("#hasil").fadeOut();
+                        },
+                        success: function(html) {
+                            $("#tunggu").fadeOut();
+                            $("#hasil").fadeIn();
+                            $("#hasil").html(html);
+                            historyCommand.insertAdjacentHTML('beforeend', document.getElementById(
+                                "resultCommand").value);
+                            // document.getElementById("repeatOr").value = "";
+                            // document.getElementById("repeatOr").focus();
+                        }
+                    });
+                });
+                $("#btnClearHistory").click(function() {
+                    historyCommand.innerHTML = "";
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '===================================================================');
+                    historyCommand.insertAdjacentHTML('beforeend', "\n");
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-code"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 8l-4 4l4 4" /><path d="M17 8l4 4l-4 4" /><path d="M14 4l-4 16" /></svg> Command History : '
+                        );
+                    historyCommand.insertAdjacentHTML('beforeend', "\n");
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '===================================================================');
+                    historyCommand.insertAdjacentHTML('beforeend', "\n");
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '>> Accessed at {{ now()->format('d-m-Y H:i:s') }}');
+                });
+            });
 
             function fetchQr() {
                 var qrcode = $("#qrText").val();
@@ -1185,9 +1647,14 @@
                             // $("#inpt-qr").removeClass("cursor-not-allowed");
                             if ($("#detail_transaksi").find(".kode_" + response.id).length) {
                                 zippiError.play();
-                                scanner.start();
+                                // scanner.start();
                                 $("#notifications").html(
-                                    '<div class="alert alert-important alert-danger alert-dismissible" role="alert"><div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
+                                    '<div class="alert alert-important alert-danger alert-dismissible" role="alert">' +
+                                    '<div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" ' +
+                                    'height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+                                    'stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" ' +
+                                    'd="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>' +
+                                    '<path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
                                 )
                                 setTimeout(function() {
                                     $("#notifications").html('')
@@ -1206,7 +1673,9 @@
                                 td.innerHTML +=
                                     '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
                                     idf +
-                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" ' +
+                                    ' class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />' +
+                                    '<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
                                 tr.appendChild(td);
                                 // Kolom 2 Kode
                                 var td = document.createElement("td");
@@ -1232,7 +1701,7 @@
                                 detail_transaksi.appendChild(tr);
                                 idf = (idf - 1) + 2;
                                 document.getElementById("idf").value = idf;
-                                scanner.start();
+                                // scanner.start();
                             }
                         } else if (response.success == false) {
                             zippiError.play();
@@ -1245,7 +1714,7 @@
                             }).then((result) => {
                                 /* Read more about isConfirmed, isDenied below */
                                 if (result.isConfirmed) {
-                                    scanner.start();
+                                    // scanner.start();
                                     $(".overlay").fadeOut(300);
                                 }
                             });
@@ -1253,13 +1722,83 @@
                     },
                     error: function(data) {
                         zippiError.play();
-                        scanner.start();
+                        // scanner.start();
                         $(".overlay").fadeOut(300);
                         // $("#inpt-qr").val("");
                         // $("#inpt-qr").prop("disabled", false);
                     }
                 });
             }
+
+            $(document).on('click', '.tambahkebawah', function() {
+                var id = $(this).data('id');
+                var subkode = $(this).data('subkode');
+                if ($("#detail_transaksi").find(".kode_" + id).length) {
+                    historyCommand.insertAdjacentHTML('beforeend', "\n");
+                    historyCommand.insertAdjacentHTML('beforeend', '>> <b class="text-danger">Gagal, ' + subkode +
+                        ' sudah ditambahkan ke pengebonan</b>');
+                    $("#notifications").html(
+                        '<div class="alert alert-important alert-danger alert-dismissible" role="alert"><div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
+                    )
+                    setTimeout(function() {
+                        $("#notifications").html('')
+                    }, 3000);
+                } else {
+                    var tipe = $(this).data('tipe');
+                    var kategori = $(this).data('kategori');
+                    var warna = $(this).data('warna');
+                    var package = $(this).data('package');
+                    var beratsatuan = $(this).data('beratsatuan');
+                    var supplier = $(this).data('supplier');
+
+                    var idf = document.getElementById("idf").value;
+                    var detail_transaksi = document.getElementById("detail_transaksi");
+                    var tr = document.createElement("tr");
+                    tr.setAttribute("id", "btn-remove" + idf);
+                    // Kolom 1 Hapus
+                    var td = document.createElement("td");
+                    td.setAttribute("align", "center");
+                    td.setAttribute("style",
+                        ""
+                    );
+                    td.innerHTML +=
+                        '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
+                        idf +
+                        ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" ' +
+                        ' class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />' +
+                        '<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
+                    tr.appendChild(td);
+                    // Kolom 2 Kode
+                    var td = document.createElement("td");
+                    td.innerHTML += subkode + '<div class="kode_' + id +
+                        '"><input type="hidden" name="id_item[]" value="' + id + '"></div>';
+                    tr.appendChild(td);
+                    // Kolom 3 BB
+                    var td = document.createElement("td");
+                    td.innerHTML += tipe + " " + kategori + " " + warna;
+                    tr.appendChild(td);
+                    // Kolom 4 Jenis
+                    var td = document.createElement("td");
+                    td.innerHTML += package;
+                    tr.appendChild(td);
+                    // Kolom 5 Berat
+                    var td = document.createElement("td");
+                    td.innerHTML += beratsatuan;
+                    tr.appendChild(td);
+                    // Kolom 6 Supplier
+                    var td = document.createElement("td");
+                    td.innerHTML += supplier;
+                    tr.appendChild(td);
+                    detail_transaksi.appendChild(tr);
+                    idf = (idf - 1) + 2;
+                    document.getElementById("idf").value = idf;
+
+                    historyCommand.insertAdjacentHTML('beforeend', "\n");
+                    historyCommand.insertAdjacentHTML('beforeend', '>> <b class="text-yellow">' + subkode + '</b>' +
+                        ' ' + package + tipe + ' ' + kategori +
+                        ' ' + warna + ' <b class="text-blue">Berhasil</b> ditambahkan ke pengebonan');
+                }
+            });
         </script>
     </div>
 @endsection

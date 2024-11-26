@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('warna')->nullable();
             $table->decimal('berat', 13, 2)->nullable();
             $table->string('operator')->nullable();
-            $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = close
+            $table->string('status')->default(1); // 0 = deleted, 1 = requested , 2 = approved -> progress -> production, 3 = close
             $table->string('dibuat')->nullable();
             $table->timestamps();
         });

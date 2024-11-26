@@ -58,6 +58,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/update-location', 'updateLocation')->name('update.location');
 });
 Route::get('/', [DashboardController::class, 'dashboard']);
+Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::controller(DaftarController::class)->group(function () {
@@ -127,6 +128,7 @@ Route::controller(GudangController::class)->group(function () {
 Route::controller(ProduksiController::class)->group(function () {
     Route::get('produksi/pengebonan', 'pengebonan')->name('produksi.pengebonan');
     Route::POST('produksi/getDecryptBon', 'getDecryptKode')->name('getDecryptKode.decrypt');
+    Route::post('Produksi/pengebonan/listItemPengebonan', 'filterItem')->name('pengebonan.getItemPengebonan');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

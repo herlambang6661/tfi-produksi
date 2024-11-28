@@ -708,7 +708,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12 text-end mt-3">
-                                            <button type="button" id="btnFilter" class="btn btn-primary">
+                                            <button type="button" onclick="reloadTableResult()" class="btn btn-primary">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -726,85 +726,38 @@
                                     <span>Hasil</span>
                                 </div>
                                 <div id="hasil" class="text-center">
-                                    <i>Silahkan Isi Form diatas terlebih dahulu</i>
                                 </div>
-                                <div class="cursor-wait placeholder-glow" id="tunggu" style="display: none">
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1">
-                                        <div class="col-auto">
-                                            <div class="avatar placeholder"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="placeholder col-12"></div>
-                                            <div class="placeholder col-12"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div>
-                                <div class="placeholder col-12"></div> --}}
+                                <table
+                                    class="text-nowrap table card-table table-vcenter table-hover datatable datatable-listResult"
+                                    style="width:100%;color:black;text-transform:uppercase;font-size: 12px">
+                                    <tfoot>
+                                        <tr>
+                                            <th class="px-1 py-1 text-center" style="width: 1%">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-list-search">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M15 15m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                    <path d="M18.5 18.5l2.5 2.5" />
+                                                    <path d="M4 6h16" />
+                                                    <path d="M4 12h4" />
+                                                    <path d="M4 18h4" />
+                                                </svg>
+                                            </th>
+                                            <td class="px-1 th py-1" style="width: 1%">KodeBale</td>
+                                            <td class="px-1 th py-1" style="width: 1%">KodeKontrak</td>
+                                            <td class="px-1 th py-1" style="width: 1%">NPB</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Berat</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Package</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Tipe</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Kategori</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Warna</td>
+                                            <td class="px-1 th py-1" style="width: 1%">supplier</td>
+                                            <td class="px-1 th py-1" style="width: 1%">Tgl Kedatangan</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-link link-secondary ms-auto"
@@ -824,7 +777,6 @@
         <!--<script src="../qr-scanner.legacy.min.js"></script>-->
         <script type="module">
             import QrScanner from "{{ asset('assets/extentions/qr-scanner.min.js') }}";
-
             const video = document.getElementById('qr-video');
             const camHasCamera = document.getElementById('cam-has-camera');
             const camList = document.getElementById('cam-list');
@@ -1028,11 +980,70 @@
                 scanner.stop();
             });
         </script>
+
         <script type="text/javascript">
             var tablePengebonan;
+            var tableResult;
 
             function syn() {
                 tablePengebonan.ajax.reload();
+            }
+
+            function reloadTableResult() {
+                var noQR = document.getElementById("filter_noQR").value;
+                var idKontrak = document.getElementById("filter_idKontrak").value;
+                var npb = document.getElementById("filter_npb").value;
+                var supplier = document.getElementById("filter_supplier").value;
+                var tanggal = document.getElementById("filter_tanggal").value;
+                var tipe = document.getElementById("filter_tipe").value;
+                var kategori = document.getElementById("filter_kategori").value;
+                var warna = document.getElementById("filter_warna").value;
+                var historyCommand = document.getElementById("historyCommand");
+                var txtTipe = $('#filter_tipe :selected').text();
+                var txtKategori = $('#filter_kategori :selected').text();
+                var txtWarna = $('#filter_warna :selected').text();
+                historyCommand.insertAdjacentHTML('beforeend', '<div id="two">>> Mencari : ' +
+                    (noQR ? noQR + ' ' : '') +
+                    (idKontrak ? idKontrak + ' ' : '') +
+                    (npb ? npb + ' ' : '') +
+                    (supplier ? supplier + ' ' : '') +
+                    (tanggal ? tanggal + ' ' : '') +
+                    (tipe ? txtTipe + ' ' : '') +
+                    (kategori ? txtKategori + ' ' : '') +
+                    (warna ? txtWarna + ' ' : '') + '</div>');
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('pengebonan.getItemPengebonan') }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        // keyword: id,
+                        noQR: noQR,
+                        idKontrak: idKontrak,
+                        npb: npb,
+                        supplier: supplier,
+                        tanggal: tanggal,
+                        tipe: tipe,
+                        kategori: kategori,
+                        warna: warna,
+                    },
+                    beforeSend: function() {
+                        $("#tunggu").fadeIn();
+                        $("#hasil").fadeOut();
+                    },
+                    success: function(html) {
+                        $("#tunggu").fadeOut();
+                        $("#hasil").fadeIn();
+                        $("#hasil").html(html);
+                        historyCommand.insertAdjacentHTML('beforeend', "\n");
+                        historyCommand.insertAdjacentHTML('beforeend', document.getElementById(
+                            "resultCommand").value);
+                        // document.getElementById("repeatOr").value = "";
+                        // document.getElementById("repeatOr").focus();
+                    }
+                });
+
+                tableResult.ajax.reload();
             }
 
             function newexportaction(e, dt, button, config) {
@@ -1139,60 +1150,52 @@
                             success: function(response) {
                                 $('#submitPengebonan').html('Proses');
                                 $("#submitPengebonan").attr("disabled", false);
-                                // const Toast = Swal.mixin({
-                                //     toast: true,
-                                //     position: "top-end",
-                                //     showConfirmButton: false,
-                                //     timer: 4000,
-                                //     timerProgressBar: true,
-                                //     didOpen: (toast) => {
-                                //         toast.onmouseenter = Swal.stopTimer;
-                                //         toast.onmouseleave = Swal.resumeTimer;
-                                //     }
-                                // });
-                                // Toast.fire({
-                                //     icon: "success",
-                                //     title: response.msg,
-                                // });
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    html: response.msg,
-                                    showConfirmButton: true,
-                                    showDenyButton: true,
-                                    allowOutsideClick: false,
-                                    allowEscapeKey: false,
-                                    confirmButtonColor: '#3085d6',
-                                    confirmButtonText: 'Ok',
-                                    denyButtonText: '<i class="fa-solid fa-print"></i> Print Formulir',
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        tablePengebonan.ajax.reload(null, false);
-                                        // for (let index = 0; index < array.length; index++) {
-                                        //     const element = array[index];
-                                        //     $("#btn-remove" + idf).remove();
-                                        // }
-
-                                        // window.location.href =
-                                        //     "{{ route('gudang/penerimaan') }}";
-                                    } else if (result.isDenied) {
-                                        // url ke print
-                                        // window.location.href = "{{ route('gudang/penerimaan') }}";
-                                    }
-                                });
-                                document.getElementById("formPengebonan").reset();
-                                tablePengebonan.ajax.reload(null, false);
-                                $('#modal-penerimaan').modal('hide');
+                                if (response.success == true) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Berhasil',
+                                        html: response.message,
+                                        showConfirmButton: true,
+                                        showDenyButton: true,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Ok',
+                                        denyButtonText: '<i class="fa-solid fa-print"></i> Print Formulir',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            tablePengebonan.ajax.reload(null, false);
+                                            // for (let index = 0; index < array.length; index++) {
+                                            //     const element = array[index];
+                                            //     $("#btn-remove" + idf).remove();
+                                            // }
+                                            // window.location.href =
+                                            //     "{{ route('gudang/penerimaan') }}";
+                                        } else if (result.isDenied) {
+                                            // url ke print
+                                            // window.location.href = "{{ route('gudang/penerimaan') }}";
+                                        }
+                                    });
+                                    document.getElementById("formPengebonan").reset();
+                                    tablePengebonan.ajax.reload(null, false);
+                                    $('#modal-penerimaan').modal('hide');
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal Input',
+                                        html: response.message,
+                                        showConfirmButton: true
+                                    });
+                                }
                             },
                             error: function(data) {
                                 tablePengebonan.ajax.reload(null, false);
                                 // console.log('Error:', data);
                                 // const obj = JSON.parse(data.responseJSON);
-                                console.log($('#formPengebonan').serialize());
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Gagal Input',
-                                    html: data.responseJSON.message,
+                                    html: data,
                                     showConfirmButton: true
                                 });
                                 $('#submitPengebonan').html('Proses');
@@ -1288,9 +1291,9 @@
                             className: "cuspad0 cuspad1 text-center"
                         },
                         {
-                            title: 'Kode Olah',
-                            data: 'kodeolah',
-                            name: 'kodeolah',
+                            title: 'No. Form',
+                            data: 'formproduksi',
+                            name: 'formproduksi',
                             className: "cuspad0 cuspad1 text-center"
                         },
                         {
@@ -1438,35 +1441,261 @@
                     })
                 });
 
-                // $('#modalTambahItem').on('show.bs.modal', function(e) {
-                //     var rowid = $(e.relatedTarget).data('id');
-                //     console.log(rowid);
-                //     $(".overlayModals").fadeIn(300);
+                tableResult = $('.datatable-listResult').DataTable({
+                    "processing": true, //Feature control the processing indicator.
+                    "serverSide": true, //Feature control DataTables' server-side processing mode.
+                    "scrollX": false,
+                    "scrollCollapse": false,
+                    "pagingType": 'full_numbers',
+                    "dom": "<'card-header h3' B>" +
+                        "<'card-body border-bottom py-3' <'row'<'col-sm-6'l><'col-sm-6'f>> >" +
+                        "<'table-responsive' <'col-sm-12'tr> >" +
+                        "<'card-footer' <'row'<'col-sm-7'i><'col-sm-5'p> >>",
+                    "lengthMenu": [
+                        [10, 25, 50, -1],
+                        ['Default', '25', '50', 'Semua']
+                    ],
+                    "buttons": [{
+                        className: 'btn btn-dark',
+                        text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
+                    }, ],
+                    "language": {
+                        "lengthMenu": "Menampilkan _MENU_",
+                        "zeroRecords": "Data Tidak Ditemukan",
+                        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ total data",
+                        "infoEmpty": "Data Tidak Ditemukan",
+                        "infoFiltered": "(Difilter dari _MAX_ total records)",
+                        "processing": '<div class="container container-slim p-0"><div class="text-center"><div class="mb-3"></div><div class="text-secondary">Loading Data...</div></div></div>',
+                        "search": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>',
+                        "paginate": {
+                            "first": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 6v12"></path><path d="M18 6l-6 6l6 6"></path></svg>',
+                            "last": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 6l6 6l-6 6"></path><path d="M17 5v13"></path></svg>',
+                            "next": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>',
+                            "previous": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>',
+                        },
+                    },
+                    "ajax": {
+                        "url": "{{ route('getResultPengebonan.index') }}",
+                        "data": function(data) {
+                            data._token = "{{ csrf_token() }}";
+                            data.noQR = $('#filter_noQR').val();
+                            data.idKontrak = $("#filter_idKontrak").val();
+                            data.npb = $("#filter_npb").val();
+                            data.supplier = $("#filter_supplier").val();
+                            data.tanggal = $("#filter_tanggal").val();
+                            data.tipe = $("#filter_tipe").val();
+                            data.kategori = $("#filter_kategori").val();
+                            data.warna = $("#filter_warna").val();
+                            data.historyCommand = $("#historyCommand").val();
+                            data.txtTipe = $('#filter_tipe :selected').text();
+                            data.txtKategori = $('#filter_kategori :selected').text();
+                            data.txtWarna = $('#filter_warna :selected').text();
+                        }
+                    },
+                    columns: [{
+                            title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
+                            data: 'action',
+                            name: 'action',
+                            className: "text-center cursor-pointer",
+                            orderable: false,
+                            searchable: false,
+                        },
+                        {
+                            title: 'Kodebale',
+                            data: 'subkode',
+                            name: 'subkode',
+                            className: "cuspad0 cuspad1 text-center"
+                        },
+                        {
+                            title: 'Kodekontrak',
+                            data: 'kodekontrak',
+                            name: 'kodekontrak',
+                            className: "cuspad0 cuspad1 text-center"
+                        },
+                        {
+                            title: 'NPB',
+                            data: 'npb',
+                            name: 'npb',
+                            className: "cuspad0 cuspad1 text-center"
+                        },
+                        {
+                            title: 'Berat',
+                            data: 'berat_satuan',
+                            name: 'berat_satuan',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Package',
+                            data: 'package',
+                            name: 'package',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Tipe',
+                            data: 'type',
+                            name: 'type',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Kategori',
+                            data: 'kategori',
+                            name: 'kategori',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Warna',
+                            data: 'warna',
+                            name: 'warna',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Supplier',
+                            data: 'supplier',
+                            name: 'supplier',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                        {
+                            title: 'Tgl Kedatangan',
+                            data: 'tanggal',
+                            name: 'tanggal',
+                            className: "cuspad0 cuspad1 text-start"
+                        },
+                    ],
+                    "initComplete": function() {
+                        this.api()
+                            .columns()
+                            .every(function() {
+                                var that = this;
+                                $('input', this.footer()).on('keyup change clear', function() {
+                                    if (that.search() !== this.value) {
+                                        that.search(this.value).draw();
+                                    }
+                                });
+                            });
+                        this.api().columns([5]).every(function() {
+                            var column = this;
+                            var select = $(
+                                    '<select class="form-select form-select-sm"><option value="">Semua</option></select>'
+                                )
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function() {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+                            column.data().unique().sort().each(function(d, j) {
+                                select.append('<option value="' + d + '">' + d +
+                                    '</option>');
+                            });
+                        });
+                    }
+                });
+                $('.datatable-listResult tfoot .th').each(function() {
+                    var title = $(this).text();
+                    $(this).html(
+                        '<input type="text" class="form-control form-control-sm my-0 border" placeholder="' +
+                        $(this).text().toUpperCase() + '" />'
+                    );
+                });
+                $('.datatable-listResult').on('click', '.remove', function() {
+                    // var id = $(this).data('id');
+                    // var nama = $(this).data('nama');
+                    // var kode = $(this).data('kode');
+                    // var token = $("meta[name='csrf-token']").attr("content");
+                    // let r = (Math.random() + 1).toString(36).substring(2);
+                    // swal.fire({
+                    //     title: 'Hapus ' + nama,
+                    //     text: 'Apakah anda yakin ingin menghapus ' + nama + ', Tanggal : ' + kode +
+                    //         ' ?',
+                    //     icon: 'warning',
+                    //     showCancelButton: true,
+                    //     confirmButtonColor: '#d33',
+                    //     cancelButtonColor: '#3085d6',
+                    //     confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                    //     cancelButtonText: 'Batal',
+                    // }).then((result) => {
+                    //     if (result.isConfirmed) {
+                    //         (async () => {
+                    //             const {
+                    //                 value: password
+                    //             } = await Swal.fire({
+                    //                 title: "Ketik tulisan dibawah untuk menghapus " +
+                    //                     nama,
+                    //                 html: '<div class="unselectable">' + r +
+                    //                     '</div>',
+                    //                 input: "text",
+                    //                 inputPlaceholder: "Ketik untuk menghapus " +
+                    //                     nama,
+                    //                 showCancelButton: true,
+                    //                 cancelButtonColor: '#3085d6',
+                    //                 cancelButtonText: 'Batal',
+                    //                 confirmButtonText: 'Ok',
+                    //                 inputAttributes: {
+                    //                     autocapitalize: "off",
+                    //                     autocorrect: "off"
+                    //                 },
+                    //             });
+                    //             if (password == r) {
+                    //                 $.ajax({
+                    //                     type: "DELETE",
+                    //                     url: "{{ route('getPenerimaan.store') }}" +
+                    //                         '/' + id,
+                    //                     data: {
+                    //                         "_token": "{{ csrf_token() }}",
+                    //                     },
+                    //                     beforeSend: function() {
+                    //                         Swal.fire({
+                    //                             title: 'Mohon Menunggu',
+                    //                             html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                    //                             timerProgressBar: true,
+                    //                             showConfirmButton: false,
+                    //                             allowOutsideClick: false,
+                    //                             allowEscapeKey: false,
+                    //                         })
+                    //                     },
+                    //                     success: function(data) {
+                    //                         tablePengebonan.ajax.reload(null,
+                    //                             false);
+                    //                         Swal.fire({
+                    //                             icon: 'success',
+                    //                             title: 'Berhasil',
+                    //                             html: data,
+                    //                             showConfirmButton: true
+                    //                         });
+                    //                     },
+                    //                     error: function(data) {
+                    //                         tablePengebonan.ajax.reload(null,
+                    //                             false);
+                    //                         console.log('Error:', data
+                    //                             .responseText);
+                    //                         Swal.fire({
+                    //                             icon: 'error',
+                    //                             title: 'Gagal!',
+                    //                             text: 'Error: ' + data
+                    //                                 .responseText,
+                    //                             showConfirmButton: true,
+                    //                         });
+                    //                     }
+                    //                 });
+                    //             } else {
+                    //                 tablePengebonan.ajax.reload(null, false);
+                    //                 Swal.fire({
+                    //                     icon: "error",
+                    //                     title: "Batal",
+                    //                     text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
+                    //                 });
+                    //             }
+                    //         })()
+                    //     }
+                    // })
+                });
 
-                //     $.ajaxSetup({
-                //         headers: {
-                //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //         }
-                //     });
-                //     //menggunakan fungsi ajax untuk pengambilan data
-                //     $.ajax({
-                //         type: 'POST',
-                //         // url: '{{ url('listKaryawan') }}',
-                //         data: {
-                //             "_token": "{{ csrf_token() }}",
-                //             id: rowid,
-                //         },
-                //         success: function(data) {
-                //             $('.fetched-data-karyawan').html(
-                //                 data); //menampilkan data ke dalam modal
-                //             // alert(itemTables);
-                //         }
-                //     }).done(function() {
-                //         setTimeout(function() {
-                //             $(".overlayModals").fadeOut(300);
-                //         }, 500);
-                //     });
-                // });
 
                 $("#filter_tipe").select2({
                     dropdownParent: $("#modalTambahItem"),
@@ -1545,59 +1774,7 @@
                         cache: true
                     },
                 });
-                $("#btnFilter").click(function() {
-                    var noQR = document.getElementById("filter_noQR").value;
-                    var idKontrak = document.getElementById("filter_idKontrak").value;
-                    var npb = document.getElementById("filter_npb").value;
-                    var supplier = document.getElementById("filter_supplier").value;
-                    var tanggal = document.getElementById("filter_tanggal").value;
-                    var tipe = document.getElementById("filter_tipe").value;
-                    var kategori = document.getElementById("filter_kategori").value;
-                    var warna = document.getElementById("filter_warna").value;
-                    var historyCommand = document.getElementById("historyCommand");
-                    var txtTipe = $('#filter_tipe :selected').text();
-                    var txtKategori = $('#filter_kategori :selected').text();
-                    var txtWarna = $('#filter_warna :selected').text();
-                    historyCommand.insertAdjacentHTML('beforeend', '<div id="two">>> Mencari : ' +
-                        (noQR ? noQR + ' ' : '') +
-                        (idKontrak ? idKontrak + ' ' : '') +
-                        (npb ? npb + ' ' : '') +
-                        (supplier ? supplier + ' ' : '') +
-                        (tanggal ? tanggal + ' ' : '') +
-                        (tipe ? txtTipe + ' ' : '') +
-                        (kategori ? txtKategori + ' ' : '') +
-                        (warna ? txtWarna + ' ' : '') + '</div>');
 
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('pengebonan.getItemPengebonan') }}",
-                        data: {
-                            _token: "{{ csrf_token() }}",
-                            // keyword: id,
-                            noQR: noQR,
-                            idKontrak: idKontrak,
-                            npb: npb,
-                            supplier: supplier,
-                            tanggal: tanggal,
-                            tipe: tipe,
-                            kategori: kategori,
-                            warna: warna,
-                        },
-                        beforeSend: function() {
-                            $("#tunggu").fadeIn();
-                            $("#hasil").fadeOut();
-                        },
-                        success: function(html) {
-                            $("#tunggu").fadeOut();
-                            $("#hasil").fadeIn();
-                            $("#hasil").html(html);
-                            historyCommand.insertAdjacentHTML('beforeend', document.getElementById(
-                                "resultCommand").value);
-                            // document.getElementById("repeatOr").value = "";
-                            // document.getElementById("repeatOr").focus();
-                        }
-                    });
-                });
                 $("#btnClearHistory").click(function() {
                     historyCommand.innerHTML = "";
                     historyCommand.insertAdjacentHTML('beforeend',
@@ -1735,8 +1912,9 @@
                 var subkode = $(this).data('subkode');
                 if ($("#detail_transaksi").find(".kode_" + id).length) {
                     historyCommand.insertAdjacentHTML('beforeend', "\n");
-                    historyCommand.insertAdjacentHTML('beforeend', '>> <b class="text-danger">Gagal, ' + subkode +
-                        ' sudah ditambahkan ke pengebonan</b>');
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '<b class="text-danger">>></b> <b class="text-yellow">' + subkode +
+                        '</b> <b class="text-danger">sudah ditambahkan ke pengebonan</b>');
                     $("#notifications").html(
                         '<div class="alert alert-important alert-danger alert-dismissible" role="alert"><div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
                     )
@@ -1794,7 +1972,8 @@
                     document.getElementById("idf").value = idf;
 
                     historyCommand.insertAdjacentHTML('beforeend', "\n");
-                    historyCommand.insertAdjacentHTML('beforeend', '>> <b class="text-yellow">' + subkode + '</b>' +
+                    historyCommand.insertAdjacentHTML('beforeend',
+                        '<b class="text-blue">>></b> <b class="text-yellow">' + subkode + '</b>' +
                         ' ' + package + tipe + ' ' + kategori +
                         ' ' + warna + ' <b class="text-blue">Berhasil</b> ditambahkan ke pengebonan');
                 }

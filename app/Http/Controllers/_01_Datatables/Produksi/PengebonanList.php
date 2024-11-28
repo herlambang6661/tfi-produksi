@@ -5,9 +5,10 @@ namespace App\Http\Controllers\_01_Datatables\Produksi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\ProduksipengebonanModel;
 use App\Models\GudangpengolahanitmModel;
-use App\Models\ProduksipengebonanitmModel;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\ProduksipengebonanitmModel;
 
 class PengebonanList extends Controller
 {
@@ -24,15 +25,15 @@ class PengebonanList extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = ProduksipengebonanitmModel::whereBetween('tanggal', [$request->dari, $request->sampai])->get();
+            $data = ProduksipengebonanModel::whereBetween('tanggal', [$request->dari, $request->sampai])->get();
             // $data = ProduksipengebonanitmModel::all();
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('subkode', function ($row) {
-                    $list = GudangpengolahanitmModel::where('kodeolah', $row->kodeolah)->get();
+                    $list = ProduksipengebonanitmModel::where('formproduksi', $row->formproduksi)->get();
 
-                    return implode(', ', $list->pluck('kodekontrak')->toArray());
+                    return implode(', ', $list->pluck('subkode')->toArray());
                 })
                 ->editColumn('tanggal', function ($row) {
                     return date('d-m-Y', strtotime($row->tanggal));
@@ -48,21 +49,14 @@ class PengebonanList extends Controller
                             <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '">
                                 <button type="submit" class="btn btn-link btn-icon" onclick="loadingOverlay()" ' . $sttclass . '>
-                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-a-b-2"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 21h3c.81 0 1.48 -.67 1.48 -1.48l.02 -.02c0 -.82 -.69 -1.5 -1.5 -1.5h-3v3z" /><path d="M16 15h2.5c.84 -.01 1.5 .66 1.5 1.5s-.66 1.5 -1.5 1.5h-2.5v-3z" /><path d="M4 9v-4c0 -1.036 .895 -2 2 -2s2 .964 2 2v4" /><path d="M2.99 11.98a9 9 0 0 0 9 9m9 -9a9 9 0 0 0 -9 -9" /><path d="M8 7h-4" /></svg>
+                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                 </button>
                             </form>
                             <button class="btn btn-link btn-icon align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-dots-vertical"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /></svg>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                <span class="dropdown-header">Menu untuk ' . $row->kodeolah . '</span>
-                                <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
-                                    <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                    <button type="submit" class="dropdown-item" onclick="loadingOverlay()" ' . $sttclass . '>
-                                        <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-a-b-2 text-primary"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M16 21h3c.81 0 1.48 -.67 1.48 -1.48l.02 -.02c0 -.82 -.69 -1.5 -1.5 -1.5h-3v3z" /><path d="M16 15h2.5c.84 -.01 1.5 .66 1.5 1.5s-.66 1.5 -1.5 1.5h-2.5v-3z" /><path d="M4 9v-4c0 -1.036 .895 -2 2 -2s2 .964 2 2v4" /><path d="M2.99 11.98a9 9 0 0 0 9 9m9 -9a9 9 0 0 0 -9 -9" /><path d="M8 7h-4" /></svg>
-                                        Proses Pengolahan
-                                    </button>
-                                </form>
+                                <span class="dropdown-header">Menu untuk ' . $row->formproduksi . '</span>
                                 <form method="POST" action="/gudang/printPengolahan" target="_blank">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
                                     <input type="hidden" name="id" value="' . Crypt::encryptString($row->kodeolah) . '">
@@ -75,6 +69,20 @@ class PengebonanList extends Controller
                                     <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5" /><path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" /><path d="M18.5 19.5l2.5 2.5" /></svg>
                                     Lihat Detail Form
                                 </a>
+                                <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
+                                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                    <button type="submit" class="dropdown-item" onclick="loadingOverlay()" ' . $sttclass . '>
+                                        <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit text-primary"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                        Edit Formulir
+                                    </button>
+                                </form>
+                                <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
+                                    <input type="hidden" name="_token" value="' . csrf_token() . '">
+                                    <button type="submit" class="dropdown-item" onclick="loadingOverlay()" ' . $sttclass . '>
+                                        <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="text-purple icon icon-tabler icons-tabler-outline icon-tabler-rosette-discount-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7c.412 .41 .97 .64 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1c0 .58 .23 1.138 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1" /><path d="M9 12l2 2l4 -4" /></svg>
+                                        Persetujuan
+                                    </button>
+                                </form>
                             </div>
                         </div>';
                     return $btn;

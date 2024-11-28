@@ -23,6 +23,7 @@ use App\Http\Controllers\_01_Datatables\Gudang\PengolahanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Produksi\PengebonanList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
+use App\Http\Controllers\_01_Datatables\Produksi\PengebonanQR;
 
 // Route::get('/', function () {
 //     if (Auth::check()) {
@@ -51,6 +52,7 @@ Route::resource('getScanner', ScanBarcodeList::class);
 Route::resource('getJenis', JenisList::class)->middleware('log.activity');
 Route::resource('getTipeSub', TipeSubList::class);
 Route::resource('getLogActivity', LogList::class);
+Route::resource('getResultPengebonan', PengebonanQR::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('post-login', 'postLogin')->name('login.post')->middleware('log.activity');
@@ -128,6 +130,7 @@ Route::controller(ProduksiController::class)->group(function () {
     Route::get('produksi/pengebonan', 'pengebonan')->name('produksi.pengebonan');
     Route::POST('produksi/getDecryptBon', 'getDecryptKode')->name('getDecryptKode.decrypt');
     Route::post('Produksi/pengebonan/listItemPengebonan', 'filterItem')->name('pengebonan.getItemPengebonan');
+    Route::post('storedataPengebonan', 'storedataPengebonan')->name('Produksi/pengebonan/store');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

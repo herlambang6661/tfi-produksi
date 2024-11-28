@@ -10,6 +10,7 @@ class ProduksipengebonanitmModel extends Model
 
     protected $fillable = [
         'tanggal',
+        'formproduksi',
         'kodeproduksi',
         'subkode',
         'package',

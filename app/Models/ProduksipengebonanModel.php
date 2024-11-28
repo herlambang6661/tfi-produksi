@@ -10,7 +10,7 @@ class ProduksipengebonanModel extends Model
 
     protected $fillable = [
         'tanggal',
-        'kodeproduksi',
+        'formproduksi',
         'operator',
         'keterangan',
         'status',

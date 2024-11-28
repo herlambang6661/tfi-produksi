@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('produksi_pengebonan', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
-            $table->string('kodeproduksi');
+            $table->string('formproduksi');
             $table->string('operator')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = close
@@ -25,6 +25,7 @@ return new class extends Migration
         Schema::create('produksi_pengebonanItm', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal');
+            $table->string('formproduksi');
             $table->string('kodeproduksi');
             $table->string('subkode');
             $table->string('package')->nullable();

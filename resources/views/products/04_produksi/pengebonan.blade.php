@@ -588,6 +588,7 @@
                     </div>
                 </div>
                 {{-- Modals --}}
+                {{-- ============== Modal add --}}
                 <div class="modal modal-blur fade" id="modalTambahItem" tabindex="-1" role="dialog"
                     aria-hidden="true">
                     {{-- <div class="overlayModals">
@@ -766,6 +767,19 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+                {{-- ============ Modal Detail --}}
+                <div class="modal modal-blur fade" id="modalViewItem" tabindex="-1" role="dialog" aria-hidden="true"
+                    data-bs-focus="false">
+                    <div class="overlayModals">
+                        <div class="cv-spinner">
+                            <span class="loader">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-dialog modal-xl text-dark" role="document">
+                        <div class="fetched-detail-view"></div>
                     </div>
                 </div>
                 {{-- Modals --}}
@@ -1045,48 +1059,105 @@
 
                 tableResult.ajax.reload();
             }
-
-            function newexportaction(e, dt, button, config) {
-                var self = this;
-                var oldStart = dt.settings()[0]._iDisplayStart;
-                dt.one('preXhr', function(e, s, data) {
-                    // Just this once, load all data from the server...
-                    data.start = 0;
-                    data.length = 2147483647;
-                    dt.one('preDraw', function(e, settings) {
-                        // Call the original action function
-                        if (button[0].className.indexOf('buttons-copy') >= 0) {
-                            $.fn.dataTable.ext.buttons.copyHtml5.action.call(self, e, dt, button, config);
-                        } else if (button[0].className.indexOf('buttons-excel') >= 0) {
-                            $.fn.dataTable.ext.buttons.excelHtml5.available(dt, config) ?
-                                $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config) :
-                                $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
-                        } else if (button[0].className.indexOf('buttons-csv') >= 0) {
-                            $.fn.dataTable.ext.buttons.csvHtml5.available(dt, config) ?
-                                $.fn.dataTable.ext.buttons.csvHtml5.action.call(self, e, dt, button, config) :
-                                $.fn.dataTable.ext.buttons.csvFlash.action.call(self, e, dt, button, config);
-                        } else if (button[0].className.indexOf('buttons-pdf') >= 0) {
-                            $.fn.dataTable.ext.buttons.pdfHtml5.available(dt, config) ?
-                                $.fn.dataTable.ext.buttons.pdfHtml5.action.call(self, e, dt, button, config) :
-                                $.fn.dataTable.ext.buttons.pdfFlash.action.call(self, e, dt, button, config);
-                        } else if (button[0].className.indexOf('buttons-print') >= 0) {
-                            $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
-                        }
-                        dt.one('preXhr', function(e, s, data) {
-                            // DataTables thinks the first item displayed is index 0, but we're not drawing that.
-                            // Set the property to what it was before exporting.
-                            settings._iDisplayStart = oldStart;
-                            data.start = oldStart;
-                        });
-                        // Reload the grid with the original page. Otherwise, API functions like table.cell(this) don't work properly.
-                        setTimeout(dt.ajax.reload, 0);
-                        // Prevent rendering of the full data to the DOM
-                        return false;
-                    });
-                });
-                // Requery the server with the new one-time export settings
-                dt.ajax.reload();
-            }
+            $(document).on('click', '.btnHapusForm', function() {
+                var id = $(this).data('id');
+                var noform = $(this).data('noform');
+                var kode = $(this).data('kode');
+                var typeHapus = $(this).data('typehapus');
+                var token = $("meta[name='csrf-token']").attr("content");
+                nama = (typeHapus == "form") ? noform : kode;
+                // console.log("menghapus " + noform + " " + kode + " " + id + " " + typeHapus);
+                let r = (Math.random() + 1).toString(36).substring(2);
+                swal.fire({
+                    title: 'Hapus ' + nama,
+                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + nama +
+                        '</b><br><br>Kode<br>' +
+                        '<div class="alert alert-important alert-yellow text-dark" role="alert" style="font-size: 12px; max-height: 260px;">' +
+                        '<div class="d-flex" ><b class="fw-bolder" > ' +
+                        kode +
+                        ' </b></div> </div> ',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        (async () => {
+                            const {
+                                value: password
+                            } = await Swal.fire({
+                                title: "Ketik tulisan dibawah untuk menghapus " + nama,
+                                html: '<div class="unselectable">' + r + '</div>',
+                                input: "text",
+                                inputValue: r,
+                                inputPlaceholder: r,
+                                showCancelButton: true,
+                                cancelButtonColor: '#3085d6',
+                                cancelButtonText: 'Batal',
+                                confirmButtonText: 'Ok',
+                                inputAttributes: {
+                                    autocapitalize: "off",
+                                    autocorrect: "off"
+                                },
+                            });
+                            if (password == r) {
+                                $.ajax({
+                                    type: "DELETE",
+                                    url: "{{ route('delete.formPengebonan') }}",
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                        "id": id,
+                                        "noform": noform,
+                                        "tipeHapus": typeHapus,
+                                    },
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: 'Mohon Menunggu',
+                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                        })
+                                    },
+                                    success: function(data) {
+                                        tablePengebonan.ajax.reload(null,
+                                            false);
+                                        $('#modalViewItem').modal('hide');
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil',
+                                            html: data,
+                                            showConfirmButton: true
+                                        });
+                                    },
+                                    error: function(data) {
+                                        tablePengebonan.ajax.reload(null,
+                                            false);
+                                        // console.log('Error:', data
+                                        //     .responseText);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal!',
+                                            text: 'Error: ' + data.responseText,
+                                            showConfirmButton: true,
+                                        });
+                                    }
+                                });
+                            } else {
+                                tablePengebonan.ajax.reload(null, false);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Batal",
+                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
+                                });
+                            }
+                        })()
+                    }
+                })
+            });
 
             function hapusElemen(idf) {
                 $("#btn-remove" + idf).remove();
@@ -1696,7 +1767,6 @@
                     // })
                 });
 
-
                 $("#filter_tipe").select2({
                     dropdownParent: $("#modalTambahItem"),
                     language: "id",
@@ -1789,6 +1859,29 @@
                     historyCommand.insertAdjacentHTML('beforeend', "\n");
                     historyCommand.insertAdjacentHTML('beforeend',
                         '>> Accessed at {{ now()->format('d-m-Y H:i:s') }}');
+                });
+
+                // MODAL ---------------------------------------------------------//
+                $('#modalViewItem').on('show.bs.modal', function(e) {
+                    var button = $(e.relatedTarget)
+                    var id = button.data('id');
+                    // console.log("Fetch Id Item: " + id + "...");
+                    $(".overlayModals").fadeIn(300);
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('detail.pengebonan') }}",
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id: id,
+                        },
+                        success: function(data) {
+                            $('.fetched-detail-view').html(data);
+                        }
+                    }).done(function() {
+                        setTimeout(function() {
+                            $(".overlayModals").fadeOut(300);
+                        }, 500);
+                    });
                 });
             });
 

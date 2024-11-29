@@ -131,6 +131,8 @@ Route::controller(ProduksiController::class)->group(function () {
     Route::POST('produksi/getDecryptBon', 'getDecryptKode')->name('getDecryptKode.decrypt');
     Route::post('Produksi/pengebonan/listItemPengebonan', 'filterItem')->name('pengebonan.getItemPengebonan');
     Route::post('storedataPengebonan', 'storedataPengebonan')->name('Produksi/pengebonan/store');
+    Route::post('produksi/pengebonan/detail', 'detailPengebonan')->name('detail.pengebonan');
+    Route::delete('produksi/pengebonan/deleteForm', 'deletePengebonan')->name('delete.formPengebonan');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

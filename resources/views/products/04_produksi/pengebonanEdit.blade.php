@@ -139,7 +139,7 @@
                                     <path d="M14 7l6 0" />
                                     <path d="M17 4l0 6" />
                                 </svg>
-                                {{ $judul }}
+                                {{ $judul }} {{ $pengebonan->formproduksi }}
                             </h2>
                             <div class="page-pretitle">
                                 <ol class="breadcrumb" aria-label="breadcrumbs">
@@ -155,9 +155,15 @@
                                             Produksi
                                         </a>
                                     </li>
+                                    <li class="breadcrumb-item" aria-current="page">
+                                        <a href="{{ route('produksi.pengebonan') }}">
+                                            <i class="fa-solid fa-people-carry-box"></i>
+                                            Production Planning
+                                        </a>
+                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">
                                         <a href="#">
-                                            <i class="fa-solid fa-people-carry-box"></i>
+                                            <i class="fa-solid fa-pen-to-square"></i>
                                             {{ $judul }}
                                         </a>
                                     </li>
@@ -168,83 +174,6 @@
                         <!-- Page title actions -->
                         <div class="col-auto ms-auto d-print-none">
                             <div class="btn-list">
-                                <ul class="nav">
-                                    <a href="#tabs-input"
-                                        class="btn btn-outline-dark d-none d-sm-inline-block border border-dark"
-                                        data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
-                                        style="margin-right: 10px" id="tombolStop">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-details">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M13 5h8" />
-                                            <path d="M13 9h5" />
-                                            <path d="M13 15h8" />
-                                            <path d="M13 19h5" />
-                                            <path
-                                                d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                            <path
-                                                d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                        </svg>
-                                        Input Production Planning
-                                    </a>
-                                    <a href="#tabs-listBB"
-                                        class="active btn btn-outline-dark d-none d-sm-inline-block border border-dark"
-                                        data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1"
-                                        style="margin-right: 10px" id="tombolStop">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-check text-success">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M11 6l9 0" />
-                                            <path d="M11 12l9 0" />
-                                            <path d="M11 18l9 0" />
-                                        </svg>
-                                        List Production Planning
-                                    </a>
-                                </ul>
-                                <ul class="nav">
-                                    <a href="#tabs-input" class="btn btn-outline-dark d-sm-none btn-icon border border-dark"
-                                        data-bs-toggle="tab" aria-selected="true" role="tab"
-                                        aria-label="List Item Permintaan" style="margin-right: 10px">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-details">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M13 5h8" />
-                                            <path d="M13 9h5" />
-                                            <path d="M13 15h8" />
-                                            <path d="M13 19h5" />
-                                            <path
-                                                d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                            <path
-                                                d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-                                        </svg>
-                                    </a>
-                                    <a href="#tabs-listBB"
-                                        class="active btn btn-outline-dark d-sm-none btn-icon border border-dark"
-                                        data-bs-toggle="tab" aria-selected="true" role="tab"
-                                        aria-label="List Item Permintaan" style="margin-right: 10px">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-list-check">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5" />
-                                            <path d="M11 6l9 0" />
-                                            <path d="M11 12l9 0" />
-                                            <path d="M11 18l9 0" />
-                                        </svg>
-                                    </a>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -253,339 +182,299 @@
             <!-- Page body -->
             <div class="page-body">
                 <div class="container-xl">
-                    <div class="tab-content">
-                        <div class="tab-pane fade" id="tabs-input" role="tabpanel">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="card card-xl border-success shadow rounded mb-1 py-1 px-1">
-                                        <b class="text-center">Tulis Kode</b>
-                                        <input type="text" class="form-control border-success" name="qrText"
-                                            id="qrText" onkeydown = "if (event.keyCode == 13)  fetchQr()"
-                                            placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="card card-xl border-success shadow rounded mb-1 py-1 px-1">
+                                <b class="text-center">Tulis Kode</b>
+                                <input type="text" class="form-control border-success" name="qrText" id="qrText"
+                                    onkeydown = "if (event.keyCode == 13)  fetchQr()"
+                                    placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                            </div>
+                            <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
+                                <b class="text-center">Scan QR Code</b>
+                                <div class="row" style="font-size: 10px">
+                                    <div class="col">
+                                        <b>Device has camera: </b>
+                                        <span id="cam-has-camera"></span>
                                     </div>
-                                    <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
-                                        <b class="text-center">Scan QR Code</b>
-                                        <div class="row" style="font-size: 10px">
-                                            <div class="col">
-                                                <b>Device has camera: </b>
-                                                <span id="cam-has-camera"></span>
-                                            </div>
-                                            <div class="col text-end">
-                                                <b>Camera has flash: </b>
-                                                <span id="cam-has-flash"></span>
-                                            </div>
+                                    <div class="col text-end">
+                                        <b>Camera has flash: </b>
+                                        <span id="cam-has-flash"></span>
+                                    </div>
+                                </div>
+                                <video class="mb-1 rounded" id="qr-video" style="width: 100%; height: 100%;" autoplay
+                                    playsinline>
+                                </video>
+                                <div class="row">
+                                    <div class="col">
+                                        <button id="start-button" class="btn btn-success btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-play">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M7 4v16l13 -8z" />
+                                            </svg>
+                                            Start
+                                        </button>
+                                        <button id="stop-button" class="btn btn-danger btn-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path
+                                                    d="M5 5m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                            </svg>
+                                            Stop
+                                        </button>
+                                        <div>
+                                            <button id="flash-toggle" class="btn btn-warning btn-sm">
+                                                📸 Flash:
+                                                <span id="flash-state">off</span>
+                                            </button>
                                         </div>
-                                        <video class="mb-1 rounded" id="qr-video" style="width: 100%; height: 100%;"
-                                            autoplay playsinline>
-                                        </video>
+                                    </div>
+                                    <div class="col">
                                         <div class="row">
+                                            {{-- <label class="col-3 col-form-label">
+                                                <b>Camera:</b>
+                                            </label> --}}
                                             <div class="col">
-                                                <button id="start-button" class="btn btn-success btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-player-play">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M7 4v16l13 -8z" />
-                                                    </svg>
-                                                    Start
-                                                </button>
-                                                <button id="stop-button" class="btn btn-danger btn-sm">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path
-                                                            d="M5 5m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
-                                                    </svg>
-                                                    Stop
-                                                </button>
-                                                <div>
-                                                    <button id="flash-toggle" class="btn btn-warning btn-sm">
-                                                        📸 Flash:
-                                                        <span id="flash-state">off</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="row">
-                                                    {{-- <label class="col-3 col-form-label">
-                                                        <b>Camera:</b>
-                                                    </label> --}}
-                                                    <div class="col">
-                                                        <select id="cam-list"
-                                                            class="form-select form-select-sm border-success">
-                                                            <option value="environment" selected>
-                                                                Environment Facing (default)
-                                                            </option>
-                                                            <option value="user">User Facing</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <select id="cam-list" class="form-select form-select-sm border-success">
+                                                    <option value="environment" selected>
+                                                        Environment Facing (default)
+                                                    </option>
+                                                    <option value="user">User Facing</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-8" onkeydown="return event.key != 'Enter';">
-                                    <div class="card card-xl border-success shadow rounded mb-3">
-                                        <div class="table-responsive">
-                                            <form id="formPengebonan" name="formPengebonan" method="post"
-                                                action="javascript:void(0)">
-                                                @csrf
-                                                <input id="idf" value="1" type="hidden">
-                                                <div class="card-body px-1 py-1 my-1 mx-1">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <label class="form-label">Tanggal Input</label>
-                                                            <input type="date" class="form-control border-dark"
-                                                                name="tanggal" id="tanggal"
-                                                                value="{{ date('Y-m-d') }}">
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <label class="form-label">Operator</label>
-                                                            <input type="text" class="form-control border-dark"
-                                                                name="operator" id="operator"
-                                                                value="{{ Auth::user()->nickname }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body px-1 pt-2 pb-1 mt-1 mx-1">
-                                                    <a href="#modalTambahItem"
-                                                        class="btn btn-link bg-dark-lt border-primary text-dark"
-                                                        data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
-                                                        title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
-                                                        data-id="' . $row->id . '">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                            height="24" viewBox="0 0 24 24" fill="none"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                                            <path d="M21 21l-6 -6" />
-                                                        </svg>
-                                                        Cari Bahan Baku
-                                                    </a>
-                                                    <button id="tambahItem" type="button"
-                                                        class="btn btn-link bg-dark-lt border-success text-dark">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                            height="24" viewBox="0 0 24 24" fill="none"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            class="text-success icon icon-tabler icons-tabler-outline icon-tabler-file-spreadsheet">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                                                            <path
-                                                                d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                                                            <path d="M8 11h8v7h-8z" />
-                                                            <path d="M8 15h8" />
-                                                            <path d="M11 11v7" />
-                                                        </svg>
-                                                        Import Dari Excel
-                                                    </button>
-                                                </div>
-                                                <div class="card-body px-1 py-1 my-1 mx-1 text-end">
-                                                    <table id="detail_transaksi"
-                                                        class="control-group text-nowrap table-bordered" border="0"
-                                                        style="width: 100%;text-align:center;">
-                                                        <thead class="" style="font-weight: bold;">
-                                                            <tr>
-                                                                <td class="px-0 py-0"></td>
-                                                                <td style="width: 200px">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        style="margin-right: 5px" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path
-                                                                            d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
-                                                                    </svg>
-                                                                    Kode Bahan Baku
-                                                                </td>
-                                                                <td style="width: 200px">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        style="margin-right: 5px" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path d="M14 4h6v6h-6z" />
-                                                                        <path d="M4 14h6v6h-6z" />
-                                                                        <path
-                                                                            d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                    </svg>
-                                                                    Bahan Baku
-                                                                </td>
-                                                                <td style="width: 200px">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        style="margin-right: 5px" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path d="M14 4h6v6h-6z" />
-                                                                        <path d="M4 14h6v6h-6z" />
-                                                                        <path
-                                                                            d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                        <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                    </svg>
-                                                                    Jenis
-                                                                </td>
-                                                                <td style="width: 200px">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        style="margin-right: 5px" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-brand-speedtest">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path d="M5.636 19.364a9 9 0 1 1 12.728 0" />
-                                                                        <path d="M16 9l-4 4" />
-                                                                    </svg>
-                                                                    Berat
-                                                                </td>
-                                                                <td style="width: 200px">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        style="margin-right: 5px" width="24"
-                                                                        height="24" viewBox="0 0 24 24" fill="none"
-                                                                        stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
-                                                                        <path stroke="none" d="M0 0h24v24H0z"
-                                                                            fill="none" />
-                                                                        <path
-                                                                            d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
-                                                                        <path
-                                                                            d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
-                                                                        <path
-                                                                            d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
-                                                                        <path d="M3 6v10c0 .888 .772 1.45 2 2" />
-                                                                        <path d="M3 11c0 .888 .772 1.45 2 2" />
-                                                                    </svg>
-                                                                    Supplier
-                                                                </td>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                                <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
-                                                    <button id="submitPengebonan" type="submit" class="btn btn-success">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                            height="24" viewBox="0 0 24 24" fill="none"
-                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                            <path
-                                                                d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                                            <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                            <path d="M14 4l0 4l-6 0l0 -4" />
-                                                        </svg>
-                                                        Proses
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <div id="notifications"></div>
-                                </div>
                             </div>
-                            <div style="display: none">
-                                <select id="inversion-mode-select">
-                                    <option value="original">Scan original (dark QR code on bright background)</option>
-                                    <option value="invert">Scan with inverted colors (bright QR code on dark background)
-                                    </option>
-                                    <option value="both">Scan both</option>
-                                </select>
-                                <br>
-                            </div>
-                            <b style="display: none">Detected QR code: </b>
-                            <span id="cam-qr-result" style="display: none">None</span>
-                            <b style="display: none">Last detected at: </b>
-                            <span id="cam-qr-result-timestamp" style="display: none"></span>
                         </div>
-                        <div class="tab-pane fade active show" id="tabs-listBB" role="tabpanel">
-                            <div class="card card-xl border-success shadow rounded">
-                                <div class="card-stamp card-stamp-lg">
-                                    <div class="card-stamp-icon bg-success">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="icon icon-tabler icons-tabler-outline icon-tabler-shield-check">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06" />
-                                            <path d="M15 19l2 2l4 -4" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="card-header">
-                                    <form action="#" id="form-filter" method="get" autocomplete="off"
-                                        novalidate="" class="">
-                                        <div class="row">
-                                            <div class="col-md-5 mb-1">
-                                                <input type="date" id="filterStart-listBB"
-                                                    class="form-control border-dark" value="{{ date('Y-01-01') }}">
+                        <div class="col-lg-8" onkeydown="return event.key != 'Enter';">
+                            <div class="card card-xl border-success shadow rounded mb-3">
+                                <div class="table-responsive">
+                                    <form id="formPengebonan" name="formPengebonan" method="post"
+                                        action="javascript:void(0)">
+                                        @csrf
+                                        <input id="idf" value="1" type="hidden">
+                                        <input name="nomorform" value="{{ $pengebonan->formproduksi }}" type="hidden">
+                                        <div class="card-body px-1 py-1 my-1 mx-1">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Tanggal Input</label>
+                                                    <input type="date" class="form-control border-dark" name="tanggal"
+                                                        id="tanggal" value="{{ $pengebonan->tanggal }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Operator</label>
+                                                    <input type="text" class="form-control border-dark"
+                                                        name="operator" id="operator"
+                                                        value="{{ $pengebonan->operator }}">
+                                                </div>
                                             </div>
-                                            <div class="col-md-5 mb-1">
-                                                <input type="date" id="filterEnd-listBB"
-                                                    class="form-control border-dark" value="{{ date('Y-m-d') }}">
-                                            </div>
-                                            <div class="col-auto mb-1">
-                                                <button type="button" class="btn btn-success btn-icon" onclick="syn()">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path>
-                                                        <path d="M21 21l-6 -6"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <div class="card-body px-1 pt-2 pb-1 mt-1 mx-1">
+                                            <a href="#modalTambahItem"
+                                                class="btn btn-link bg-dark-lt border-primary text-dark"
+                                                data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
+                                                title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
+                                                data-id="' . $row->id . '">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                                    <path d="M21 21l-6 -6" />
+                                                </svg>
+                                                Cari Bahan Baku
+                                            </a>
+                                            <button id="tambahItem" type="button"
+                                                class="btn btn-link bg-dark-lt border-success text-dark">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="text-success icon icon-tabler icons-tabler-outline icon-tabler-file-spreadsheet">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                                    <path
+                                                        d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
+                                                    <path d="M8 11h8v7h-8z" />
+                                                    <path d="M8 15h8" />
+                                                    <path d="M11 11v7" />
+                                                </svg>
+                                                Import Dari Excel
+                                            </button>
+                                        </div>
+                                        <div class="card-body px-1 py-1 my-1 mx-1 text-end">
+                                            <table id="detail_transaksi" class="control-group text-nowrap table-bordered"
+                                                border="0" style="width: 100%;text-align:center;">
+                                                <thead class="" style="font-weight: bold;">
+                                                    <tr>
+                                                        <td class="px-0 py-0"></td>
+                                                        <td style="width: 200px">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                style="margin-right: 5px" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path
+                                                                    d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
+                                                            </svg>
+                                                            Kode Bahan Baku
+                                                        </td>
+                                                        <td style="width: 200px">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                style="margin-right: 5px" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M14 4h6v6h-6z" />
+                                                                <path d="M4 14h6v6h-6z" />
+                                                                <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                                <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                            </svg>
+                                                            Bahan Baku
+                                                        </td>
+                                                        <td style="width: 200px">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                style="margin-right: 5px" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M14 4h6v6h-6z" />
+                                                                <path d="M4 14h6v6h-6z" />
+                                                                <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                                <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                                                            </svg>
+                                                            Jenis
+                                                        </td>
+                                                        <td style="width: 200px">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                style="margin-right: 5px" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-speedtest">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path d="M5.636 19.364a9 9 0 1 1 12.728 0" />
+                                                                <path d="M16 9l-4 4" />
+                                                            </svg>
+                                                            Berat
+                                                        </td>
+                                                        <td style="width: 200px">
+                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                style="margin-right: 5px" width="24" height="24"
+                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                                stroke-width="2" stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                                <path
+                                                                    d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
+                                                                <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
+                                                                <path
+                                                                    d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
+                                                                <path d="M3 6v10c0 .888 .772 1.45 2 2" />
+                                                                <path d="M3 11c0 .888 .772 1.45 2 2" />
+                                                            </svg>
+                                                            Supplier
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                @foreach ($pengebonanItem as $item)
+                                                    <tr id="btn-remove{{ $item->kodeproduksi }}">
+                                                        <td style="align: center">
+                                                            <button class="btn btn-danger btn-icon remove btnHapusForm"
+                                                                type="button" data-id="{{ $item->id }}"
+                                                                data-noform="{{ $item->formproduksi }}"
+                                                                data-kode="{{ $item->subkode }}"
+                                                                data-kodeproduksi="{{ $item->kodeproduksi }}"
+                                                                data-typehapus="item">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                                    height="24" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                                    <path stroke="none" d="M0 0h24v24H0z"
+                                                                        fill="none" />
+                                                                    <path d="M4 7l16 0" />
+                                                                    <path d="M10 11l0 6" />
+                                                                    <path d="M14 11l0 6" />
+                                                                    <path
+                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->subkode }}
+                                                            <div class="kode_{{ $item->idQR }}">
+                                                                <input type="hidden" name="id_item[]"
+                                                                    value="{{ $item->idQR }}">
+                                                                <input type="hidden" name="oldKodeproduksi[]"
+                                                                    value="{{ $item->kodeproduksi }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->type . ' ' . $item->kategori . ' ' . $item->warna }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->package }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->berat }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $item->supplier }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
+                                        <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
+                                            <button id="submitPengebonan" type="submit" class="btn btn-success">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path
+                                                        d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                    <path d="M14 4l0 4l-6 0l0 -4" />
+                                                </svg>
+                                                Simpan Perubahan
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="table-responsive">
-                                    <table style="width:100%; height: 100%;font-size:13px;"
-                                        class="table table-sm table-bordered table-vcenter card-table table-hover datatable datatable-listBB">
-                                        <tfoot>
-                                            <tr>
-                                                <th class="px-1 py-1 text-center" style="width: 1%">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="icon icon-tabler icons-tabler-outline icon-tabler-list-search">
-                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                        <path d="M15 15m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                                                        <path d="M18.5 18.5l2.5 2.5" />
-                                                        <path d="M4 6h16" />
-                                                        <path d="M4 12h4" />
-                                                        <path d="M4 18h4" />
-                                                    </svg>
-                                                </th>
-                                                <th class="px-1 th py-1" style="width: 1%"></th>
-                                                <th class="px-1 th py-1" style="width: 1%">Tanggal</th>
-                                                <th class="px-1 th py-1" style="width: 1%">Kode Olah</th>
-                                                <th class="px-1 th py-1">List Produk</th>
-                                                <th class="px-1 th py-1" style="width: 1%">Operator</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
                             </div>
+                            <div id="notifications"></div>
                         </div>
                     </div>
+                    <div style="display: none">
+                        <select id="inversion-mode-select">
+                            <option value="original">Scan original (dark QR code on bright background)</option>
+                            <option value="invert">Scan with inverted colors (bright QR code on dark background)
+                            </option>
+                            <option value="both">Scan both</option>
+                        </select>
+                        <br>
+                    </div>
+                    <b style="display: none">Detected QR code: </b>
+                    <span id="cam-qr-result" style="display: none">None</span>
+                    <b style="display: none">Last detected at: </b>
+                    <span id="cam-qr-result-timestamp" style="display: none"></span>
                 </div>
                 {{-- Modals --}}
                 {{-- ============== Modal add --}}
@@ -769,19 +658,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- ============ Modal Detail --}}
-                <div class="modal modal-blur fade" id="modalViewItem" tabindex="-1" role="dialog" aria-hidden="true"
-                    data-bs-focus="false">
-                    <div class="overlayModals">
-                        <div class="cv-spinner">
-                            <span class="loader">
-                            </span>
-                        </div>
-                    </div>
-                    <div class="modal-dialog modal-xl text-dark" role="document">
-                        <div class="fetched-detail-view"></div>
-                    </div>
-                </div>
                 {{-- Modals --}}
                 @include('shared.footer')
             </div>
@@ -879,7 +755,8 @@
                                 // Kolom 2 Kode
                                 var td = document.createElement("td");
                                 td.innerHTML += response.subkode + '<div class="kode_' + response.id +
-                                    '"><input type="hidden" name="id_item[]" value="' + response.id + '"></div>';
+                                    '"><input type="hidden" name="id_item[]" value="' + response.id +
+                                    '"><input type="hidden" name="oldKodeproduksi[]" value=""></div>';
                                 tr.appendChild(td);
                                 // Kolom 3 BB
                                 var td = document.createElement("td");
@@ -996,12 +873,7 @@
         </script>
 
         <script type="text/javascript">
-            var tablePengebonan;
             var tableResult;
-
-            function syn() {
-                tablePengebonan.ajax.reload();
-            }
 
             function reloadTableResult() {
                 var noQR = document.getElementById("filter_noQR").value;
@@ -1059,109 +931,11 @@
 
                 tableResult.ajax.reload();
             }
-            $(document).on('click', '.btnHapusForm', function() {
-                var id = $(this).data('id');
-                var noform = $(this).data('noform');
-                var kode = $(this).data('kode');
-                var typeHapus = $(this).data('typehapus');
-                var token = $("meta[name='csrf-token']").attr("content");
-                nama = (typeHapus == "form") ? noform : kode;
-                // console.log("menghapus " + noform + " " + kode + " " + id + " " + typeHapus);
-                let r = (Math.random() + 1).toString(36).substring(2);
-                swal.fire({
-                    title: 'Hapus ' + nama,
-                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + nama +
-                        '</b><br><br>Kode<br>' +
-                        '<div class="alert alert-important alert-yellow text-dark" role="alert" style="font-size: 12px; max-height: 260px;">' +
-                        '<div class="d-flex" ><b class="fw-bolder" > ' +
-                        kode +
-                        ' </b></div> </div> ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
-                    cancelButtonText: 'Batal',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        (async () => {
-                            const {
-                                value: password
-                            } = await Swal.fire({
-                                title: "Ketik tulisan dibawah untuk menghapus " + nama,
-                                html: '<div class="unselectable">' + r + '</div>',
-                                input: "text",
-                                // inputValue: r,
-                                inputPlaceholder: r,
-                                showCancelButton: true,
-                                cancelButtonColor: '#3085d6',
-                                cancelButtonText: 'Batal',
-                                confirmButtonText: 'Ok',
-                                inputAttributes: {
-                                    autocapitalize: "off",
-                                    autocorrect: "off"
-                                },
-                            });
-                            if (password == r) {
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: "{{ route('delete.formPengebonan') }}",
-                                    data: {
-                                        "_token": "{{ csrf_token() }}",
-                                        "id": id,
-                                        "noform": noform,
-                                        "tipeHapus": typeHapus,
-                                    },
-                                    beforeSend: function() {
-                                        Swal.fire({
-                                            title: 'Mohon Menunggu',
-                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
-                                            timerProgressBar: true,
-                                            showConfirmButton: false,
-                                            allowOutsideClick: false,
-                                            allowEscapeKey: false,
-                                        })
-                                    },
-                                    success: function(data) {
-                                        tablePengebonan.ajax.reload(null,
-                                            false);
-                                        $('#modalViewItem').modal('hide');
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Berhasil',
-                                            html: data,
-                                            showConfirmButton: true
-                                        });
-                                    },
-                                    error: function(data) {
-                                        tablePengebonan.ajax.reload(null,
-                                            false);
-                                        // console.log('Error:', data
-                                        //     .responseText);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Gagal!',
-                                            text: 'Error: ' + data.responseText,
-                                            showConfirmButton: true,
-                                        });
-                                    }
-                                });
-                            } else {
-                                tablePengebonan.ajax.reload(null, false);
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Batal",
-                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
-                                });
-                            }
-                        })()
-                    }
-                })
-            });
 
             function hapusElemen(idf) {
                 $("#btn-remove" + idf).remove();
             }
+
             if ($("#formPengebonan").length > 0) {
                 $("#formPengebonan").validate({
                     rules: {
@@ -1202,7 +976,7 @@
                             '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
                         $("#submitPengebonan").attr("disabled", true);
                         $.ajax({
-                            url: "{{ url('storedataPengebonan') }}",
+                            url: "{{ url('storedataEditPengebonan') }}",
                             type: "POST",
                             data: formData,
                             contentType: false,
@@ -1235,20 +1009,21 @@
                                         denyButtonText: '<i class="fa-solid fa-print"></i> Print Formulir',
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            tablePengebonan.ajax.reload(null, false);
+                                            // tablePengebonan.ajax.reload(null, false);
                                             // for (let index = 0; index < array.length; index++) {
                                             //     const element = array[index];
                                             //     $("#btn-remove" + idf).remove();
                                             // }
-                                            // window.location.href =
-                                            //     "{{ route('gudang/penerimaan') }}";
+                                            $(".overlay").fadeIn(300);
+                                            window.location.href =
+                                                "{{ route('produksi.pengebonan') }}";
                                         } else if (result.isDenied) {
                                             // url ke print
                                             // window.location.href = "{{ route('gudang/penerimaan') }}";
                                         }
                                     });
                                     document.getElementById("formPengebonan").reset();
-                                    tablePengebonan.ajax.reload(null, false);
+                                    // tablePengebonan.ajax.reload(null, false);
                                     $('#modal-penerimaan').modal('hide');
                                 } else {
                                     Swal.fire({
@@ -1260,7 +1035,7 @@
                                 }
                             },
                             error: function(data) {
-                                tablePengebonan.ajax.reload(null, false);
+                                // tablePengebonan.ajax.reload(null, false);
                                 // console.log('Error:', data);
                                 // const obj = JSON.parse(data.responseJSON);
                                 Swal.fire({
@@ -1277,244 +1052,112 @@
                 })
             }
 
-            $(function() {
-                tablePengebonan = $('.datatable-listBB').DataTable({
-                    "processing": true, //Feature control the processing indicator.
-                    "serverSide": false, //Feature control DataTables' server-side processing mode.
-                    "scrollX": false,
-                    "scrollCollapse": false,
-                    "pagingType": 'full_numbers',
-                    "dom": "<'card-header h3' B>" +
-                        "<'card-body border-bottom py-3' <'row'<'col-sm-6'l><'col-sm-6'f>> >" +
-                        "<'table-responsive' <'col-sm-12'tr> >" +
-                        "<'card-footer' <'row'<'col-sm-7'i><'col-sm-5'p> >>",
-                    "lengthMenu": [
-                        [10, 25, 50, -1],
-                        ['Default', '25', '50', 'Semua']
-                    ],
-                    "buttons": [{
-                            extend: 'copyHtml5',
-                            className: 'btn btn-teal',
-                            text: '<i class="fa fa-copy text-white"></i> Salin',
-                            // action: newexportaction,
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            autoFilter: true,
-                            className: 'btn btn-success',
-                            text: '<i class="fa fa-file-excel text-white"></i> Excel',
-                            // action: newexportaction,
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            className: 'btn btn-danger',
-                            text: '<i class="fa fa-file-pdf text-white"></i> Pdf',
-                        },
-                        {
-                            className: 'btn btn-dark',
-                            text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh',
-                            action: function(e, dt, node, config) {
-                                dt.ajax.reload();
-                            }
-                        },
-                    ],
-                    "language": {
-                        "lengthMenu": "Menampilkan _MENU_",
-                        "zeroRecords": "Data Tidak Ditemukan",
-                        "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ total data",
-                        "infoEmpty": "Data Tidak Ditemukan",
-                        "infoFiltered": "(Difilter dari _MAX_ total records)",
-                        "processing": '<div class="container container-slim p-0"><div class="text-center"><div class="mb-3"></div><div class="text-secondary">Loading Data...</div></div></div>',
-                        "search": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>',
-                        "paginate": {
-                            "first": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 6v12"></path><path d="M18 6l-6 6l6 6"></path></svg>',
-                            "last": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 6l6 6l-6 6"></path><path d="M17 5v13"></path></svg>',
-                            "next": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>',
-                            "previous": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>',
-                        },
-                    },
-                    "ajax": {
-                        "url": "{{ route('getPengebonan.index') }}",
-                        "data": function(data) {
-                            data._token = "{{ csrf_token() }}";
-                            data.dari = $('#filterStart-listBB').val();
-                            data.sampai = $('#filterEnd-listBB').val();
-                        }
-                    },
-                    columns: [{
-                            title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
-                            data: 'action',
-                            name: 'action',
-                            className: "text-center cursor-pointer",
-                            orderable: false,
-                            searchable: false,
-                        },
-                        {
-                            title: 'Status',
-                            data: 'status',
-                            name: 'status',
-                            className: "cuspad0 cuspad1 text-center"
-                        },
-                        {
-                            title: 'Tanggal',
-                            data: 'tanggal',
-                            name: 'tanggal',
-                            className: "cuspad0 cuspad1 text-center"
-                        },
-                        {
-                            title: 'No. Form',
-                            data: 'formproduksi',
-                            name: 'formproduksi',
-                            className: "cuspad0 cuspad1 text-center"
-                        },
-                        {
-                            title: 'List Produk',
-                            data: 'subkode',
-                            name: 'subkode',
-                            className: "cuspad0 cuspad1 text-start"
-                        },
-                        {
-                            title: 'Operator',
-                            data: 'operator',
-                            name: 'operator',
-                            className: "cuspad0 cuspad1 text-start"
-                        },
-                    ],
-                    "initComplete": function() {
-                        this.api()
-                            .columns()
-                            .every(function() {
-                                var that = this;
-                                $('input', this.footer()).on('keyup change clear', function() {
-                                    if (that.search() !== this.value) {
-                                        that.search(this.value).draw();
+            $(document).on('click', '.btnHapusForm', function() {
+                var id = $(this).data('id');
+                var noform = $(this).data('noform');
+                var kode = $(this).data('kode');
+                var typeHapus = $(this).data('typehapus');
+                var kodeproduksi = $(this).data('kodeproduksi');
+                var token = $("meta[name='csrf-token']").attr("content");
+                nama = (typeHapus == "form") ? noform : kode;
+                console.log("menghapus " + kodeproduksi);
+                let r = (Math.random() + 1).toString(36).substring(2);
+                swal.fire({
+                    title: 'Hapus ' + nama,
+                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + nama +
+                        '</b><br><br>Kode<br>' +
+                        '<div class="alert alert-important alert-yellow text-dark" role="alert" style="font-size: 12px; max-height: 260px;">' +
+                        '<div class="d-flex" ><b class="fw-bolder" > ' +
+                        kode +
+                        ' </b></div> </div> ',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        (async () => {
+                            const {
+                                value: password
+                            } = await Swal.fire({
+                                title: "Ketik tulisan dibawah untuk menghapus " + nama,
+                                html: '<div class="unselectable">' + r + '</div>',
+                                input: "text",
+                                // inputValue: r,
+                                inputPlaceholder: r,
+                                showCancelButton: true,
+                                cancelButtonColor: '#3085d6',
+                                cancelButtonText: 'Batal',
+                                confirmButtonText: 'Ok',
+                                inputAttributes: {
+                                    autocapitalize: "off",
+                                    autocorrect: "off"
+                                },
+                            });
+                            if (password == r) {
+                                $.ajax({
+                                    type: "DELETE",
+                                    url: "{{ route('delete.deleteExist') }}",
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                        "id": id,
+                                        "noform": noform,
+                                        "kodeproduksi": kodeproduksi,
+                                        "tipeHapus": typeHapus,
+                                    },
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: 'Mohon Menunggu',
+                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                        })
+                                    },
+                                    success: function(data) {
+                                        // tablePengebonan.ajax.reload(null,
+                                        //     false);
+                                        $('#modalViewItem').modal('hide');
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil',
+                                            html: data,
+                                            showConfirmButton: true
+                                        });
+                                        if (kodeproduksi) {
+                                            $("#btn-remove" + kodeproduksi).remove();
+                                        }
+                                    },
+                                    error: function(data) {
+                                        // tablePengebonan.ajax.reload(null,
+                                        //     false);
+                                        // console.log('Error:', data
+                                        //     .responseText);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal!',
+                                            text: 'Error: ' + data.responseText,
+                                            showConfirmButton: true,
+                                        });
                                     }
                                 });
-                            });
-                        this.api().columns([5]).every(function() {
-                            var column = this;
-                            var select = $(
-                                    '<select class="form-select form-select-sm"><option value="">Semua</option></select>'
-                                )
-                                .appendTo($(column.footer()).empty())
-                                .on('change', function() {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
+                            } else {
+                                // tablePengebonan.ajax.reload(null, false);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Batal",
+                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
                                 });
-                            column.data().unique().sort().each(function(d, j) {
-                                select.append('<option value="' + d + '">' + d +
-                                    '</option>');
-                            });
-                        });
+                            }
+                        })()
                     }
-                });
-                $('.datatable-listBB tfoot .th').each(function() {
-                    var title = $(this).text();
-                    $(this).html(
-                        '<input type="text" class="form-control form-control-sm my-0 border" placeholder="' +
-                        $(this).text().toUpperCase() + '" />'
-                    );
-                });
-                $('.datatable-listBB').on('click', '.remove', function() {
-                    var id = $(this).data('id');
-                    var nama = $(this).data('nama');
-                    var kode = $(this).data('kode');
-                    var token = $("meta[name='csrf-token']").attr("content");
-                    let r = (Math.random() + 1).toString(36).substring(2);
-                    swal.fire({
-                        title: 'Hapus ' + nama,
-                        text: 'Apakah anda yakin ingin menghapus ' + nama + ', Tanggal : ' + kode +
-                            ' ?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#d33',
-                        cancelButtonColor: '#3085d6',
-                        confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
-                        cancelButtonText: 'Batal',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            (async () => {
-                                const {
-                                    value: password
-                                } = await Swal.fire({
-                                    title: "Ketik tulisan dibawah untuk menghapus " +
-                                        nama,
-                                    html: '<div class="unselectable">' + r +
-                                        '</div>',
-                                    input: "text",
-                                    inputPlaceholder: "Ketik untuk menghapus " +
-                                        nama,
-                                    showCancelButton: true,
-                                    cancelButtonColor: '#3085d6',
-                                    cancelButtonText: 'Batal',
-                                    confirmButtonText: 'Ok',
-                                    inputAttributes: {
-                                        autocapitalize: "off",
-                                        autocorrect: "off"
-                                    },
-                                });
-                                if (password == r) {
-                                    $.ajax({
-                                        type: "DELETE",
-                                        url: "{{ route('getPenerimaan.store') }}" +
-                                            '/' + id,
-                                        data: {
-                                            "_token": "{{ csrf_token() }}",
-                                        },
-                                        beforeSend: function() {
-                                            Swal.fire({
-                                                title: 'Mohon Menunggu',
-                                                html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
-                                                timerProgressBar: true,
-                                                showConfirmButton: false,
-                                                allowOutsideClick: false,
-                                                allowEscapeKey: false,
-                                            })
-                                        },
-                                        success: function(data) {
-                                            tablePengebonan.ajax.reload(null,
-                                                false);
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: 'Berhasil',
-                                                html: data,
-                                                showConfirmButton: true
-                                            });
-                                        },
-                                        error: function(data) {
-                                            tablePengebonan.ajax.reload(null,
-                                                false);
-                                            console.log('Error:', data
-                                                .responseText);
-                                            Swal.fire({
-                                                icon: 'error',
-                                                title: 'Gagal!',
-                                                text: 'Error: ' + data
-                                                    .responseText,
-                                                showConfirmButton: true,
-                                            });
-                                        }
-                                    });
-                                } else {
-                                    tablePengebonan.ajax.reload(null, false);
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Batal",
-                                        text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
-                                    });
-                                }
-                            })()
-                        }
-                    })
-                });
-                $('.datatable-listBB').on('click', '.loadings', function() {
-                    $(".overlay").fadeIn(300);
-                });
+                })
+            });
 
+            $(function() {
                 tableResult = $('.datatable-listResult').DataTable({
                     "processing": true, //Feature control the processing indicator.
                     "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -1567,6 +1210,7 @@
                             data.txtTipe = $('#filter_tipe :selected').text();
                             data.txtKategori = $('#filter_kategori :selected').text();
                             data.txtWarna = $('#filter_warna :selected').text();
+                            data.editForm = 1;
                         }
                     },
                     columns: [{
@@ -1864,28 +1508,6 @@
                         '>> Accessed at {{ now()->format('d-m-Y H:i:s') }}');
                 });
 
-                // MODAL ---------------------------------------------------------//
-                $('#modalViewItem').on('show.bs.modal', function(e) {
-                    var button = $(e.relatedTarget)
-                    var id = button.data('id');
-                    // console.log("Fetch Id Item: " + id + "...");
-                    $(".overlayModals").fadeIn(300);
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('detail.pengebonan') }}",
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            id: id,
-                        },
-                        success: function(data) {
-                            $('.fetched-detail-view').html(data);
-                        }
-                    }).done(function() {
-                        setTimeout(function() {
-                            $(".overlayModals").fadeOut(300);
-                        }, 500);
-                    });
-                });
             });
 
             function fetchQr() {
@@ -1953,7 +1575,8 @@
                                 // Kolom 2 Kode
                                 var td = document.createElement("td");
                                 td.innerHTML += response.subkode + '<div class="kode_' + response.id +
-                                    '"><input type="hidden" name="id_item[]" value="' + response.id + '"></div>';
+                                    '"><input type="hidden" name="id_item[]" value="' + response.id +
+                                    '"><input type="hidden" name="oldKodeproduksi[]" value=""></div>';
                                 tr.appendChild(td);
                                 // Kolom 3 BB
                                 var td = document.createElement("td");
@@ -2045,7 +1668,8 @@
                     // Kolom 2 Kode
                     var td = document.createElement("td");
                     td.innerHTML += subkode + '<div class="kode_' + id +
-                        '"><input type="hidden" name="id_item[]" value="' + id + '"></div>';
+                        '"><input type="hidden" name="id_item[]" value="' + id +
+                        '"><input type="hidden" name="oldKodeproduksi[]" value=""></div>';
                     tr.appendChild(td);
                     // Kolom 3 BB
                     var td = document.createElement("td");

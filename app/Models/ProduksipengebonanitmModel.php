@@ -19,6 +19,7 @@ class ProduksipengebonanitmModel extends Model
         'warna',
         'berat',
         'operator',
+        'supplier',
         'status',
         'dibuat',
         'created_at',

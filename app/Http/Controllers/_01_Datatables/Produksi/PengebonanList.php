@@ -32,7 +32,7 @@ class PengebonanList extends Controller
                 ->addIndexColumn()
                 ->addColumn('subkode', function ($row) {
                     $list = ProduksipengebonanitmModel::where('formproduksi', $row->formproduksi)->where('status', '>', 0)->get();
-
+                    // substr("isi tulisan artikel", 0, 200) . "[..]";
                     return implode(', ', $list->pluck('subkode')->toArray());
                 })
                 ->editColumn('tanggal', function ($row) {
@@ -41,14 +41,14 @@ class PengebonanList extends Controller
                 ->addColumn('action', function ($row) {
                     if ($row->status == 1) {
                         $sttclass = '';
-                    } elseif ($row->status == 3) {
+                    } elseif ($row->status == 2) {
                         $sttclass = 'disabled';
                     }
                     $btn = '
                         <div class="btn-list flex-nowrap">
-                            <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
+                            <form method="GET" action="/produksi/pengebonan/edit/' . Crypt::encryptString($row->formproduksi) . '">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                <button type="submit" class="btn btn-link btn-icon" onclick="loadingOverlay()" ' . $sttclass . '>
+                                <button type="submit" class="btn btn-link btn-icon loadings">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                 </button>
                             </form>
@@ -60,7 +60,7 @@ class PengebonanList extends Controller
                                 <form method="POST" action="/gudang/printPengolahan" target="_blank">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
                                     <input type="hidden" name="id" value="' . Crypt::encryptString($row->kodeolah) . '">
-                                    <button type="submit" class="dropdown-item" onclick="loadingOverlay()">
+                                    <button type="submit" class="dropdown-item loadings">
                                         <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-printer text-success"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" /><path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" /><path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z" /></svg>
                                         Print Formulir
                                     </button>
@@ -79,6 +79,13 @@ class PengebonanList extends Controller
                             </div>
                         </div>';
                     return $btn;
+                })
+                ->addColumn('formproduksi', function ($row) {
+                    return '
+                            <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalViewItem" data-id="' . $row->formproduksi . '"">
+                                ' . $row->formproduksi . '
+                            </a>
+                    ';
                 })
                 ->addColumn('status', function ($row) {
                     if ($row->status == 0) {
@@ -111,7 +118,7 @@ class PengebonanList extends Controller
                         ';
                     }
                 })
-                ->rawColumns(['action', 'status', 'subkode'])
+                ->rawColumns(['action', 'status', 'subkode', 'formproduksi'])
                 ->make(true);
         }
 

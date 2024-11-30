@@ -81,6 +81,8 @@ class PengebonanQR extends Controller
                     ->where('q.usable', '999999')
                     ->get();
             } else {
+                // if ($request->editForm == 1) {
+                // } else {
                 $data = DB::table('gudang_penerimaanqrcode as q')
                     ->select('q.*', 'p.kategori', 'p.warna', 'p.supplier', 'p.tanggal as tanggalPR')
                     ->where('q.usable', '1')
@@ -96,6 +98,7 @@ class PengebonanQR extends Controller
                     ->leftJoin('gudang_penerimaanitm as p', 'q.kodekontrak', '=', 'p.kodekontrak')
                     ->orderBy('q.subkode', 'asc')
                     ->get();
+                // }
             }
 
             return DataTables::of($data)

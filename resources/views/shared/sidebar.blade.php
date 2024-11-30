@@ -454,7 +454,7 @@
                 </li>
                 {{-- @endif --}}
                 {{-- @if (Auth::user()->p_pengadaan === 1) --}}
-                <li class="nav-item dropdown {{ $active == 'QC' || $active == 'Pengebonan' ? 'active' : '' }}">
+                <li class="nav-item dropdown {{ $active == 'QC' || $active == 'Planning' ? 'active' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="false">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -475,11 +475,11 @@
                         </span>
                     </a>
                     <div
-                        class="dropdown-menu {{ $active == 'Produksi' || $active == 'QC' || $active == 'Pengebonan' ? 'show' : '' }}">
+                        class="dropdown-menu {{ $active == 'Produksi' || $active == 'QC' || $active == 'Planning' ? 'show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 {{-- @if (Auth::user()->c_persetujuan === 1) --}}
-                                <a class="dropdown-item {{ $active == 'Pengebonan' ? 'active' : '' }}"
+                                <a class="dropdown-item {{ $active == 'Planning' ? 'active' : '' }}"
                                     href="{{ route('produksi.pengebonan') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
                                         height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -495,7 +495,7 @@
                                         <path d="M14 7l6 0" />
                                         <path d="M17 4l0 6" />
                                     </svg>
-                                    Pengebonan
+                                    Production Planning
                                 </a>
                                 {{-- @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}

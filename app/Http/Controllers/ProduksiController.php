@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\DaftartipeModel;
 use App\Models\DaftarwarnaModel;
+use PHPUnit\Event\Code\Throwable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -27,8 +28,8 @@ class ProduksiController extends Controller
     public function pengebonan()
     {
         return view('products.04_produksi.pengebonan', [
-            'active' => 'Pengebonan',
-            'judul' => 'Pengebonan',
+            'active' => 'Planning',
+            'judul' => 'Production Planning',
         ]);
     }
     public function getDecryptKode(Request $request)
@@ -205,6 +206,7 @@ class ProduksiController extends Controller
                     'warna' => $getdesc->warna,
                     'berat' => $getItem->berat_satuan,
                     'operator' => $request->operator,
+                    'supplier' => $getdesc->supplier,
                     'dibuat' => Auth::user()->nickname,
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -216,7 +218,7 @@ class ProduksiController extends Controller
             }
             return response()->json([
                 'success' => true,
-                'message' => 'Data Pengebonan telah berhasil disimpan',
+                'message' => 'Data Production Planning telah berhasil disimpan',
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -336,10 +338,13 @@ class ProduksiController extends Controller
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-azure">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                            Edit Formulir
-                        </button>
+                        <form method="GET" action="/produksi/pengebonan/edit/' . Crypt::encryptString($pengebonan->formproduksi) . '">
+                            <input type="hidden" name="_token" value="' . csrf_token() . '">
+                            <button class="btn btn-azure">
+                                <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
+                                Edit Formulir
+                            </button>
+                        </form>
                         <button class="btn btn-danger btnHapusForm" type="button" data-id="' . $pengebonan->id . '" data-noform="' . $pengebonan->formproduksi . '" data-kode="' . $pluck . '" data-typehapus="form">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                             Hapus Formulir
@@ -379,6 +384,95 @@ class ProduksiController extends Controller
                 ]);
             }
             return response()->json('Item berhasil dihapus.' . $getCount);
+        }
+    }
+
+    public function editPengebonan($id)
+    {
+        $decrypted = Crypt::decryptString($id);
+        $pengebonan = ProduksipengebonanModel::where('formproduksi', $decrypted)->first();
+        $pengebonanItem = DB::table('produksi_pengebonanitm as a')
+            ->select('a.*', 'b.id as idQR')
+            ->join('gudang_penerimaanqrcode as b', 'a.subkode', '=', 'b.subkode')
+            ->where('a.formproduksi', $decrypted)
+            ->get();
+        return view('products/04_produksi.pengebonanEdit', [
+            'active' => 'Planning',
+            'judul' => 'Edit Production Planning',
+            'pengebonan' => $pengebonan,
+            'pengebonanItem' => $pengebonanItem,
+        ]);
+    }
+
+    public function deletePengebonanExists(Request $request)
+    {
+        try {
+            $getData = ProduksipengebonanitmModel::where('kodeproduksi', $request->kodeproduksi)->first();
+            GudangpenerimaanqrModel::where('subkode', $getData->subkode)->update([
+                'status' => 1,
+            ]);
+
+            ProduksipengebonanitmModel::where('id', $request->id)->delete();
+            return response()->json('Item berhasil dihapus.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json('Item gagal dihapus. ' . $e->getMessage());
+        }
+    }
+
+    public function storedataEditPengebonan(Request $request)
+    {
+        try {
+            ProduksipengebonanModel::where('formproduksi', $request->nomorform)->update([
+                'tanggal' => $request->tanggal,
+                'operator' => $request->operator,
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+            for ($i = 0; $i < count($request->id_item); $i++) {
+                if ($request->oldKodeproduksi[$i]) {
+                    # do nothing
+                } else {
+                    // generate kodeproduksi
+                    $getCode = ProduksipengebonanitmModel::where('kodeproduksi', 'like',  date('y') . '%')->where('status', '>', 0)->latest('id')->first();
+                    if ($getCode != null) {
+                        $codeProduct = $getCode->kodeproduksi;
+                        $noUrutKode = (int) substr($codeProduct, -5);
+                        $noUrutKode++;
+                        $code = date('y') . sprintf("%05s", $noUrutKode);
+                    } else {
+                        $code = date('y') . "00001";
+                    }
+                    $getItem = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->first();
+                    $getdesc = GudangpenerimaanitmModel::where('npb', $getItem->npb)->first();
+                    $insert = ProduksipengebonanitmModel::create([
+                        'tanggal' => $request->tanggal,
+                        'formproduksi' => $request->nomorform,
+                        'kodeproduksi' => $code,
+                        'subkode' => $getItem->subkode,
+                        'package' => $getItem->package,
+                        'type' => $getItem->type,
+                        'kategori' => $getdesc->kategori,
+                        'warna' => $getdesc->warna,
+                        'berat' => $getItem->berat_satuan,
+                        'operator' => $request->operator,
+                        'supplier' => $getdesc->supplier,
+                        'dibuat' => Auth::user()->nickname,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                    $update = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->update([
+                        'status' => 2, //ganti status menjadi diproses, tetapi belum diproduksi karena menunggu persetujuan produksi
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Production Planning telah berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 }

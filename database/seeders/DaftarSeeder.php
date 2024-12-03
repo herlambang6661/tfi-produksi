@@ -65,7 +65,7 @@ class DaftarSeeder extends Seeder
             ],
             [
                 'kode_warna' => 'B',
-                'warna' => 'Bening',
+                'warna' => 'Biru',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [

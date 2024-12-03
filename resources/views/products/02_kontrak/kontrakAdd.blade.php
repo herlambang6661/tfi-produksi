@@ -123,7 +123,11 @@
         @include('shared.navbar')
 
         <div class="page-wrapper">
-            <!-- Page header -->
+            <div class="Loadings">
+                <div class="cv-spinner">
+                    <span class="loader"></span>
+                </div>
+            </div> <!-- Page header -->
             <div class="page-header d-print-none">
                 <div class="container-xl">
                     <div class="row g-2 align-items-center">
@@ -808,6 +812,7 @@
                                         }).then((result) => {
                                             if (result.isConfirmed) {
                                                 // location.reload();
+                                                $(".Loadings").fadeIn(300);
                                                 window.location.href =
                                                     "{{ route('kontrak/suratkontrak') }}";
                                             }

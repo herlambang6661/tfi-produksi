@@ -27,5 +27,37 @@
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
         }
+
+        .bg-mambo {
+            --lightness: 50%;
+            background: linear-gradient(90deg,
+                    hsl(0, 100%, calc(var(--lightness) * 1.30)),
+                    hsl(15, 100%, calc(var(--lightness) * 1.10)),
+                    hsl(35, 100%, calc(var(--lightness) * 1.02)),
+                    hsl(48, 100%, calc(var(--lightness) * 0.90)),
+                    hsl(60, 100%, calc(var(--lightness) * .76)),
+                    hsl(72, 100%, calc(var(--lightness) * .71)),
+                    hsl(90, 100%, calc(var(--lightness) * .70)),
+                    hsl(105, 100%, calc(var(--lightness) * .70)),
+                    hsl(120, 100%, calc(var(--lightness) * .695)),
+                    hsl(135, 100%, calc(var(--lightness) * .70)),
+                    hsl(150, 100%, calc(var(--lightness) * .70)),
+                    hsl(165, 100%, calc(var(--lightness) * .69)),
+                    hsl(180, 100%, calc(var(--lightness) * .65)),
+                    hsl(195, 80%, calc(var(--lightness) * .85)),
+                    hsl(215, 75%, calc(var(--lightness) * 1.25)),
+                    hsl(225, 100%, calc(var(--lightness) * 1.40)),
+                    hsl(240, 100%, calc(var(--lightness) * 1.48)),
+                    hsl(255, 100%, calc(var(--lightness) * 1.44)),
+                    hsl(270, 100%, calc(var(--lightness) * 1.35)),
+                    hsl(285, 100%, calc(var(--lightness) * 1.15)),
+                    hsl(300, 90%, calc(var(--lightness) * .89)),
+                    hsl(315, 80%, calc(var(--lightness) * .98)),
+                    hsl(330, 90%, calc(var(--lightness) * 1.12)),
+                    hsl(345, 95%, calc(var(--lightness) * 1.21)),
+                    hsl(360, 100%, calc(var(--lightness) * 1.30)));
+
+        }
     </style>
+    {{-- Translate Warna --}}
 </head>

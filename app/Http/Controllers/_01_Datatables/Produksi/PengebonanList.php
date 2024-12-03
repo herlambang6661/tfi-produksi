@@ -39,16 +39,16 @@ class PengebonanList extends Controller
                     return date('d-m-Y', strtotime($row->tanggal));
                 })
                 ->addColumn('action', function ($row) {
-                    if ($row->status == 1) {
+                    if ($row->status == '1') {
                         $sttclass = '';
-                    } elseif ($row->status == 2) {
-                        $sttclass = 'disabled';
+                    } else {
+                        $sttclass = 'disabled cursor-not-allowed';
                     }
                     $btn = '
                         <div class="btn-list flex-nowrap">
                             <form method="GET" action="/produksi/pengebonan/edit/' . Crypt::encryptString($row->formproduksi) . '">
                                 <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                <button type="submit" class="btn btn-link btn-icon loadings">
+                                <button type="submit" class="btn btn-link btn-icon loadings ' . $sttclass . '">
                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                 </button>
                             </form>
@@ -69,9 +69,9 @@ class PengebonanList extends Controller
                                     <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.5"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-file-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M12 21h-5a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v4.5" /><path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0" /><path d="M18.5 19.5l2.5 2.5" /></svg>
                                     Lihat Detail Form
                                 </a>
-                                <form method="GET" action="/gudang/pengolahan/proses/' . Crypt::encryptString($row->kodeolah) . '">
+                                <form method="GET" action="/produksi/pengebonan/verifikasi/' . Crypt::encryptString($row->formproduksi) . '">
                                     <input type="hidden" name="_token" value="' . csrf_token() . '">
-                                    <button type="submit" class="dropdown-item" onclick="loadingOverlay()" ' . $sttclass . '>
+                                    <button type="submit" class="dropdown-item loadings ' . $sttclass . '">
                                         <svg style="margin-right:5px;" xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="text-purple icon icon-tabler icons-tabler-outline icon-tabler-rosette-discount-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 7.2a2.2 2.2 0 0 1 2.2 -2.2h1a2.2 2.2 0 0 0 1.55 -.64l.7 -.7a2.2 2.2 0 0 1 3.12 0l.7 .7c.412 .41 .97 .64 1.55 .64h1a2.2 2.2 0 0 1 2.2 2.2v1c0 .58 .23 1.138 .64 1.55l.7 .7a2.2 2.2 0 0 1 0 3.12l-.7 .7a2.2 2.2 0 0 0 -.64 1.55v1a2.2 2.2 0 0 1 -2.2 2.2h-1a2.2 2.2 0 0 0 -1.55 .64l-.7 .7a2.2 2.2 0 0 1 -3.12 0l-.7 -.7a2.2 2.2 0 0 0 -1.55 -.64h-1a2.2 2.2 0 0 1 -2.2 -2.2v-1a2.2 2.2 0 0 0 -.64 -1.55l-.7 -.7a2.2 2.2 0 0 1 0 -3.12l.7 -.7a2.2 2.2 0 0 0 .64 -1.55v-1" /><path d="M9 12l2 2l4 -4" /></svg>
                                         Persetujuan
                                     </button>
@@ -90,7 +90,7 @@ class PengebonanList extends Controller
                 ->addColumn('status', function ($row) {
                     if ($row->status == 0) {
                         return '
-                            <span class="status status-dark status-lite border-dark">
+                            <span class="status status-dark status-lite border-red">
                                 <span class="status-dot status-dot-animated"></span>
                                 Canceled
                             </span>
@@ -104,14 +104,14 @@ class PengebonanList extends Controller
                         ';
                     } else if ($row->status == 2) {
                         return '
-                            <span class="status status-red status-lite border-red">
+                            <span class="status status-green status-lite border-green">
                                 <span class="status-dot status-dot-animated"></span>
-                                Processed
+                                Verified
                             </span>
                         ';
                     } else if ($row->status == 3) {
                         return '
-                            <span class="status status-green status-lite border-green">
+                            <span class="status status-green status-lite border-purple">
                                 <span class="status-dot status-dot-animated"></span>
                                 Close
                             </span>

@@ -136,6 +136,8 @@ Route::controller(ProduksiController::class)->group(function () {
     Route::delete('produksi/pengebonan/deleteExist', 'deletePengebonanExists')->name('delete.deleteExist');
     Route::get('produksi/pengebonan/edit/{id}', 'editPengebonan')->name('produksi/pengebonan/edit/{id}');
     Route::post('storedataEditPengebonan', 'storedataEditPengebonan')->name('Produksi/pengebonan/edit');
+    Route::get('produksi/pengebonan/verifikasi/{id}', 'verifikasiPengebonan')->name('produksi/pengebonan/verifikasi/{id}');
+    Route::post('verifyPengebonan', 'prosesVerifikasiPengebonan')->name('Produksi/pengebonan/verify');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

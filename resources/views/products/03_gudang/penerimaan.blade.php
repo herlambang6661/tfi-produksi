@@ -818,7 +818,7 @@
                     --------------------------------------------*/
                     allTable = $('.datatable-all').DataTable({
                         "processing": true, //Feature control the processing indicator.
-                        "serverSide": false, //Feature control DataTables' server-side processing mode.
+                        "serverSide": true, //Feature control DataTables' server-side processing mode.
                         "scrollX": false,
                         "scrollCollapse": false,
                         "pagingType": 'full_numbers',
@@ -1118,7 +1118,7 @@
                     });
                     tablePenerimaan = $('.datatable-suratkontrak').DataTable({
                         "processing": true, //Feature control the processing indicator.
-                        "serverSide": false, //Feature control DataTables' server-side processing mode.
+                        "serverSide": true, //Feature control DataTables' server-side processing mode.
                         "scrollX": false,
                         "scrollCollapse": false,
                         "pagingType": 'full_numbers',
@@ -1434,7 +1434,7 @@
 
                     unApprovedTable = $('.datatable-unapproved').DataTable({
                         "processing": true, //Feature control the processing indicator.
-                        "serverSide": false, //Feature control DataTables' server-side processing mode.
+                        "serverSide": true, //Feature control DataTables' server-side processing mode.
                         "scrollX": false,
                         "scrollCollapse": false,
                         "pagingType": 'full_numbers',
@@ -1703,7 +1703,7 @@
                     });
                     approvedTable = $('.datatable-approved').DataTable({
                         "processing": true, //Feature control the processing indicator.
-                        "serverSide": false, //Feature control DataTables' server-side processing mode.
+                        "serverSide": true, //Feature control DataTables' server-side processing mode.
                         "scrollX": false,
                         "scrollCollapse": false,
                         "pagingType": 'full_numbers',

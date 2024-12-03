@@ -499,6 +499,23 @@
                                 </a>
                                 {{-- @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                <a class="dropdown-item {{ $active == 'Mixer' ? 'active' : '' }}"
+                                    href="{{ url('produksi/mixer') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-universe">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M7.027 11.477a5 5 0 1 0 5.496 -4.45a4.951 4.951 0 0 0 -3.088 .681" />
+                                        <path d="M5.636 5.636a9 9 0 1 0 3.555 -2.188" />
+                                        <path d="M18 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                        <path d="M9 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+                                    </svg>
+                                    Proses Mixer
+                                </a>
+                                {{-- @endif --}}
+                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'QC' ? 'active' : '' }}"
                                     href="{{ url('pengadaan/permintaan') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
@@ -513,6 +530,27 @@
                                         <path d="M15 3l6 6" />
                                     </svg>
                                     Quality Control
+                                </a>
+                                {{-- @endif --}}
+                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                <a class="dropdown-item {{ $active == 'QC' ? 'active' : '' }}"
+                                    href="{{ url('pengadaan/permintaan') }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-packages">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M7 16.5l-5 -3l5 -3l5 3v5.5l-5 3z" />
+                                        <path d="M2 13.5v5.5l5 3" />
+                                        <path d="M7 16.545l5 -3.03" />
+                                        <path d="M17 16.5l-5 -3l5 -3l5 3v5.5l-5 3z" />
+                                        <path d="M12 19l5 3" />
+                                        <path d="M17 16.5l5 -3" />
+                                        <path d="M12 13.5v-5.5l-5 -3l5 -3l5 3v5.5" />
+                                        <path d="M7 5.03v5.455" />
+                                        <path d="M12 8l5 -3" />
+                                    </svg>
+                                    Packing
                                 </a>
                                 {{-- @endif --}}
                             </div>

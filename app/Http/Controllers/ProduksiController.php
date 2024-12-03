@@ -193,8 +193,8 @@ class ProduksiController extends Controller
                 } else {
                     $code = date('y') . "00001";
                 }
-                $getItem = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->first();
-                $getdesc = GudangpenerimaanitmModel::where('npb', $getItem->npb)->first();
+                $getItem = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->where('status', '>', 0)->first();
+                $getdesc = GudangpenerimaanitmModel::where('npb', $getItem->npb)->where('kodekontrak', substr($getItem->subkode, 0, 8))->where('status', '>', 0)->first();
                 $insert = ProduksipengebonanitmModel::create([
                     'tanggal' => $request->tanggal,
                     'formproduksi' => $nomorform,
@@ -211,7 +211,7 @@ class ProduksiController extends Controller
                     'created_at' => date('Y-m-d H:i:s'),
                 ]);
 
-                $update = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->update([
+                $update = GudangpenerimaanqrModel::where('id', $request->id_item[$i])->where('status', '>', 0)->update([
                     'status' => 2, //ganti status menjadi diproses, tetapi belum diproduksi karena menunggu persetujuan produksi
                     'updated_at' => date('Y-m-d H:i:s'),
                 ]);
@@ -231,10 +231,28 @@ class ProduksiController extends Controller
     public function detailPengebonan(Request $request)
     {
 
-        $pengebonan = ProduksipengebonanModel::where('formproduksi', $request->id)->first();
+        $pengebonan = ProduksipengebonanModel::where('formproduksi', $request->id)->where('status', '>', 0)->first();
         $pengebonanItm = ProduksipengebonanitmModel::where('formproduksi', $request->id)->where('status', '>', 0)->get();
         $pluck = implode(', ', $pengebonanItm->pluck('subkode')->toArray());
-
+        if ($pengebonan->status == '1') {
+            $lock = "";
+            $alert = "";
+        } else {
+            $lock = "disabled cursor-not-allowed";
+            $alert = '
+                <div class="alert alert-success" role="alert">
+                    <div class="d-flex">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="alert-title">Terverifikasi</h4>
+                        <div class="text-secondary">Formulir sudah diverifikasi, silahkan lanjutkan ke proses selanjutnya. <br>Formulir sudah di mode <i>Read Only</i>.</div>
+                    </div>
+                    </div>
+                </div>
+            ';
+        }
         $ArWarna = array(
             "green" => "Hijau",
             "red" => "Merah",
@@ -271,6 +289,7 @@ class ProduksiController extends Controller
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        ' . $alert . '
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -322,7 +341,7 @@ class ProduksiController extends Controller
                                             </td>
                                             <td class="text-center">' . $key->berat . '</td>
                                             <td class="text-center">
-                                                <button class="btn btn-outline-danger btnHapusForm" type="button" data-id="' . $key->id . '" data-noform="' . $key->formproduksi . '" data-kode="' . $key->subkode . '" data-typehapus="item">
+                                                <button class="btn btn-outline-danger btnHapusForm ' . $lock . '" type="button" data-id="' . $key->id . '" data-noform="' . $key->formproduksi . '" data-kode="' . $key->subkode . '" data-typehapus="item">
                                                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
                                                     Hapus
                                                 </button>
@@ -340,12 +359,12 @@ class ProduksiController extends Controller
                     <div class="modal-footer">
                         <form method="GET" action="/produksi/pengebonan/edit/' . Crypt::encryptString($pengebonan->formproduksi) . '">
                             <input type="hidden" name="_token" value="' . csrf_token() . '">
-                            <button class="btn btn-azure">
+                            <button class="btn btn-azure ' . $lock . '">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
                                 Edit Formulir
                             </button>
                         </form>
-                        <button class="btn btn-danger btnHapusForm" type="button" data-id="' . $pengebonan->id . '" data-noform="' . $pengebonan->formproduksi . '" data-kode="' . $pluck . '" data-typehapus="form">
+                        <button class="btn btn-danger btnHapusForm ' . $lock . '" type="button" data-id="' . $pengebonan->id . '" data-noform="' . $pengebonan->formproduksi . '" data-kode="' . $pluck . '" data-typehapus="form">
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
                             Hapus Formulir
                         </button>
@@ -390,7 +409,7 @@ class ProduksiController extends Controller
     public function editPengebonan($id)
     {
         $decrypted = Crypt::decryptString($id);
-        $pengebonan = ProduksipengebonanModel::where('formproduksi', $decrypted)->first();
+        $pengebonan = ProduksipengebonanModel::where('formproduksi', $decrypted)->where('status', '>', 0)->first();
         $pengebonanItem = DB::table('produksi_pengebonanitm as a')
             ->select('a.*', 'b.id as idQR')
             ->join('gudang_penerimaanqrcode as b', 'a.subkode', '=', 'b.subkode')
@@ -467,6 +486,50 @@ class ProduksiController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data Production Planning telah berhasil disimpan',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function verifikasiPengebonan($id)
+    {
+        $decrypted = Crypt::decryptString($id);
+        $pengebonan = ProduksipengebonanModel::where('formproduksi', $decrypted)->first();
+        $pengebonanItem = DB::table('produksi_pengebonanitm as a')
+            // ->select('a.*', 'b.id as idQR')
+            // ->join('gudang_penerimaanqrcode as b', 'a.subkode', '=', 'b.subkode')
+            ->where('a.formproduksi', $decrypted)
+            ->get();
+        return view('products/04_produksi.pengebonanVerifikasi', [
+            'active' => 'Planning',
+            'judul' => 'Verifikasi Production Planning',
+            'pengebonan' => $pengebonan,
+            'pengebonanItem' => $pengebonanItem,
+        ]);
+    }
+
+    public function prosesVerifikasiPengebonan(Request $request)
+    {
+        try {
+            ProduksipengebonanModel::where('formproduksi', $request->nomorform)->update([
+                'status' => 2,
+                'verifikator' => $request->verifikator,
+                'tanggal_verifikasi' => now(),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+            for ($i = 0; $i < count($request->idItem); $i++) {
+                $update = ProduksipengebonanitmModel::where('id', $request->idItem[$i])->update([
+                    'status' => 2, //ganti status menjadi approved, tidak bisa diubah dan dihapus
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Production Planning telah berhasil diverifikasi',
             ]);
         } catch (\Exception $e) {
             return response()->json([

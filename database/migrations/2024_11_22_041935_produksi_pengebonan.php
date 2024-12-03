@@ -16,6 +16,8 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('formproduksi');
             $table->string('operator')->nullable();
+            $table->string('verifikator')->nullable();
+            $table->dateTime('tanggal_verifikasi', precision: 0)->nullable();
             $table->string('keterangan')->nullable();
             $table->string('status')->default(1); // 0 = deleted, 1 = open, 2 = progress, 3 = close
             $table->string('dibuat')->nullable();

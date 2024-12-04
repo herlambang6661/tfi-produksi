@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <link href="{{ asset('assets/extentions/apexcharts/dist/apexcharts.css') }}" rel="stylesheet" />
     <style>
         td.cuspad0 {
             padding-top: 3px;
@@ -769,6 +770,22 @@
                         </div>
                     </div>
                 </div>
+                @include('shared.footer')
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+                <script>
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+                        )
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+                        )
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+                        )
+                </script>
                 {{-- ============ Modal Detail --}}
                 <div class="modal modal-blur fade" id="modalViewItem" tabindex="-1" role="dialog" aria-hidden="true"
                     data-bs-focus="false">
@@ -783,7 +800,6 @@
                     </div>
                 </div>
                 {{-- Modals --}}
-                @include('shared.footer')
             </div>
         </div>
 

@@ -230,25 +230,34 @@ class ProduksiController extends Controller
 
     public function detailPengebonan(Request $request)
     {
-
         $pengebonan = ProduksipengebonanModel::where('formproduksi', $request->id)->where('status', '>', 0)->first();
         $pengebonanItm = ProduksipengebonanitmModel::where('formproduksi', $request->id)->where('status', '>', 0)->get();
+        $summary1 = DB::table('produksi_pengebonanitm AS A')
+            ->selectRaw('DISTINCT B.kodekontrak, COUNT(A.subkode) AS jb, SUM(A.berat) as b_total, COUNT(A.warna) as t_warna')
+            ->leftjoin('gudang_penerimaanqrcode AS B', 'A.subkode', '=', 'B.subkode')
+            ->groupBy('B.kodekontrak')
+            ->where('A.formproduksi', $request->id)
+            ->where('A.status', '>', 0)
+            ->get();
         $pluck = implode(', ', $pengebonanItm->pluck('subkode')->toArray());
         if ($pengebonan->status == '1') {
             $lock = "";
             $alert = "";
         } else {
             $lock = "disabled cursor-not-allowed";
-            $alert = '
-                <div class="alert alert-success" role="alert">
-                    <div class="d-flex">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
-                    </div>
-                    <div>
-                        <h4 class="alert-title">Terverifikasi</h4>
-                        <div class="text-secondary">Formulir sudah diverifikasi, silahkan lanjutkan ke proses selanjutnya. <br>Formulir sudah di mode <i>Read Only</i>.</div>
-                    </div>
+            $alert =
+                '
+                <div class="modal-body py-1 px-1">
+                    <div class="alert alert-success" role="alert">
+                        <div class="d-flex">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12l5 5l10 -10"></path></svg>
+                        </div>
+                        <div>
+                            <h4 class="alert-title">Terverifikasi</h4>
+                            <div class="text-secondary">Formulir sudah diverifikasi, silahkan lanjutkan ke proses selanjutnya. <br>Formulir sudah di mode <i>Read Only</i>.</div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             ';
@@ -268,6 +277,7 @@ class ProduksiController extends Controller
         );
 
         if ($pengebonan) {
+            $totalSummary1 = $summary1->sum('b_total');
             echo '
                 <div class="modal-content">
                     <div class="modal-header">
@@ -288,8 +298,90 @@ class ProduksiController extends Controller
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
+                    
+                    ' . $alert . '
+                    <div class="modal-body py-1 px-1">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="card border">
+                                    <table class="table table-vcenter card-table text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-1 text-center">ID Kontrak</th>
+                                                <th class="w-1 text-center">Jumbo Bag</th>
+                                                <th class="w-1 text-start">Berat Total</th>
+                                                <th class="w-1 text-center">%</th>
+                                                <th class="w-1 text-start">Warna</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>';
+            $arrPercentage = array();
+            $arrWarna = array();
+            foreach ($summary1 as $key) {
+                $arrPercentage[] = round((($key->b_total * 100) / $summary1->sum('b_total')), 2);
+                $arrWarna[] = $this->getWarnaFromIDKontrak($key->kodekontrak);
+                echo '
+                                            <tr>
+                                                <td class="text-center">' . $key->kodekontrak . '</td>
+                                                <td class="text-center">' . $key->jb . '</td>
+                                                <td class="text-start">' . $key->b_total . ' KG</td>
+                                                <td class="text-center">' . round((($key->b_total * 100) / $summary1->sum('b_total')), 2) . ' %</td>
+                                                <td class="text-center">' . $this->getWarnaFromIDKontrak($key->kodekontrak) . '</td>
+                                            </tr>
+                                            ';
+            }
+            $arrWarnaUnique = array_unique($arrWarna);
+            // print_r($arrWarnaUnique);
+            echo ' 
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" class="text-end">Total</th>
+                                                <th class="text-start">' . $summary1->sum('b_total') . ' KG</th>
+                                                <th class="text-start">' . array_sum($arrPercentage) .
+                ' %</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-5">
+                                <div id="chart"></div>
+                            </div>
+                            <script>
+                                var options = {
+                                    series: [44, 55],
+                                    chart: {
+                                        width: 300,
+                                        type: "pie",
+                                    },
+                                    labels: [';
+            foreach ($arrWarnaUnique as $key => $value) {
+                echo '"' . $value . '",';
+            }
+            echo '],
+                                    responsive: [{
+                                        breakpoint: 480,
+                                        options: {
+                                            chart: {
+                                                width: 200
+                                            },
+                                            legend: {
+                                                position: "bottom"
+                                            }
+                                        }
+                                    }]
+                                };
+
+                                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                                chart.render();
+                            
+                            
+                            </script>
+                        </div>
+                    </div>
                     <div class="modal-body">
-                        ' . $alert . '
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -378,6 +470,12 @@ class ProduksiController extends Controller
         } else {
             echo '<div>Data not found.</div>';
         }
+    }
+
+    private function getWarnaFromIDKontrak($id)
+    {
+        $get = GudangpenerimaanitmModel::where('kodekontrak', $id)->where('status', '>', 0)->first();
+        return $get->warna;
     }
 
     public function deletePengebonan(Request $request)

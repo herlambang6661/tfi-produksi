@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+    <link href="{{ asset('assets/extentions/apexcharts/dist/apexcharts.css') }}" rel="stylesheet" />
+
     <style>
         td.cuspad0 {
             padding-top: 3px;
@@ -183,12 +185,26 @@
             <div class="page-body">
                 <div class="container-xl">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-md-4">
                             <div class="card card-xl border-success shadow rounded mb-1 py-1 px-1">
                                 <b class="text-center">Tulis Kode</b>
-                                <input type="text" class="form-control border-success" name="qrText" id="qrText"
+                                <input type="text" class="form-control border-success mb-2" name="qrText" id="qrText"
                                     onkeydown = "if (event.keyCode == 13)  fetchQr()"
                                     placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                                <a href="#modalTambahItem" class="btn btn-link bg-dark-lt border-primary text-dark"
+                                    data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
+                                    title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
+                                    data-id="' . $row->id . '">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round"
+                                        class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                        <path d="M21 21l-6 -6" />
+                                    </svg>
+                                    Cari Bahan Baku
+                                </a>
                             </div>
                             <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
                                 <b class="text-center">Scan QR Code</b>
@@ -219,8 +235,8 @@
                                         </button>
                                         <button id="stop-button" class="btn btn-danger btn-sm">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                                 class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <path
@@ -253,7 +269,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-8" onkeydown="return event.key != 'Enter';">
+                        <div class="col-md-4">
+                            <div class="card card-xl border-success shadow rounded">
+                                <div id="chart"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card card-xl border-success shadow rounded">
+                                <div id="chart2"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" onkeydown="return event.key != 'Enter';">
                             <div class="card card-xl border-success shadow rounded mb-3">
                                 <div class="table-responsive">
                                     <form id="formPengebonan" name="formPengebonan" method="post"
@@ -277,21 +303,6 @@
                                             </div>
                                         </div>
                                         <div class="card-body px-1 pt-2 pb-1 mt-1 mx-1">
-                                            <a href="#modalTambahItem"
-                                                class="btn btn-link bg-dark-lt border-primary text-dark"
-                                                data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
-                                                title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
-                                                data-id="' . $row->id . '">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                                    <path d="M21 21l-6 -6" />
-                                                </svg>
-                                                Cari Bahan Baku
-                                            </a>
                                             <button id="tambahItem" type="button"
                                                 class="btn btn-link bg-dark-lt border-success text-dark">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -314,7 +325,7 @@
                                                 border="0" style="width: 100%;text-align:center;">
                                                 <thead class="" style="font-weight: bold;">
                                                     <tr>
-                                                        <td class="px-0 py-0"></td>
+                                                        <td class="px-0 py-0" style="width: 1%"></td>
                                                         <td style="width: 200px">
                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                 style="margin-right: 5px" width="24" height="24"
@@ -660,6 +671,68 @@
                 </div>
                 {{-- Modals --}}
                 @include('shared.footer')
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+                <script>
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"><\/script>'
+                        )
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20171210/classList.min.js"><\/script>'
+                        )
+                    window.Promise ||
+                        document.write(
+                            '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
+                        )
+                </script>
+                <script>
+                    var options = {
+                        title: {
+                            text: "Warna"
+                        },
+                        theme: {
+                            palette: 'palette2'
+                        },
+                        labels: [1, 2],
+                        series: [1, 2],
+                        // colors: [],
+                        stroke: {
+                            width: 4
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                colors: ["#f2f3f4"]
+                            },
+                            background: {
+                                enabled: true,
+                                foreColor: "#2e4053",
+                                borderWidth: 0
+                            }
+                        },
+                        chart: {
+                            width: 350,
+                            type: "pie",
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: 200
+                                },
+                                legend: {
+                                    position: "bottom"
+                                }
+                            }
+                        }]
+                    };
+
+                    var chart = new ApexCharts(document.querySelector("#chart"), options);
+                    var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+                    chart.render();
+                    chart2.render();
+                </script>
             </div>
         </div>
 

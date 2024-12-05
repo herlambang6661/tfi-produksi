@@ -273,7 +273,20 @@ class ProduksiController extends Controller
             "brown" => "Coklat",
             "orange" => "Oranye",
             "white" => "Clear",
-            "black" => "Mambo",
+            "purple" => "Mambo",
+        );
+        $hexWarna = array(
+            "#58d68d" => "Hijau",
+            "#C70039" => "Merah",
+            "#7DF9FF" => "Biru",
+            "#f7dc6f " => "Kuning",
+            "#af7ac5" => "Ungu",
+            "#17202a" => "Hitam",
+            "#f8f9f9 " => "Putih",
+            "#dc7633" => "Coklat",
+            "#f39c12" => "Oranye",
+            "#eaf2f8" => "Clear",
+            "#7d3c98" => "Mambo",
         );
 
         if ($pengebonan) {
@@ -300,9 +313,15 @@ class ProduksiController extends Controller
                     </div>
                     
                     ' . $alert . '
-                    <div class="modal-body py-1 px-1">
+                    <div class="modal-body py-1 px-1 bg-indigo">
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-6 text-center">
+                                <div id="chart2"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="chart"></div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="card border">
                                     <table class="table table-vcenter card-table text-nowrap">
                                         <thead>
@@ -316,10 +335,13 @@ class ProduksiController extends Controller
                                         </thead>
                                         <tbody>';
             $arrPercentage = array();
-            $arrWarna = array();
+            $labelWarna = array();
+            $seriesWarna = array();
             foreach ($summary1 as $key) {
                 $arrPercentage[] = round((($key->b_total * 100) / $summary1->sum('b_total')), 2);
-                $arrWarna[] = $this->getWarnaFromIDKontrak($key->kodekontrak);
+                array_push($labelWarna, $this->getWarnaFromIDKontrak($key->kodekontrak));
+                array_push($seriesWarna, $key->jb);
+
                 echo '
                                             <tr>
                                                 <td class="text-center">' . $key->kodekontrak . '</td>
@@ -330,8 +352,6 @@ class ProduksiController extends Controller
                                             </tr>
                                             ';
             }
-            $arrWarnaUnique = array_unique($arrWarna);
-            // print_r($arrWarnaUnique);
             echo ' 
                                         </tbody>
                                         <tfoot>
@@ -345,22 +365,44 @@ class ProduksiController extends Controller
                                     </table>
                                 </div>
                             </div>
-                            
-                            <div class="col-md-5">
-                                <div id="chart"></div>
-                            </div>
                             <script>
                                 var options = {
-                                    series: [44, 55],
+                                    series: [';
+            foreach ($seriesWarna as $key => $value) {
+                echo $value . ',';
+            }
+            echo '
+                                    ],
+                                    colors: [';
+            foreach ($labelWarna as $key => $value) {
+                echo '"' . array_search($value, $hexWarna) . '",';
+            }
+            echo '
+                                    ],
+                                    stroke: {
+                                        width: 4
+                                    },
+                                    dataLabels: {
+                                        enabled: true,
+                                        style: {
+                                            colors: ["#f2f3f4"]
+                                        },
+                                        background: {
+                                            enabled: true,
+                                            foreColor: "#2e4053",
+                                            borderWidth: 0
+                                        }
+                                    },
                                     chart: {
-                                        width: 300,
+                                        width: 350,
                                         type: "pie",
                                     },
                                     labels: [';
-            foreach ($arrWarnaUnique as $key => $value) {
+            foreach ($labelWarna as $key => $value) {
                 echo '"' . $value . '",';
             }
-            echo '],
+            echo '
+                                    ],
                                     responsive: [{
                                         breakpoint: 480,
                                         options: {
@@ -375,7 +417,9 @@ class ProduksiController extends Controller
                                 };
 
                                 var chart = new ApexCharts(document.querySelector("#chart"), options);
+                                var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
                                 chart.render();
+                                chart2.render();
                             
                             
                             </script>
@@ -451,9 +495,9 @@ class ProduksiController extends Controller
                     <div class="modal-footer">
                         <form method="GET" action="/produksi/pengebonan/edit/' . Crypt::encryptString($pengebonan->formproduksi) . '">
                             <input type="hidden" name="_token" value="' . csrf_token() . '">
-                            <button class="btn btn-azure ' . $lock . '">
+                            <button class="btn btn-azure">
                                 <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-edit"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" /><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" /><path d="M16 5l3 3" /></svg>
-                                Edit Formulir
+                                Lihat Detail Formulir
                             </button>
                         </form>
                         <button class="btn btn-danger btnHapusForm ' . $lock . '" type="button" data-id="' . $pengebonan->id . '" data-noform="' . $pengebonan->formproduksi . '" data-kode="' . $pluck . '" data-typehapus="form">

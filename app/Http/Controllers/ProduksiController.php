@@ -290,7 +290,7 @@ class ProduksiController extends Controller
         );
 
         if ($pengebonan) {
-            $totalSummary1 = $summary1->sum('b_total');
+            // $totalSummary1 = $summary1->sum('b_total');
             echo '
                 <div class="modal-content">
                     <div class="modal-header">
@@ -313,7 +313,7 @@ class ProduksiController extends Controller
                     </div>
                     
                     ' . $alert . '
-                    <div class="modal-body py-1 px-1 bg-indigo">
+                    <div class="modal-body py-1 px-1">
                         <div class="row">
                             <div class="col-md-6 text-center">
                                 <div id="chart2"></div>
@@ -420,76 +420,7 @@ class ProduksiController extends Controller
                                 var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
                                 chart.render();
                                 chart2.render();
-                            
-                            
                             </script>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="form-label">Tanggal</label>
-                                    <div class="form-control">' . $pengebonan->tanggal . '</div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="form-label">Operator</label>
-                                    <div class="form-control">' . $pengebonan->operator . '</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body py-1 px-1">
-                        <input type="hidden" id="idbon" name="idbon" value="' . $pengebonan->id . '">
-                        <div class="card border">
-                            <div class="table-responsive">
-                                <table class="table table-vcenter card-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="w-1 text-center">Kode Produksi</th>
-                                            <th>Kode Item</th>
-                                            <th class="text-center">Package</th>
-                                            <th class="text-center">Tipe</th>
-                                            <th class="text-center">Kategori</th>
-                                            <th class="text-center">Warna</th>
-                                            <th class="text-center">Berat</th>
-                                            <th class="w-1"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    ';
-            foreach ($pengebonanItm as $key) {
-
-                echo '
-                                        <tr>
-                                            <td class="text-secondary text-center">
-                                            ' . $key->kodeproduksi . '
-                                            </td>
-                                            <td>' . $key->subkode . '</td>
-                                            <td class="text-center">' . $key->package . '</td>
-                                            <td class="text-center">' . $key->type . '</td>
-                                            <td class="text-center">' . $key->kategori . '</td>
-                                            <td class="text-center">
-                                                <span class="status-dot status-dot-animated status-' . array_search($key->warna, $ArWarna) . '"></span>
-                                                ' . $key->warna . '
-                                            </td>
-                                            <td class="text-center">' . $key->berat . '</td>
-                                            <td class="text-center">
-                                                <button class="btn btn-outline-danger btnHapusForm ' . $lock . '" type="button" data-id="' . $key->id . '" data-noform="' . $key->formproduksi . '" data-kode="' . $key->subkode . '" data-typehapus="item">
-                                                    <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-                                                    Hapus
-                                                </button>
-                                            </td>
-                                        </tr>
-                                            ';
-            }
-            echo
-            '
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -520,6 +451,11 @@ class ProduksiController extends Controller
     {
         $get = GudangpenerimaanitmModel::where('kodekontrak', $id)->where('status', '>', 0)->first();
         return $get->warna;
+    }
+    private function getTipeFromIDKontrak($id)
+    {
+        $get = GudangpenerimaanitmModel::where('kodekontrak', $id)->where('status', '>', 0)->first();
+        return $get->tipe;
     }
 
     public function deletePengebonan(Request $request)
@@ -556,12 +492,99 @@ class ProduksiController extends Controller
             ->select('a.*', 'b.id as idQR')
             ->join('gudang_penerimaanqrcode as b', 'a.subkode', '=', 'b.subkode')
             ->where('a.formproduksi', $decrypted)
+            ->where('b.status', '>', 0)
             ->get();
+
+        $summary1 = DB::table('produksi_pengebonanitm AS A')
+            ->selectRaw('DISTINCT B.kodekontrak, COUNT(A.subkode) AS jb, SUM(A.berat) as b_total, COUNT(A.warna) as t_warna, A.warna')
+            ->leftjoin('gudang_penerimaanqrcode AS B', 'A.subkode', '=', 'B.subkode')
+            ->groupBy('B.kodekontrak', 'A.warna')
+            ->where('A.formproduksi', $decrypted)
+            ->where('A.status', '>', 0)
+            ->get();
+        $summary2 = DB::table('produksi_pengebonanitm AS A')
+            ->selectRaw('B.type, COUNT(A.subkode) AS jb')
+            ->leftjoin('gudang_penerimaanqrcode AS B', 'A.subkode', '=', 'B.subkode')
+            ->groupBy('B.type')
+            ->where('A.formproduksi', $decrypted)
+            ->where('A.status', '>', 0)
+            ->get();
+
+        $ArWarna = [
+            'green' => 'Hijau',
+            'red' => 'Merah',
+            'blue' => 'Biru',
+            'yellow' => 'Kuning',
+            'purple' => 'Ungu',
+            'black' => 'Hitam',
+            'white' => 'Putih',
+            'brown' => 'Coklat',
+            'orange' => 'Oranye',
+            'white' => 'Clear',
+            'purple' => 'Mambo',
+        ];
+        $hexWarna = [
+            '#58d68d' => 'Hijau',
+            '#C70039' => 'Merah',
+            '#0096FF' => 'Biru',
+            '#f7dc6f ' => 'Kuning',
+            '#af7ac5' => 'Ungu',
+            '#17202a' => 'Hitam',
+            '#f8f9f9 ' => 'Putih',
+            '#dc7633' => 'Coklat',
+            '#f39c12' => 'Oranye',
+            '#C70039' => 'Clear',
+            '#7d3c98' => 'Mambo',
+        ];
+
+        $labelWarna = array();
+        $seriesWarna = array();
+        $langWarna = array();
+        $labelTipe = array();
+        $seriesTipe = array();
+        foreach ($summary1 as $key) {
+            array_push($labelWarna, $this->getWarnaFromIDKontrak($key->kodekontrak));
+            array_push($seriesWarna, $key->jb);
+            array_push($langWarna, array_search($this->getWarnaFromIDKontrak($key->kodekontrak), $hexWarna));
+        }
+        foreach ($summary2 as $key) {
+            array_push($labelTipe, $key->type);
+            array_push($seriesTipe, $key->jb);
+        }
+
+        // Summary
+
+        $arrPercentage = array();
+        // foreach ($summary1 as $key) {
+        //     $arrPercentage[] = round((($key->b_total * 100) / $summary1->sum('b_total')), 2);
+        //     array_push($labelWarna, $this->getWarnaFromIDKontrak($key->kodekontrak));
+        //     array_push($seriesWarna, $key->jb);
+
+        //     echo '
+        //                                     <tr>
+        //                                         <td class="text-center">' . $key->kodekontrak . '</td>
+        //                                         <td class="text-center">' . $key->jb . '</td>
+        //                                         <td class="text-start">' . $key->b_total . ' KG</td>
+        //                                         <td class="text-center">' . round((($key->b_total * 100) / $summary1->sum('b_total')), 2) . ' %</td>
+        //                                         <td class="text-center">' . $this->getWarnaFromIDKontrak($key->kodekontrak) . '</td>
+        //                                     </tr>
+        //                                     ';
+        // }
+        $S_total = $summary1->sum('b_total');
+
+        // Summary
         return view('products/04_produksi.pengebonanEdit', [
             'active' => 'Planning',
             'judul' => 'Edit Production Planning',
             'pengebonan' => $pengebonan,
             'pengebonanItem' => $pengebonanItem,
+            'labelWarna' => $labelWarna,
+            'seriesWarna' => $seriesWarna,
+            'langWarna' => $langWarna,
+            'labelTipe' => $labelTipe,
+            'seriesTipe' => $seriesTipe,
+            'S_total' => $S_total,
+            'summary1' => $summary1,
         ]);
     }
 

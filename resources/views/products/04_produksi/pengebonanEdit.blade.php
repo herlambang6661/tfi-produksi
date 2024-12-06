@@ -184,99 +184,165 @@
             <!-- Page body -->
             <div class="page-body">
                 <div class="container-xl">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card card-xl border-success shadow rounded mb-1 py-1 px-1">
-                                <b class="text-center">Tulis Kode</b>
-                                <input type="text" class="form-control border-success mb-2" name="qrText" id="qrText"
-                                    onkeydown = "if (event.keyCode == 13)  fetchQr()"
-                                    placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
-                                <a href="#modalTambahItem" class="btn btn-link bg-dark-lt border-primary text-dark"
-                                    data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
-                                    title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
-                                    data-id="' . $row->id . '">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                                        <path d="M21 21l-6 -6" />
-                                    </svg>
-                                    Cari Bahan Baku
-                                </a>
-                            </div>
-                            <div class="card card-xl border-success shadow rounded mb-3 py-1 px-1">
-                                <b class="text-center">Scan QR Code</b>
-                                <div class="row" style="font-size: 10px">
-                                    <div class="col">
-                                        <b>Device has camera: </b>
-                                        <span id="cam-has-camera"></span>
-                                    </div>
-                                    <div class="col text-end">
-                                        <b>Camera has flash: </b>
-                                        <span id="cam-has-flash"></span>
-                                    </div>
-                                </div>
-                                <video class="mb-1 rounded" id="qr-video" style="width: 100%; height: 100%;" autoplay
-                                    playsinline>
-                                </video>
-                                <div class="row">
-                                    <div class="col">
-                                        <button id="start-button" class="btn btn-success btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-play">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M7 4v16l13 -8z" />
-                                            </svg>
-                                            Start
-                                        </button>
-                                        <button id="stop-button" class="btn btn-danger btn-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path
-                                                    d="M5 5m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
-                                            </svg>
-                                            Stop
-                                        </button>
-                                        <div>
-                                            <button id="flash-toggle" class="btn btn-warning btn-sm">
-                                                📸 Flash:
-                                                <span id="flash-state">off</span>
-                                            </button>
+                    <div class="row row-cols-1 row-cols-md-1 g-1">
+                        <div class="col-12">
+                            <div class="card-group rounded shadow">
+                                <div class="card">
+                                    <div class="card-body p-2">
+                                        <div class="card border-success rounded mb-1 py-1 px-1">
+                                            <b class="text-center">Scan QR Code</b>
+                                            <div class="row" style="font-size: 10px">
+                                                <div class="col">
+                                                    <b>Device has camera: </b>
+                                                    <span id="cam-has-camera"></span>
+                                                </div>
+                                                <div class="col text-end">
+                                                    <b>Camera has flash: </b>
+                                                    <span id="cam-has-flash"></span>
+                                                </div>
+                                            </div>
+                                            <video class="mb-1 rounded" id="qr-video" style="width: 100%; height: 100%;"
+                                                autoplay playsinline>
+                                            </video>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <button id="start-button" class="btn btn-success btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-player-play">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M7 4v16l13 -8z" />
+                                                        </svg>
+                                                        Start
+                                                    </button>
+                                                    <button id="stop-button" class="btn btn-danger btn-sm">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-player-stop">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path
+                                                                d="M5 5m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z" />
+                                                        </svg>
+                                                        Stop
+                                                    </button>
+                                                    <div>
+                                                        <button id="flash-toggle" class="btn btn-warning btn-sm">
+                                                            📸 Flash:
+                                                            <span id="flash-state">off</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        {{-- <label class="col-3 col-form-label">
+                                                    <b>Camera:</b>
+                                                </label> --}}
+                                                        <div class="col">
+                                                            <select id="cam-list"
+                                                                class="form-select form-select-sm border-success">
+                                                                <option value="environment" selected>
+                                                                    Environment Facing (default)
+                                                                </option>
+                                                                <option value="user">User Facing</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="row">
-                                            {{-- <label class="col-3 col-form-label">
-                                                <b>Camera:</b>
-                                            </label> --}}
-                                            <div class="col">
-                                                <select id="cam-list" class="form-select form-select-sm border-success">
-                                                    <option value="environment" selected>
-                                                        Environment Facing (default)
-                                                    </option>
-                                                    <option value="user">User Facing</option>
-                                                </select>
+                                        <div class="card border-success rounded">
+                                            <div class="card-body">
+                                                <input type="text" class="form-control border-success mb-2"
+                                                    name="qrText" id="qrText"
+                                                    onkeydown = "if (event.keyCode == 13)  fetchQr()"
+                                                    placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                                                <div class="text-end">
+                                                    <a href="#modalTambahItem"
+                                                        class="btn btn-link bg-dark-lt border-primary text-dark"
+                                                        data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
+                                                        title="Lihat Detail Data Karyawan" data-item="' . $row->nama . '"
+                                                        data-id="' . $row->id . '">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                                            <path d="M21 21l-6 -6" />
+                                                        </svg>
+                                                        Cari Bahan Baku
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-xl border-success shadow rounded">
-                                <div id="chart"></div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="card card-xl border-success shadow rounded">
-                                <div id="chart2"></div>
+                                <div class="card">
+                                    <div class="card-body p-1">
+                                        <div class="row row-deck row-cards">
+                                            <div class="col-md-6">
+                                                <div class="chart-wrap">
+                                                    <div id="chart"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="chart-wrap">
+                                                    <div id="chart2"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <table class="table table-vcenter card-table text-nowrap">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-1 text-center">ID Kontrak</th>
+                                                            <th class="w-1 text-center">Jumbo Bag</th>
+                                                            <th class="w-1 text-start">Berat Total</th>
+                                                            <th class="w-1 text-center">%</th>
+                                                            <th class="w-1 text-start">Warna</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($summary1 as $key)
+                                                            @php
+                                                                $arrPercentage[] = round(
+                                                                    ($key->b_total * 100) / $summary1->sum('b_total'),
+                                                                    2,
+                                                                );
+                                                            @endphp
+                                                            <tr>
+                                                                <td class="text-center">{{ $key->kodekontrak }}</td>
+                                                                <td class="text-center">{{ $key->kodekontrak }}</td>
+                                                                <td class="text-start">{{ $key->b_total }} KG</td>
+                                                                <td class="text-center">
+                                                                    {{ round(($key->b_total * 100) / $summary1->sum('b_total'), 2) }}
+                                                                    %</td>
+                                                                <td class="text-center">
+                                                                    {{ $key->warna }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                        @php
+                                                            $S_percentage = array_sum($arrPercentage);
+                                                        @endphp
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th colspan="2" class="text-end">Total</th>
+                                                            <th class="text-start"> {{ $S_total }} KG</th>
+                                                            <th class="text-center"> {{ $S_percentage }} %</th>
+                                                            <th class="text-end"></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12" onkeydown="return event.key != 'Enter';">
@@ -301,24 +367,6 @@
                                                         value="{{ $pengebonan->operator }}">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-body px-1 pt-2 pb-1 mt-1 mx-1">
-                                            <button id="tambahItem" type="button"
-                                                class="btn btn-link bg-dark-lt border-success text-dark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="text-success icon icon-tabler icons-tabler-outline icon-tabler-file-spreadsheet">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                                                    <path
-                                                        d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
-                                                    <path d="M8 11h8v7h-8z" />
-                                                    <path d="M8 15h8" />
-                                                    <path d="M11 11v7" />
-                                                </svg>
-                                                Import Dari Excel
-                                            </button>
                                         </div>
                                         <div class="card-body px-1 py-1 my-1 mx-1 text-end">
                                             <table id="detail_transaksi" class="control-group text-nowrap table-bordered"
@@ -671,7 +719,6 @@
                 </div>
                 {{-- Modals --}}
                 @include('shared.footer')
-                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
                 <script>
                     window.Promise ||
                         document.write(
@@ -686,17 +733,61 @@
                             '<script src="https://cdn.jsdelivr.net/npm/findindex_polyfill_mdn"><\/script>'
                         )
                 </script>
+                <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
                 <script>
                     var options = {
                         title: {
-                            text: "Warna"
+                            text: "Persentase Warna"
                         },
                         theme: {
                             palette: 'palette2'
                         },
-                        labels: [1, 2],
-                        series: [1, 2],
-                        // colors: [],
+                        labels: {!! json_encode($labelWarna) !!},
+                        series: {!! json_encode($seriesWarna) !!},
+                        colors: {!! json_encode($langWarna) !!},
+                        stroke: {
+                            width: 4
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            // style: {
+                            //     colors: ["#f2f3f4"]
+                            // },
+                            background: {
+                                enabled: true,
+                                foreColor: "#f2f3f4",
+                                borderWidth: 2
+                            }
+                        },
+                        chart: {
+                            width: '100%',
+                            type: "pie",
+                        },
+                        responsive: [{
+                            breakpoint: 480,
+                            options: {
+                                chart: {
+                                    width: '100%'
+                                },
+                                legend: {
+                                    show: true
+                                }
+                            }
+                        }],
+                        legend: {
+                            position: 'bottom',
+                        }
+                    };
+
+                    var options2 = {
+                        title: {
+                            text: "Persentase Tipe"
+                        },
+                        theme: {
+                            palette: 'palette2'
+                        },
+                        labels: {!! json_encode($labelTipe) !!},
+                        series: {!! json_encode($seriesTipe) !!},
                         stroke: {
                             width: 4
                         },
@@ -712,26 +803,70 @@
                             }
                         },
                         chart: {
-                            width: 350,
-                            type: "pie",
+                            width: '100%',
+                            type: "donut",
+                        },
+                        plotOptions: {
+                            pie: {
+                                donut: {
+                                    labels: {
+                                        show: true,
+                                        total: {
+                                            showAlways: true,
+                                            show: true
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        fill: {
+                            type: 'pattern',
+                            opacity: 1,
+                            pattern: {
+                                enabled: true,
+                                style: ['verticalLines', 'squares', 'horizontalLines', 'circles', 'slantedLines'],
+                            },
+                        },
+                        states: {
+                            hover: {
+                                filter: 'none'
+                            }
                         },
                         responsive: [{
                             breakpoint: 480,
                             options: {
                                 chart: {
-                                    width: 200
+                                    width: '100%'
                                 },
-                                legend: {
-                                    position: "bottom"
-                                }
                             }
-                        }]
+                        }],
+                        legend: {
+                            position: 'bottom',
+                            formatter: function(val, opts) {
+                                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+                            }
+                        }
                     };
 
                     var chart = new ApexCharts(document.querySelector("#chart"), options);
-                    var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+                    var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
                     chart.render();
                     chart2.render();
+
+                    function reset1() {
+                        return options.series
+                    }
+
+                    function reset2() {
+                        return options.series
+                    }
+
+                    document.querySelector("#reset1").addEventListener("click", function() {
+                        chart.updateSeries(reset1())
+                    })
+                    document.querySelector("#reset2").addEventListener("click", function() {
+                        chart2.updateSeries(reset2())
+                    })
                 </script>
             </div>
         </div>

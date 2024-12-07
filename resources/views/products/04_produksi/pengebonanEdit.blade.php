@@ -254,13 +254,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card border-success rounded">
-                                            <div class="card-body">
-                                                <input type="text" class="form-control border-success mb-2"
-                                                    name="qrText" id="qrText"
-                                                    onkeydown = "if (event.keyCode == 13)  fetchQr()"
-                                                    placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
-                                                <div class="text-end">
+                                        {{-- <div class="card border-success rounded">
+                                            <div class="card-body"> --}}
+                                        <input type="text" class="form-control border-success mb-2" name="qrText"
+                                            id="qrText" onkeydown = "if (event.keyCode == 13)  fetchQr()"
+                                            placeholder="Contoh : FBB0001-1-001 (Tekan Enter Jika Sudah)">
+                                        {{-- <div class="text-end">
                                                     <a href="#modalTambahItem"
                                                         class="btn btn-link bg-dark-lt border-primary text-dark"
                                                         data-bs-toggle="modal" data-toggle="tooltip" data-placement="top"
@@ -279,7 +278,7 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <div class="card">
@@ -316,7 +315,7 @@
                                                             @endphp
                                                             <tr>
                                                                 <td class="text-center">{{ $key->kodekontrak }}</td>
-                                                                <td class="text-center">{{ $key->kodekontrak }}</td>
+                                                                <td class="text-center">{{ $key->jb }}</td>
                                                                 <td class="text-start">{{ $key->b_total }} KG</td>
                                                                 <td class="text-center">
                                                                     {{ round(($key->b_total * 100) / $summary1->sum('b_total'), 2) }}
@@ -332,7 +331,7 @@
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th colspan="2" class="text-end">Total</th>
+                                                            <th colspan="2" class="text-end">Total :</th>
                                                             <th class="text-start"> {{ $S_total }} KG</th>
                                                             <th class="text-center"> {{ $S_percentage }} %</th>
                                                             <th class="text-end"></th>
@@ -368,139 +367,40 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body px-1 py-1 my-1 mx-1 text-end">
-                                            <table id="detail_transaksi" class="control-group text-nowrap table-bordered"
-                                                border="0" style="width: 100%;text-align:center;">
-                                                <thead class="" style="font-weight: bold;">
-                                                    <tr>
-                                                        <td class="px-0 py-0" style="width: 1%"></td>
-                                                        <td style="width: 200px">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                style="margin-right: 5px" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-plus">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path
-                                                                    d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
-                                                            </svg>
-                                                            Kode Bahan Baku
-                                                        </td>
-                                                        <td style="width: 200px">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                style="margin-right: 5px" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M14 4h6v6h-6z" />
-                                                                <path d="M4 14h6v6h-6z" />
-                                                                <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                            </svg>
-                                                            Bahan Baku
-                                                        </td>
-                                                        <td style="width: 200px">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                style="margin-right: 5px" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-category-2">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M14 4h6v6h-6z" />
-                                                                <path d="M4 14h6v6h-6z" />
-                                                                <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                                <path d="M7 7m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                                            </svg>
-                                                            Jenis
-                                                        </td>
-                                                        <td style="width: 200px">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                style="margin-right: 5px" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-speedtest">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path d="M5.636 19.364a9 9 0 1 1 12.728 0" />
-                                                                <path d="M16 9l-4 4" />
-                                                            </svg>
-                                                            Berat
-                                                        </td>
-                                                        <td style="width: 200px">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                style="margin-right: 5px" width="24" height="24"
-                                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round"
-                                                                class="icon icon-tabler icons-tabler-outline icon-tabler-coins">
-                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                                <path
-                                                                    d="M9 14c0 1.657 2.686 3 6 3s6 -1.343 6 -3s-2.686 -3 -6 -3s-6 1.343 -6 3z" />
-                                                                <path d="M9 14v4c0 1.656 2.686 3 6 3s6 -1.344 6 -3v-4" />
-                                                                <path
-                                                                    d="M3 6c0 1.072 1.144 2.062 3 2.598s4.144 .536 6 0c1.856 -.536 3 -1.526 3 -2.598c0 -1.072 -1.144 -2.062 -3 -2.598s-4.144 -.536 -6 0c-1.856 .536 -3 1.526 -3 2.598z" />
-                                                                <path d="M3 6v10c0 .888 .772 1.45 2 2" />
-                                                                <path d="M3 11c0 .888 .772 1.45 2 2" />
-                                                            </svg>
-                                                            Supplier
-                                                        </td>
-                                                    </tr>
-                                                </thead>
-                                                @foreach ($pengebonanItem as $item)
-                                                    <tr id="btn-remove{{ $item->kodeproduksi }}">
-                                                        <td style="align: center">
-                                                            <button class="btn btn-danger btn-icon remove btnHapusForm"
-                                                                type="button" data-id="{{ $item->id }}"
-                                                                data-noform="{{ $item->formproduksi }}"
-                                                                data-kode="{{ $item->subkode }}"
-                                                                data-kodeproduksi="{{ $item->kodeproduksi }}"
-                                                                data-typehapus="item">
+                                        <div class="card-body px-1 py-1 my-1 mx-1">
+                                            <div class="table-responsive">
+                                                <table style="width:100%; height: 100%;font-size:13px;"
+                                                    class="table table-sm table-bordered table-striped table-vcenter card-table table-hover text-nowrap datatable datatable-edit">
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th class="px-1 py-1 text-center" style="width: 1%">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                                     height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
                                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-trash">
+                                                                    class="icon icon-tabler icons-tabler-outline icon-tabler-list-search">
                                                                     <path stroke="none" d="M0 0h24v24H0z"
                                                                         fill="none" />
-                                                                    <path d="M4 7l16 0" />
-                                                                    <path d="M10 11l0 6" />
-                                                                    <path d="M14 11l0 6" />
-                                                                    <path
-                                                                        d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                                                    <path d="M15 15m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                                                                    <path d="M18.5 18.5l2.5 2.5" />
+                                                                    <path d="M4 6h16" />
+                                                                    <path d="M4 12h4" />
+                                                                    <path d="M4 18h4" />
                                                                 </svg>
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->subkode }}
-                                                            <div class="kode_{{ $item->idQR }}">
-                                                                <input type="hidden" name="id_item[]"
-                                                                    value="{{ $item->idQR }}">
-                                                                <input type="hidden" name="oldKodeproduksi[]"
-                                                                    value="{{ $item->kodeproduksi }}">
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->type . ' ' . $item->kategori . ' ' . $item->warna }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->package }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->berat }}
-                                                        </td>
-                                                        <td>
-                                                            {{ $item->supplier }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </table>
+                                                            </th>
+                                                            <th class="px-1 th py-1" style="width: 1%">ID Kontrak</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Kode QR</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Tipe</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Kategori</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Warna</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Berat</th>
+                                                            <th class="px-1 th py-1" style="width: 1%">Supplier</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
-                                        <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
+                                        {{-- <div class="card-footer px-1 py-1 my-1 mx-1 text-end">
                                             <button id="submitPengebonan" type="submit" class="btn btn-success">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -514,7 +414,7 @@
                                                 </svg>
                                                 Simpan Perubahan
                                             </button>
-                                        </div>
+                                        </div> --}}
                                     </form>
                                 </div>
                             </div>
@@ -694,16 +594,16 @@
                                                     <path d="M4 18h4" />
                                                 </svg>
                                             </th>
-                                            <td class="px-1 th py-1" style="width: 1%">KodeBale</td>
-                                            <td class="px-1 th py-1" style="width: 1%">KodeKontrak</td>
-                                            <td class="px-1 th py-1" style="width: 1%">NPB</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Berat</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Package</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Tipe</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Kategori</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Warna</td>
-                                            <td class="px-1 th py-1" style="width: 1%">supplier</td>
-                                            <td class="px-1 th py-1" style="width: 1%">Tgl Kedatangan</td>
+                                            <td class="px-1 th py-1">KodeBale</td>
+                                            <td class="px-1 th py-1">KodeKontrak</td>
+                                            <td class="px-1 th py-1">NPB</td>
+                                            <td class="px-1 th py-1">Berat</td>
+                                            <td class="px-1 th py-1">Package</td>
+                                            <td class="px-1 th py-1">Tipe</td>
+                                            <td class="px-1 th py-1">Kategori</td>
+                                            <td class="px-1 th py-1">Warna</td>
+                                            <td class="px-1 th py-1">supplier</td>
+                                            <td class="px-1 th py-1">Tgl Kedatangan</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -1905,6 +1805,284 @@
                         ' ' + package + tipe + ' ' + kategori +
                         ' ' + warna + ' <b class="text-blue">Berhasil</b> ditambahkan ke pengebonan');
                 }
+            });
+
+            /*------------------------------------------
+            --------------------------------------------
+            Render DataTable
+            --------------------------------------------
+            --------------------------------------------*/
+            allTable = $('.datatable-edit').DataTable({
+                "processing": true, //Feature control the processing indicator.
+                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                "scrollX": false,
+                "scrollCollapse": false,
+                "pagingType": 'full_numbers',
+                "dom":
+                    // "<'card-header h3'>" +
+                    "<'card-body border-bottom py-3' <'row'<'col-sm-6'B><'col-sm-6'f>> >" +
+                    "<'table-responsive' <'col-sm-12'tr> >" +
+                    "<'card-footer' <'row'<'col-sm-7'i><'col-sm-5'p> >>",
+                "lengthMenu": [
+                    [20, 25, 50, -1],
+                    ['Default', '25', '50', 'Semua']
+                ],
+                "buttons": [{
+                        className: 'btn btn-outline-danger border-dark',
+                        text: '<i class="fa-regular fa-trash-can"></i> Hapus Yang Dipilih',
+                    },
+                    {
+                        className: 'btn btn-outline-danger border-dark',
+                        text: '<i class="fa-solid fa-trash-can"></i> Hapus Semua',
+                    },
+                    // {
+                    //     className: 'btn btn-outline-success',
+                    //     text: '<i class="fa-solid fa-plus"></i> Tambah Item',
+                    // },
+                    {
+                        className: 'btn btn-outline-dark',
+                        text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh',
+                        action: function(e, dt, node, config) {
+                            dt.ajax.reload();
+                        }
+                    },
+                ],
+                "language": {
+                    "lengthMenu": "Menampilkan _MENU_",
+                    "zeroRecords": "Data Tidak Ditemukan",
+                    "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ total data",
+                    "infoEmpty": "Data Tidak Ditemukan",
+                    "infoFiltered": "(Difilter dari _MAX_ total records)",
+                    "processing": '<div class="container container-slim p-0"><div class="text-center"><div class="mb-3"></div><div class="text-secondary">Loading Data...</div></div></div>',
+                    "search": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"></path><path d="M21 21l-6 -6"></path></svg>',
+                    "paginate": {
+                        "first": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M7 6v12"></path><path d="M18 6l-6 6l6 6"></path></svg>',
+                        "last": '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right-pipe" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 6l6 6l-6 6"></path><path d="M17 5v13"></path></svg>',
+                        "next": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg>',
+                        "previous": '<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M15 6l-6 6l6 6"></path></svg>',
+                    },
+                    "select": {
+                        rows: {
+                            _: "%d item dipilih ",
+                            0: "",
+                        }
+                    },
+                },
+                "ajax": {
+                    "url": "{{ route('getPengebonanEdit.index') }}",
+                    "data": function(data) {
+                        data._token = "{{ csrf_token() }}";
+                        // data.dari = $('#filterStart-all').val();
+                        // data.sampai = $('#filterEnd-all').val();
+                        data.formproduksi = '{{ $pengebonan->formproduksi }}';
+                    }
+                },
+                columnDefs: [{
+                    'targets': 0,
+                    "orderable": true,
+                    'className': 'select-checkbox',
+                    'checkboxes': {
+                        'selectRow': true
+                    },
+                }],
+                select: {
+                    'style': 'multi',
+                    // "selector": 'td:not(:nth-child(1))',
+                },
+                columns: [{
+                        title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
+                        data: 'select_orders',
+                        name: 'select_orders',
+                        className: "text-center cursor-pointer",
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        title: 'ID Kontrak',
+                        data: 'kodekontrak',
+                        name: 'kodekontrak',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Kode QR',
+                        data: 'subkode',
+                        name: 'subkode',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Tipe',
+                        data: 'type',
+                        name: 'type',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Kategori',
+                        data: 'kategori',
+                        name: 'kategori',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Warna',
+                        data: 'warna',
+                        name: 'warna',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Berat',
+                        data: 'berat',
+                        name: 'berat',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    },
+                    {
+                        title: 'Supplier',
+                        data: 'supplier',
+                        name: 'supplier',
+                        className: "cuspad0 cuspad1 text-center cursor-pointer"
+                    }
+                ],
+                "initComplete": function() {
+                    this.api()
+                        .columns()
+                        .every(function() {
+                            var that = this;
+                            $('input', this.footer()).on('keyup change clear', function() {
+                                if (that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                    this.api().columns([1, 3, 4, 5, 7]).every(function() {
+                        var column = this;
+                        var select = $(
+                                '<select class="form-select form-select-sm"><option value="">Semua</option></select>'
+                            )
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function() {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+                        column.data().unique().sort().each(function(d, j) {
+                            select.append('<option value="' + d + '">' + d +
+                                '</option>');
+                        });
+                    });
+                }
+            });
+            $('.datatable-edit tfoot .th').each(function() {
+                var title = $(this).text();
+                $(this).html(
+                    '<input type="text" class="form-control form-control-sm my-0 border" placeholder="' +
+                    $(this).text().toUpperCase() + '" />'
+                );
+            });
+
+            $('.datatable-edit').on('click', '.remove', function() {
+                var id = $(this).data('id');
+                var nama = $(this).data('nama');
+                var kode = $(this).data('kode');
+                var token = $("meta[name='csrf-token']").attr("content");
+                let r = (Math.random() + 1).toString(36).substring(2);
+                swal.fire({
+                    title: 'Hapus ' + nama,
+                    text: 'Apakah anda yakin ingin menghapus ' + nama + ', Tanggal : ' + kode +
+                        ' ?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        (async () => {
+                            const {
+                                value: password
+                            } = await Swal.fire({
+                                title: "Ketik tulisan dibawah untuk menghapus " +
+                                    nama,
+                                html: '<div class="unselectable">' + r +
+                                    '</div>',
+                                input: "text",
+                                inputPlaceholder: "Ketik untuk menghapus " +
+                                    nama,
+                                showCancelButton: true,
+                                cancelButtonColor: '#3085d6',
+                                cancelButtonText: 'Batal',
+                                confirmButtonText: 'Ok',
+                                inputAttributes: {
+                                    autocapitalize: "off",
+                                    autocorrect: "off"
+                                },
+                            });
+                            if (password == r) {
+                                $.ajax({
+                                    type: "DELETE",
+                                    url: "{{ route('getPenerimaan.store') }}" +
+                                        '/' + id,
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                    },
+                                    beforeSend: function() {
+                                        Swal.fire({
+                                            title: 'Mohon Menunggu',
+                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                                            timerProgressBar: true,
+                                            showConfirmButton: false,
+                                            allowOutsideClick: false,
+                                            allowEscapeKey: false,
+                                        })
+                                    },
+                                    success: function(data) {
+                                        tablePenerimaan.ajax.reload(null,
+                                            false);
+                                        unApprovedTable.ajax.reload(null,
+                                            false);
+                                        approvedTable.ajax.reload(null, false);
+                                        allTable.ajax.reload(null, false);
+
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Berhasil',
+                                            html: data,
+                                            showConfirmButton: true
+                                        });
+                                    },
+                                    error: function(data) {
+                                        tablePenerimaan.ajax.reload(null,
+                                            false);
+                                        unApprovedTable.ajax.reload(null,
+                                            false);
+                                        approvedTable.ajax.reload(null, false);
+                                        allTable.ajax.reload(null, false);
+                                        console.log('Error:', data
+                                            .responseText);
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Gagal!',
+                                            text: 'Error: ' + data
+                                                .responseText,
+                                            showConfirmButton: true,
+                                        });
+                                    }
+                                });
+                            } else {
+                                tablePenerimaan.ajax.reload(null, false);
+                                unApprovedTable.ajax.reload(null, false);
+                                approvedTable.ajax.reload(null, false);
+                                allTable.ajax.reload(null, false);
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Batal",
+                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
+                                });
+                            }
+                        })()
+                    }
+                })
             });
         </script>
     </div>

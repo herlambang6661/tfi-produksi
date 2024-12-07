@@ -498,7 +498,7 @@
                                     Production Planning
                                 </a>
                                 {{-- @endif --}}
-                                {{-- @if (Auth::user()->c_permintaan === 1) --}}
+                                {{-- @if (Auth::user()->c_permintaan === 1)
                                 <a class="dropdown-item {{ $active == 'Mixer' ? 'active' : '' }}"
                                     href="{{ url('produksi/mixer') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px" width="24"
@@ -514,7 +514,7 @@
                                     </svg>
                                     Proses Mixer
                                 </a>
-                                {{-- @endif --}}
+                                @endif --}}
                                 {{-- @if (Auth::user()->c_permintaan === 1) --}}
                                 <a class="dropdown-item {{ $active == 'QC' ? 'active' : '' }}"
                                     href="{{ url('pengadaan/permintaan') }}">

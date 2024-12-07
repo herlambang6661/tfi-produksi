@@ -23,6 +23,7 @@ use App\Http\Controllers\_01_Datatables\Gudang\PengolahanList;
 use App\Http\Controllers\_01_Datatables\Gudang\ScanBarcodeList;
 use App\Http\Controllers\_01_Datatables\Produksi\PengebonanList;
 use App\Http\Controllers\_01_Datatables\Kontrak\SuratkontrakList;
+use App\Http\Controllers\_01_Datatables\Produksi\PengebonanEdit;
 use App\Http\Controllers\_01_Datatables\Produksi\PengebonanQR;
 
 // Route::get('/', function () {
@@ -45,6 +46,7 @@ Route::resource('getSupplier', SupplierList::class);
 Route::resource('getSuratkontrak', SuratkontrakList::class);
 Route::resource('getKontrak', KontrakList::class);
 Route::resource('getPenerimaan', PenerimaanList::class);
+Route::resource('getPengebonanEdit', PengebonanEdit::class);
 Route::resource('getPenerimaanQR', PenerimaanQR::class);
 Route::resource('getPengolahan', PengolahanList::class);
 Route::resource('getPengebonan', PengebonanList::class);

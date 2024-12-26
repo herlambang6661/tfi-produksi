@@ -107,7 +107,66 @@
         #flash-toggle {
             display: none;
         }
+
+        /* Loader style */
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(138, 138, 138, 0.489);
+            z-index: 9999;
+            display: none;
+            animation: flippx 2s infinite linear;
+        }
+
+        #cover-spin::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            transform-origin: -24px 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        #cover-spin:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #ff3636;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        @keyframes flippx {
+
+            0%,
+            49% {
+                transform: scaleX(1);
+            }
+
+            50%,
+            100% {
+                transform: scaleX(-1);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
+    <div id="cover-spin"></div>
     <div class="overlay">
         <div class="cv-spinner">
             <span class="loader"></span>
@@ -1075,105 +1134,6 @@
 
                 tableResult.ajax.reload();
             }
-            $(document).on('click', '.btnHapusForm', function() {
-                var id = $(this).data('id');
-                var noform = $(this).data('noform');
-                var kode = $(this).data('kode');
-                var typeHapus = $(this).data('typehapus');
-                var token = $("meta[name='csrf-token']").attr("content");
-                nama = (typeHapus == "form") ? noform : kode;
-                // console.log("menghapus " + noform + " " + kode + " " + id + " " + typeHapus);
-                let r = (Math.random() + 1).toString(36).substring(2);
-                swal.fire({
-                    title: 'Hapus ' + nama,
-                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + nama +
-                        '</b><br><br>Kode<br>' +
-                        '<div class="alert alert-important alert-yellow text-dark" role="alert" style="font-size: 12px; max-height: 260px;">' +
-                        '<div class="d-flex" ><b class="fw-bolder" > ' +
-                        kode +
-                        ' </b></div> </div> ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
-                    cancelButtonText: 'Batal',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        (async () => {
-                            const {
-                                value: password
-                            } = await Swal.fire({
-                                title: "Ketik tulisan dibawah untuk menghapus " + nama,
-                                html: '<div class="unselectable">' + r + '</div>',
-                                input: "text",
-                                // inputValue: r,
-                                inputPlaceholder: r,
-                                showCancelButton: true,
-                                cancelButtonColor: '#3085d6',
-                                cancelButtonText: 'Batal',
-                                confirmButtonText: 'Ok',
-                                inputAttributes: {
-                                    autocapitalize: "off",
-                                    autocorrect: "off"
-                                },
-                            });
-                            if (password == r) {
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: "{{ route('delete.formPengebonan') }}",
-                                    data: {
-                                        "_token": "{{ csrf_token() }}",
-                                        "id": id,
-                                        "noform": noform,
-                                        "tipeHapus": typeHapus,
-                                    },
-                                    beforeSend: function() {
-                                        Swal.fire({
-                                            title: 'Mohon Menunggu',
-                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
-                                            timerProgressBar: true,
-                                            showConfirmButton: false,
-                                            allowOutsideClick: false,
-                                            allowEscapeKey: false,
-                                        })
-                                    },
-                                    success: function(data) {
-                                        tablePengebonan.ajax.reload(null,
-                                            false);
-                                        $('#modalViewItem').modal('hide');
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Berhasil',
-                                            html: data,
-                                            showConfirmButton: true
-                                        });
-                                    },
-                                    error: function(data) {
-                                        tablePengebonan.ajax.reload(null,
-                                            false);
-                                        // console.log('Error:', data
-                                        //     .responseText);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Gagal!',
-                                            text: 'Error: ' + data.responseText,
-                                            showConfirmButton: true,
-                                        });
-                                    }
-                                });
-                            } else {
-                                tablePengebonan.ajax.reload(null, false);
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Batal",
-                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
-                                });
-                            }
-                        })()
-                    }
-                })
-            });
 
             function hapusElemen(idf) {
                 $("#btn-remove" + idf).remove();
@@ -1528,7 +1488,8 @@
                     })
                 });
                 $('.datatable-listBB').on('click', '.loadings', function() {
-                    $(".overlay").fadeIn(300);
+                    // $(".overlay").fadeIn(300);
+                    $('#cover-spin').show(0);
                 });
 
                 tableResult = $('.datatable-listResult').DataTable({

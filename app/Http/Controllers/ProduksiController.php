@@ -90,6 +90,105 @@ class ProduksiController extends Controller
             ]);
         }
     }
+    public function getEditDecryptKode(Request $request)
+    {
+        try {
+            if ($request->type == 'scan') {
+                $decrypted = Crypt::decryptString($request->keyword);
+            } elseif ($request->type == 'text') {
+                $decrypted = $request->keyword;
+            }
+            $itmQR = GudangpenerimaanqrModel::where('subkode', $decrypted)->where('status', '>', '0')->first();
+            // return $kode->subkode;
+            if (empty($itmQR)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kode Tidak Dikenali',
+                    'detail' => 'Cek kembali QRcode yang Anda Scan',
+                ]);
+            } else {
+                if ($itmQR->usable == '1') {
+                    if ($itmQR->status == '1') {
+                        // can be processed
+                        $itmPR = GudangpenerimaanitmModel::where('npb', $itmQR->npb)->where('kodekontrak', $itmQR->kodekontrak)->where('status', '>', 0)->first();
+                        $getDataForm = ProduksipengebonanModel::where('formproduksi', $request->formproduksi)->where('status', '>', 0)->first(); // generate kodeproduksi
+                        $getCode = ProduksipengebonanitmModel::where('kodeproduksi', 'like',  date('y') . '%')->where('status', '>', 0)->latest('id')->first();
+                        if ($getCode != null) {
+                            $codeProduct = $getCode->kodeproduksi;
+                            $noUrutKode = (int) substr($codeProduct, -5);
+                            $noUrutKode++;
+                            $code = date('y') . sprintf("%05s", $noUrutKode);
+                        } else {
+                            $code = date('y') . "00001";
+                        }
+                        $getItemBon = ProduksipengebonanitmModel::where('subkode', $decrypted)->where('formproduksi', $request->formproduksi)->first();
+                        if (!$getItemBon) {
+                            $insert = ProduksipengebonanitmModel::create([
+                                'tanggal' => $getDataForm->tanggal,
+                                'formproduksi' => $request->formproduksi,
+                                'kodeproduksi' => $code,
+                                'subkode' => $itmQR->subkode,
+                                'package' => $itmQR->package,
+                                'type' => $itmQR->type,
+                                'kategori' => $itmPR->kategori,
+                                'warna' => $itmPR->warna,
+                                'berat' => $itmQR->berat_satuan,
+                                'operator' => $getDataForm->operator,
+                                'supplier' => $itmPR->supplier,
+                                'dibuat' => Auth::user()->nickname,
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ]);
+                        } else {
+                            $update = ProduksipengebonanitmModel::where('subkode', $decrypted)->update([
+                                'status' => 1, //ganti status menjadi diproses, tetapi belum diproduksi karena menunggu persetujuan produksi
+                                'updated_at' => date('Y-m-d H:i:s'),
+                            ]);
+                        }
+
+                        $update = GudangpenerimaanqrModel::where('subkode', $decrypted)->where('status', '>', 0)->update([
+                            'status' => 2, //ganti status menjadi diproses, tetapi belum diproduksi karena menunggu persetujuan produksi
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        ]);
+
+                        return response()->json([
+                            'success' => true,
+                            'message' => 'Kode Ditemukan',
+                            'id' => $itmQR->id,
+                            'npb' => $itmQR->npb,
+                            'kodekontrak' => $itmQR->kodekontrak,
+                            'subkode' => $itmQR->subkode,
+                            'nourut' => $itmQR->nourut,
+                            'beratsatuan' => $itmQR->berat_satuan,
+                            'package' => $itmQR->package,
+                            'tipe' => $itmQR->type,
+                            'kategori' => $itmPR->kategori,
+                            'warna' => $itmPR->warna,
+                            'supplier' => $itmPR->supplier,
+                        ]);
+                    } else {
+                        // can't be processed
+                        return response()->json([
+                            'success' => false,
+                            'message' => 'Tidak Dapat Diproses',
+                            'detail' => 'Package Sudah Digunakan',
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Tidak Dapat Diproses',
+                        'detail' => 'Package Belum Berupa Jumbo Bag',
+                    ]);
+                }
+            }
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kode Tidak Dikenali',
+                'detail' => 'Cek kembali QRcode yang Anda Scan ' . $th,
+            ]);
+        }
+    }
 
     public function filterItem(Request $request)
     {
@@ -431,10 +530,6 @@ class ProduksiController extends Controller
                                 Lihat Detail Formulir
                             </button>
                         </form>
-                        <button class="btn btn-danger btnHapusForm ' . $lock . '" type="button" data-id="' . $pengebonan->id . '" data-noform="' . $pengebonan->formproduksi . '" data-kode="' . $pluck . '" data-typehapus="form">
-                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
-                            Hapus Formulir
-                        </button>
                         <button type="button" class="btn btn-link link-secondary ms-auto"
                             data-bs-dismiss="modal">
                             Kembali
@@ -482,6 +577,23 @@ class ProduksiController extends Controller
             }
             return response()->json('Item berhasil dihapus.' . $getCount);
         }
+    }
+    public function deleteAllItemPengebonan(Request $request)
+    {
+        // ProduksipengebonanModel::where('id', '=', $request->id)->update([
+        //     'status' => 0,
+        // ]);
+        ProduksipengebonanItmModel::where('formproduksi',  $request->noform)->update([
+            'status' => 0,
+        ]);
+
+        $getItems = ProduksipengebonanItmModel::where('formproduksi',  $request->noform)->get();
+        foreach ($getItems as $key) {
+            GudangpenerimaanqrModel::where('subkode', $key->subkode)->update([
+                'status' => 1,
+            ]);
+        }
+        return response()->json('Nomor Formulir ' . $request->noform . ' berhasil dihapus.');
     }
 
     public function editPengebonan($id)
@@ -695,6 +807,57 @@ class ProduksiController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data Production Planning telah berhasil diverifikasi',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function checkDeletePengebonanItems(Request $request)
+    {
+        echo '
+            <div class="modal-status bg-danger"></div>
+            <div class="modal-body text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon mb-2 text-danger icon-lg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 9v4"></path><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0z"></path><path d="M12 16h.01"></path></svg>
+                <h3 class="modal-title">Apakah anda yakin?</h3>
+                <div>Anda akan menghapus ' . $request->jml . ' data yang anda pilih.</div>
+                <input type="hidden" name="jml" value="' . $request->jml . '">
+                ';
+        foreach ($request->id as $key) {
+            echo '
+                    <input type="hidden" name="subkode[]" value="' . $key . '">
+                    ';
+        }
+        echo '
+            </div>
+            <div class="modal-footer py-0">
+                <button type="submit" class="btn btn-link text-red me-auto" id="idDeleteSelected">Ya, Hapus ' . $request->jml . ' data</button>
+                <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal">Batal</button>
+            </div>
+            ';
+    }
+
+    public function prosesDeleteSelected(Request $request)
+    {
+        try {
+            for ($i = 0; $i < $request->jml; $i++) {
+                $update = ProduksipengebonanitmModel::where('subkode', $request->subkode[$i])->update([
+                    'status' => 0,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ]);
+                $updateQR = GudangpenerimaanqrModel::where('subkode', $request->subkode[$i])
+                    ->where('status', '>', 0)
+                    ->update([
+                        'status' => 1,
+                        'updated_at' => date('Y-m-d H:i:s'),
+                    ]);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Data telah berhasil dihapus',
             ]);
         } catch (\Exception $e) {
             return response()->json([

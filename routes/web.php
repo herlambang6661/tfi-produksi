@@ -131,15 +131,18 @@ Route::controller(GudangController::class)->group(function () {
 Route::controller(ProduksiController::class)->group(function () {
     Route::get('produksi/pengebonan', 'pengebonan')->name('produksi.pengebonan');
     Route::POST('produksi/getDecryptBon', 'getDecryptKode')->name('getDecryptKode.decrypt');
+    Route::POST('produksi/getEditDecryptBon', 'getEditDecryptKode')->name('getEditDecryptKode.decrypt');
     Route::post('Produksi/pengebonan/listItemPengebonan', 'filterItem')->name('pengebonan.getItemPengebonan');
     Route::post('storedataPengebonan', 'storedataPengebonan')->name('Produksi/pengebonan/store');
     Route::post('produksi/pengebonan/detail', 'detailPengebonan')->name('detail.pengebonan');
-    Route::delete('produksi/pengebonan/deleteForm', 'deletePengebonan')->name('delete.formPengebonan');
+    Route::delete('produksi/pengebonan/deleteForm', 'deleteAllItemPengebonan')->name('delete.allItemPengebonan');
     Route::delete('produksi/pengebonan/deleteExist', 'deletePengebonanExists')->name('delete.deleteExist');
     Route::get('produksi/pengebonan/edit/{id}', 'editPengebonan')->name('produksi/pengebonan/edit/{id}');
     Route::post('storedataEditPengebonan', 'storedataEditPengebonan')->name('Produksi/pengebonan/edit');
+    Route::post('prosesDeleteSelected', 'prosesDeleteSelected');
     Route::get('produksi/pengebonan/verifikasi/{id}', 'verifikasiPengebonan')->name('produksi/pengebonan/verifikasi/{id}');
     Route::post('verifyPengebonan', 'prosesVerifikasiPengebonan')->name('Produksi/pengebonan/verify');
+    Route::post('checkDeleteSelected', 'checkDeletePengebonanItems')->name('checkDeleteSelected');
 });
 Route::controller(SettingsController::class)->group(function () {
     Route::get('settings/pengguna', 'pengguna')->name('setting.pengguna');

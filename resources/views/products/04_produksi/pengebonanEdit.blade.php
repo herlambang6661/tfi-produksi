@@ -57,7 +57,6 @@
         }
 
         /* Loader style */
-
         .loader {
             width: 48px;
             height: 48px;
@@ -108,12 +107,66 @@
         #flash-toggle {
             display: none;
         }
+
+        /* Loader style */
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(138, 138, 138, 0.489);
+            z-index: 9999;
+            display: none;
+            animation: flippx 2s infinite linear;
+        }
+
+        #cover-spin::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            margin: auto;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            transform-origin: -24px 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        #cover-spin:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #ff3636;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+
+        @keyframes flippx {
+
+            0%,
+            49% {
+                transform: scaleX(1);
+            }
+
+            50%,
+            100% {
+                transform: scaleX(-1);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
-    <div class="overlay">
-        <div class="cv-spinner">
-            <span class="loader"></span>
-        </div>
-    </div>
+    <div id="cover-spin"></div>
     <div class="page bg-success-lt">
         <!-- Sidebar -->
         @include('shared.sidebar')
@@ -294,7 +347,7 @@
                                                     <div id="chart2"></div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12" id="reloadable">
                                                 <table class="table table-vcenter card-table text-nowrap">
                                                     <thead>
                                                         <tr>
@@ -326,7 +379,9 @@
                                                             </tr>
                                                         @endforeach
                                                         @php
-                                                            $S_percentage = array_sum($arrPercentage);
+                                                            $S_percentage = array_sum(
+                                                                empty($arrPercentage) ? [0] : $arrPercentage,
+                                                            );
                                                         @endphp
                                                     </tbody>
                                                     <tfoot>
@@ -354,12 +409,17 @@
                                         <input name="nomorform" value="{{ $pengebonan->formproduksi }}" type="hidden">
                                         <div class="card-body px-1 py-1 my-1 mx-1">
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Tanggal Input</label>
+                                                <div class="col-md-2 text-center">
+                                                    <label class="form-label">Nomor Formulir</label>
+                                                    <h1 style="text-shadow: 1px 1px 1px #0f0968;" class="fw-bolder">
+                                                        {{ $pengebonan->formproduksi }}</h1>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">Tanggal Produksi</label>
                                                     <input type="date" class="form-control border-dark" name="tanggal"
                                                         id="tanggal" value="{{ $pengebonan->tanggal }}">
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <label class="form-label">Operator</label>
                                                     <input type="text" class="form-control border-dark"
                                                         name="operator" id="operator"
@@ -435,16 +495,28 @@
                     <b style="display: none">Last detected at: </b>
                     <span id="cam-qr-result-timestamp" style="display: none"></span>
                 </div>
+
+                {{-- Model Detail --}}
+                <div class="modal modal-blur fade" id="modalDeleteSelected" tabindex="-1" role="dialog"
+                    aria-hidden="true">
+                    <div class="overlay">
+                        <div class="cv-spinner">
+                            <span class="loader"></span>
+                        </div>
+                    </div>
+                    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                        <div class="modal-content text-dark">
+                            <form id="formDeleteSelected" method="post" action="javascript:void(0)">
+                                @csrf
+                                <div class="fetched-data-delete-selected-checklist"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 {{-- Modals --}}
                 {{-- ============== Modal add --}}
                 <div class="modal modal-blur fade" id="modalTambahItem" tabindex="-1" role="dialog"
                     aria-hidden="true">
-                    {{-- <div class="overlayModals">
-                        <div class="cv-spinner">
-                            <span class="loader">
-                            </span>
-                        </div>
-                    </div> --}}
                     <div class="modal-dialog modal-xl text-dark" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -634,140 +706,7 @@
                         )
                 </script>
                 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-                <script>
-                    var options = {
-                        title: {
-                            text: "Persentase Warna"
-                        },
-                        theme: {
-                            palette: 'palette2'
-                        },
-                        labels: {!! json_encode($labelWarna) !!},
-                        series: {!! json_encode($seriesWarna) !!},
-                        colors: {!! json_encode($langWarna) !!},
-                        stroke: {
-                            width: 4
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            // style: {
-                            //     colors: ["#f2f3f4"]
-                            // },
-                            background: {
-                                enabled: true,
-                                foreColor: "#f2f3f4",
-                                borderWidth: 2
-                            }
-                        },
-                        chart: {
-                            width: '100%',
-                            type: "pie",
-                        },
-                        responsive: [{
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: '100%'
-                                },
-                                legend: {
-                                    show: true
-                                }
-                            }
-                        }],
-                        legend: {
-                            position: 'bottom',
-                        }
-                    };
 
-                    var options2 = {
-                        title: {
-                            text: "Persentase Tipe"
-                        },
-                        theme: {
-                            palette: 'palette2'
-                        },
-                        labels: {!! json_encode($labelTipe) !!},
-                        series: {!! json_encode($seriesTipe) !!},
-                        stroke: {
-                            width: 4
-                        },
-                        dataLabels: {
-                            enabled: true,
-                            style: {
-                                colors: ["#f2f3f4"]
-                            },
-                            background: {
-                                enabled: true,
-                                foreColor: "#2e4053",
-                                borderWidth: 0
-                            }
-                        },
-                        chart: {
-                            width: '100%',
-                            type: "donut",
-                        },
-                        plotOptions: {
-                            pie: {
-                                donut: {
-                                    labels: {
-                                        show: true,
-                                        total: {
-                                            showAlways: true,
-                                            show: true
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        fill: {
-                            type: 'pattern',
-                            opacity: 1,
-                            pattern: {
-                                enabled: true,
-                                style: ['verticalLines', 'squares', 'horizontalLines', 'circles', 'slantedLines'],
-                            },
-                        },
-                        states: {
-                            hover: {
-                                filter: 'none'
-                            }
-                        },
-                        responsive: [{
-                            breakpoint: 480,
-                            options: {
-                                chart: {
-                                    width: '100%'
-                                },
-                            }
-                        }],
-                        legend: {
-                            position: 'bottom',
-                            formatter: function(val, opts) {
-                                return val + " - " + opts.w.globals.series[opts.seriesIndex]
-                            }
-                        }
-                    };
-
-                    var chart = new ApexCharts(document.querySelector("#chart"), options);
-                    var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-                    chart.render();
-                    chart2.render();
-
-                    function reset1() {
-                        return options.series
-                    }
-
-                    function reset2() {
-                        return options.series
-                    }
-
-                    document.querySelector("#reset1").addEventListener("click", function() {
-                        chart.updateSeries(reset1())
-                    })
-                    document.querySelector("#reset2").addEventListener("click", function() {
-                        chart2.updateSeries(reset2())
-                    })
-                </script>
             </div>
         </div>
 
@@ -794,35 +733,16 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('getDecryptKode.decrypt') }}",
+                    url: "{{ route('getEditDecryptKode.decrypt') }}",
                     data: {
                         _token: "{{ csrf_token() }}",
                         keyword: result.data,
                         type: "scan",
+                        formproduksi: "{{ $pengebonan->formproduksi }}",
                     },
                     beforeSend: function() {
                         scanner.stop();
                         $(".overlay").fadeIn(300);
-                        // $("#inpt-qr").val("Memeriksa Data...");
-                        // $("#inpt-qr").prop("disabled", true);
-                        // $("#inpt-qr").addClass("cursor-not-allowed");
-                        // Swal.fire({
-                        //     title: "Sedang Memeriksa Data",
-                        //     html: "Mohon menunggu, sedang mengambil data hasil scanning QR Code",
-                        //     icon: "question",
-                        //     timerProgressBar: true,
-                        //     didOpen: () => {
-                        //         Swal.showLoading();
-                        //         const timer = Swal.getPopup().querySelector("b");
-                        //         timerInterval = setInterval(() => {
-                        //             timer.textContent = `${Swal.getTimerLeft()}`;
-                        //         }, 100);
-                        //     },
-                        //     willClose: () => {
-                        //         clearInterval(timerInterval);
-                        //     }
-                        // });
-                        // Swal.showLoading()
                     },
                     success: function(response) {
                         // Swal.hideLoading({showDenyButton: false,});
@@ -832,61 +752,10 @@
                         if (response.success == true) {
                             zippiSuccess.play();
                             $(".overlay").fadeOut(300);
-                            // $("#inpt-qr").val(response.subkode);
-                            // $("#inpt-qr").prop("disabled", false);
-                            // $("#inpt-qr").removeClass("cursor-not-allowed");
-                            if ($("#detail_transaksi").find(".kode_" + response.id).length) {
-                                zippiError.play();
-                                scanner.start();
-                                $("#notifications").html(
-                                    '<div class="alert alert-important alert-danger alert-dismissible" role="alert"><div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
-                                )
-                                setTimeout(function() {
-                                    $("#notifications").html('')
-                                }, 3000);
-                            } else {
-                                var idf = document.getElementById("idf").value;
-                                var detail_transaksi = document.getElementById("detail_transaksi");
-                                var tr = document.createElement("tr");
-                                tr.setAttribute("id", "btn-remove" + idf);
-                                // Kolom 1 Hapus
-                                var td = document.createElement("td");
-                                td.setAttribute("align", "center");
-                                td.setAttribute("style",
-                                    ""
-                                );
-                                td.innerHTML +=
-                                    '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
-                                    idf +
-                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
-                                tr.appendChild(td);
-                                // Kolom 2 Kode
-                                var td = document.createElement("td");
-                                td.innerHTML += response.subkode + '<div class="kode_' + response.id +
-                                    '"><input type="hidden" name="id_item[]" value="' + response.id +
-                                    '"><input type="hidden" name="oldKodeproduksi[]" value=""></div>';
-                                tr.appendChild(td);
-                                // Kolom 3 BB
-                                var td = document.createElement("td");
-                                td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
-                                tr.appendChild(td);
-                                // Kolom 4 Jenis
-                                var td = document.createElement("td");
-                                td.innerHTML += response.package;
-                                tr.appendChild(td);
-                                // Kolom 5 Berat
-                                var td = document.createElement("td");
-                                td.innerHTML += response.beratsatuan;
-                                tr.appendChild(td);
-                                // Kolom 6 Supplier
-                                var td = document.createElement("td");
-                                td.innerHTML += response.supplier;
-                                tr.appendChild(td);
-                                detail_transaksi.appendChild(tr);
-                                idf = (idf - 1) + 2;
-                                document.getElementById("idf").value = idf;
-                                scanner.start();
-                            }
+                            allTable.ajax.reload(null, false);
+                            window.location.reload();
+                            $('#cover-spin').show(0);
+                            $("#qrText").val('');
                         } else if (response.success == false) {
                             zippiError.play();
                             Swal.fire({
@@ -1160,110 +1029,102 @@
                 })
             }
 
-            $(document).on('click', '.btnHapusForm', function() {
-                var id = $(this).data('id');
-                var noform = $(this).data('noform');
-                var kode = $(this).data('kode');
-                var typeHapus = $(this).data('typehapus');
-                var kodeproduksi = $(this).data('kodeproduksi');
-                var token = $("meta[name='csrf-token']").attr("content");
-                nama = (typeHapus == "form") ? noform : kode;
-                console.log("menghapus " + kodeproduksi);
-                let r = (Math.random() + 1).toString(36).substring(2);
-                swal.fire({
-                    title: 'Hapus ' + nama,
-                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + nama +
-                        '</b><br><br>Kode<br>' +
-                        '<div class="alert alert-important alert-yellow text-dark" role="alert" style="font-size: 12px; max-height: 260px;">' +
-                        '<div class="d-flex" ><b class="fw-bolder" > ' +
-                        kode +
-                        ' </b></div> </div> ',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
-                    cancelButtonText: 'Batal',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        (async () => {
-                            const {
-                                value: password
-                            } = await Swal.fire({
-                                title: "Ketik tulisan dibawah untuk menghapus " + nama,
-                                html: '<div class="unselectable">' + r + '</div>',
-                                input: "text",
-                                // inputValue: r,
-                                inputPlaceholder: r,
-                                showCancelButton: true,
-                                cancelButtonColor: '#3085d6',
-                                cancelButtonText: 'Batal',
-                                confirmButtonText: 'Ok',
-                                inputAttributes: {
-                                    autocapitalize: "off",
-                                    autocorrect: "off"
-                                },
-                            });
-                            if (password == r) {
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: "{{ route('delete.deleteExist') }}",
-                                    data: {
-                                        "_token": "{{ csrf_token() }}",
-                                        "id": id,
-                                        "noform": noform,
-                                        "kodeproduksi": kodeproduksi,
-                                        "tipeHapus": typeHapus,
-                                    },
-                                    beforeSend: function() {
-                                        Swal.fire({
-                                            title: 'Mohon Menunggu',
-                                            html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
-                                            timerProgressBar: true,
-                                            showConfirmButton: false,
-                                            allowOutsideClick: false,
-                                            allowEscapeKey: false,
-                                        })
-                                    },
-                                    success: function(data) {
-                                        // tablePengebonan.ajax.reload(null,
-                                        //     false);
-                                        $('#modalViewItem').modal('hide');
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Berhasil',
-                                            html: data,
-                                            showConfirmButton: true
-                                        });
-                                        if (kodeproduksi) {
-                                            $("#btn-remove" + kodeproduksi).remove();
+
+            if ($("#formDeleteSelected").length > 0) {
+                $("#formDeleteSelected").validate({
+                    rules: {
+                        "subkode[]": "required",
+                    },
+                    messages: {
+                        "subkode[]": "Item tidak boleh kosong",
+                    },
+                    highlight: function(element) {
+                        // add a class "errorClass" to the element
+                        $(element).addClass('border-danger');
+                    },
+                    unhighlight: function(element) {
+                        // class "errorClass" remove from the element
+                        $(element).removeClass('border-danger');
+                    },
+
+                    submitHandler: function(form) {
+                        let formData = new FormData(form);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $('#idDeleteSelected').html(
+                            '<i class="fa-solid fa-fw fa-spinner fa-spin"></i> Please Wait...');
+                        $("#idDeleteSelected").attr("disabled", true);
+                        $.ajax({
+                            url: "{{ url('prosesDeleteSelected') }}",
+                            type: "POST",
+                            data: formData,
+                            // contentType: false,
+                            // processData: false,
+                            data: $('#formDeleteSelected').serialize(),
+                            beforeSend: function() {
+                                Swal.fire({
+                                    title: 'Mohon Menunggu',
+                                    html: '<center><lottie-player src="https://lottie.host/9f0e9407-ad00-4a21-a698-e19bed2949f6/mM7VH432d9.json" background="transparent" speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player></center><br><h1 class="h4">Sedang memproses data, Proses mungkin membutuhkan beberapa menit. </h1>',
+                                    showConfirmButton: false,
+                                    timerProgressBar: true,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                })
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                $('#idDeleteSelected').html('Ya, Hapus data');
+                                $("#idDeleteSelected").attr("disabled", false);
+                                if (response.success == true) {
+                                    allTable.ajax.reload(null, false);
+                                    chart.updateSeries(reset1());
+                                    chart2.updateSeries(reset2());
+                                    refreshDiv();
+                                    // location.reload();
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Berhasil',
+                                        html: response.message,
+                                        showConfirmButton: true,
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Ok',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            document.getElementById("formDeleteSelected")
+                                                .reset();
+                                            // tablePengebonan.ajax.reload(null, false);
+                                            $('#modalDeleteSelected').modal('hide');
                                         }
-                                    },
-                                    error: function(data) {
-                                        // tablePengebonan.ajax.reload(null,
-                                        //     false);
-                                        // console.log('Error:', data
-                                        //     .responseText);
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Gagal!',
-                                            text: 'Error: ' + data.responseText,
-                                            showConfirmButton: true,
-                                        });
-                                    }
-                                });
-                            } else {
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Gagal Input',
+                                        html: response.message,
+                                        showConfirmButton: true
+                                    });
+                                }
+                            },
+                            error: function(data) {
                                 // tablePengebonan.ajax.reload(null, false);
                                 Swal.fire({
-                                    icon: "error",
-                                    title: "Batal",
-                                    text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
+                                    icon: 'error',
+                                    title: 'Gagal Input',
+                                    html: data,
+                                    showConfirmButton: true
                                 });
+                                $('#idDeleteSelected').html('Ya, Hapus data');
+                                $("#idDeleteSelected").attr("disabled", false);
                             }
-                        })()
+                        });
                     }
                 })
-            });
+            }
 
             $(function() {
                 tableResult = $('.datatable-listResult').DataTable({
@@ -1429,98 +1290,6 @@
                         $(this).text().toUpperCase() + '" />'
                     );
                 });
-                $('.datatable-listResult').on('click', '.remove', function() {
-                    // var id = $(this).data('id');
-                    // var nama = $(this).data('nama');
-                    // var kode = $(this).data('kode');
-                    // var token = $("meta[name='csrf-token']").attr("content");
-                    // let r = (Math.random() + 1).toString(36).substring(2);
-                    // swal.fire({
-                    //     title: 'Hapus ' + nama,
-                    //     text: 'Apakah anda yakin ingin menghapus ' + nama + ', Tanggal : ' + kode +
-                    //         ' ?',
-                    //     icon: 'warning',
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: '#d33',
-                    //     cancelButtonColor: '#3085d6',
-                    //     confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
-                    //     cancelButtonText: 'Batal',
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         (async () => {
-                    //             const {
-                    //                 value: password
-                    //             } = await Swal.fire({
-                    //                 title: "Ketik tulisan dibawah untuk menghapus " +
-                    //                     nama,
-                    //                 html: '<div class="unselectable">' + r +
-                    //                     '</div>',
-                    //                 input: "text",
-                    //                 inputPlaceholder: "Ketik untuk menghapus " +
-                    //                     nama,
-                    //                 showCancelButton: true,
-                    //                 cancelButtonColor: '#3085d6',
-                    //                 cancelButtonText: 'Batal',
-                    //                 confirmButtonText: 'Ok',
-                    //                 inputAttributes: {
-                    //                     autocapitalize: "off",
-                    //                     autocorrect: "off"
-                    //                 },
-                    //             });
-                    //             if (password == r) {
-                    //                 $.ajax({
-                    //                     type: "DELETE",
-                    //                     url: "{{ route('getPenerimaan.store') }}" +
-                    //                         '/' + id,
-                    //                     data: {
-                    //                         "_token": "{{ csrf_token() }}",
-                    //                     },
-                    //                     beforeSend: function() {
-                    //                         Swal.fire({
-                    //                             title: 'Mohon Menunggu',
-                    //                             html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
-                    //                             timerProgressBar: true,
-                    //                             showConfirmButton: false,
-                    //                             allowOutsideClick: false,
-                    //                             allowEscapeKey: false,
-                    //                         })
-                    //                     },
-                    //                     success: function(data) {
-                    //                         tablePengebonan.ajax.reload(null,
-                    //                             false);
-                    //                         Swal.fire({
-                    //                             icon: 'success',
-                    //                             title: 'Berhasil',
-                    //                             html: data,
-                    //                             showConfirmButton: true
-                    //                         });
-                    //                     },
-                    //                     error: function(data) {
-                    //                         tablePengebonan.ajax.reload(null,
-                    //                             false);
-                    //                         console.log('Error:', data
-                    //                             .responseText);
-                    //                         Swal.fire({
-                    //                             icon: 'error',
-                    //                             title: 'Gagal!',
-                    //                             text: 'Error: ' + data
-                    //                                 .responseText,
-                    //                             showConfirmButton: true,
-                    //                         });
-                    //                     }
-                    //                 });
-                    //             } else {
-                    //                 tablePengebonan.ajax.reload(null, false);
-                    //                 Swal.fire({
-                    //                     icon: "error",
-                    //                     title: "Batal",
-                    //                     text: "Anda membatalkan proses hapus atau Teks yang diketik tidak sama",
-                    //                 });
-                    //             }
-                    //         })()
-                    //     }
-                    // })
-                });
 
                 $("#filter_tipe").select2({
                     dropdownParent: $("#modalTambahItem"),
@@ -1615,7 +1384,6 @@
                     historyCommand.insertAdjacentHTML('beforeend',
                         '>> Accessed at {{ now()->format('d-m-Y H:i:s') }}');
                 });
-
             });
 
             function fetchQr() {
@@ -1627,11 +1395,12 @@
                 });
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('getDecryptKode.decrypt') }}",
+                    url: "{{ route('getEditDecryptKode.decrypt') }}",
                     data: {
                         "_token": "{{ csrf_token() }}",
                         keyword: qrcode,
                         type: "text",
+                        formproduksi: "{{ $pengebonan->formproduksi }}",
                     },
                     beforeSend: function() {
                         scanner.stop();
@@ -1645,68 +1414,10 @@
                         if (response.success == true) {
                             zippiSuccess.play();
                             $(".overlay").fadeOut(300);
-                            // $("#inpt-qr").val(response.subkode);
-                            // $("#inpt-qr").prop("disabled", false);
-                            // $("#inpt-qr").removeClass("cursor-not-allowed");
-                            if ($("#detail_transaksi").find(".kode_" + response.id).length) {
-                                zippiError.play();
-                                // scanner.start();
-                                $("#notifications").html(
-                                    '<div class="alert alert-important alert-danger alert-dismissible" role="alert">' +
-                                    '<div class="d-flex"><div><svg xmlns="http://www.w3.org/2000/svg" width="24" ' +
-                                    'height="24"viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
-                                    'stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon"><path stroke="none" ' +
-                                    'd="M0 0h24v24H0z" fill="none"></path><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>' +
-                                    '<path d="M12 8v4"></path><path d="M12 16h.01"></path></svg></div><div> Qr Code Sudah ditambahkan..</div></div></div>'
-                                )
-                                setTimeout(function() {
-                                    $("#notifications").html('')
-                                }, 3000);
-                            } else {
-                                var idf = document.getElementById("idf").value;
-                                var detail_transaksi = document.getElementById("detail_transaksi");
-                                var tr = document.createElement("tr");
-                                tr.setAttribute("id", "btn-remove" + idf);
-                                // Kolom 1 Hapus
-                                var td = document.createElement("td");
-                                td.setAttribute("align", "center");
-                                td.setAttribute("style",
-                                    ""
-                                );
-                                td.innerHTML +=
-                                    '<button class="btn btn-danger btn-icon remove" type="button" onclick="hapusElemen(' +
-                                    idf +
-                                    ');"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round" ' +
-                                    ' class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" />' +
-                                    '<path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg> </button>';
-                                tr.appendChild(td);
-                                // Kolom 2 Kode
-                                var td = document.createElement("td");
-                                td.innerHTML += response.subkode + '<div class="kode_' + response.id +
-                                    '"><input type="hidden" name="id_item[]" value="' + response.id +
-                                    '"><input type="hidden" name="oldKodeproduksi[]" value=""></div>';
-                                tr.appendChild(td);
-                                // Kolom 3 BB
-                                var td = document.createElement("td");
-                                td.innerHTML += response.tipe + " " + response.kategori + " " + response.warna;
-                                tr.appendChild(td);
-                                // Kolom 4 Jenis
-                                var td = document.createElement("td");
-                                td.innerHTML += response.package;
-                                tr.appendChild(td);
-                                // Kolom 5 Berat
-                                var td = document.createElement("td");
-                                td.innerHTML += response.beratsatuan;
-                                tr.appendChild(td);
-                                // Kolom 6 Supplier
-                                var td = document.createElement("td");
-                                td.innerHTML += response.supplier;
-                                tr.appendChild(td);
-                                detail_transaksi.appendChild(tr);
-                                idf = (idf - 1) + 2;
-                                document.getElementById("idf").value = idf;
-                                // scanner.start();
-                            }
+                            allTable.ajax.reload(null, false);
+                            window.location.reload();
+                            $('#cover-spin').show(0);
+                            $("#qrText").val('');
                         } else if (response.success == false) {
                             zippiError.play();
                             Swal.fire({
@@ -1814,7 +1525,7 @@
             --------------------------------------------*/
             allTable = $('.datatable-edit').DataTable({
                 "processing": true, //Feature control the processing indicator.
-                "serverSide": true, //Feature control DataTables' server-side processing mode.
+                // "serverSide": true, //Feature control DataTables' server-side processing mode.
                 "scrollX": false,
                 "scrollCollapse": false,
                 "pagingType": 'full_numbers',
@@ -1829,16 +1540,19 @@
                 ],
                 "buttons": [{
                         className: 'btn btn-outline-danger border-dark',
+                        extend: 'selected',
                         text: '<i class="fa-regular fa-trash-can"></i> Hapus Yang Dipilih',
+                        action: function(e, node, config) {
+                            $('#modalDeleteSelected').modal('show')
+                        }
                     },
                     {
                         className: 'btn btn-outline-danger border-dark',
                         text: '<i class="fa-solid fa-trash-can"></i> Hapus Semua',
+                        action: function(e, dt, node, config) {
+                            hapusAllItem();
+                        }
                     },
-                    // {
-                    //     className: 'btn btn-outline-success',
-                    //     text: '<i class="fa-solid fa-plus"></i> Tambah Item',
-                    // },
                     {
                         className: 'btn btn-outline-dark',
                         text: '<i class="fa-solid fa-arrows-rotate"></i> Refresh',
@@ -1889,6 +1603,7 @@
                     'style': 'multi',
                     // "selector": 'td:not(:nth-child(1))',
                 },
+                rowId: 'id',
                 columns: [{
                         title: '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M13 5h8" /><path d="M13 9h5" /><path d="M13 15h8" /><path d="M13 19h5" /><path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /><path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" /></svg>',
                         data: 'select_orders',
@@ -1979,7 +1694,6 @@
                     $(this).text().toUpperCase() + '" />'
                 );
             });
-
             $('.datatable-edit').on('click', '.remove', function() {
                 var id = $(this).data('id');
                 var nama = $(this).data('nama');
@@ -2084,6 +1798,270 @@
                     }
                 })
             });
+
+            // MODAL ---------------------------------------------------------//
+            $('#modalDeleteSelected').on('show.bs.modal', function(e) {
+                $(".overlay").fadeIn(300);
+                itemTables = [];
+                // console.log(count);
+
+                $.each(allTable.rows('.selected').nodes(), function(index, rowId) {
+                    var rows_selected = allTable.rows('.selected').data();
+                    itemTables.push(rows_selected[index]['subkode']);
+                });
+                console.log(itemTables);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                //menggunakan fungsi ajax untuk pengambilan data
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('checkDeleteSelected') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id: itemTables,
+                        jml: itemTables.length,
+                    },
+                    success: function(data) {
+                        //menampilkan data ke dalam modal
+                        $('.fetched-data-delete-selected-checklist').html(data);
+                    }
+                }).done(function() {
+                    setTimeout(function() {
+                        $(".overlay").fadeOut(300);
+                    }, 500);
+                });
+            });
+
+            var options = {
+                title: {
+                    text: "Persentase Warna",
+                    align: 'center',
+                    style: {
+                        fontSize: "16px",
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontWeight: "bold"
+                    }
+                },
+                noData: {
+                    text: 'Loading...'
+                },
+                theme: {
+                    palette: 'palette2'
+                },
+                labels: {!! json_encode($labelWarna) !!},
+                series: {!! json_encode($seriesWarna) !!},
+                colors: {!! json_encode($langWarna) !!},
+                stroke: {
+                    width: 4
+                },
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        colors: ["#f2f3f4"],
+                        fontSize: "16px",
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontWeight: "bold"
+                    },
+                    background: {
+                        enabled: true,
+                        foreColor: "#f2f3f4",
+                        borderWidth: 2
+                    }
+                },
+                chart: {
+                    width: '100%',
+                    type: "pie",
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: '100%'
+                        },
+                        legend: {
+                            show: true
+                        }
+                    }
+                }],
+                legend: {
+                    position: 'bottom',
+                }
+            };
+
+            var options2 = {
+                title: {
+                    text: "Persentase Tipe",
+                    align: 'center',
+                    style: {
+                        fontSize: "16px",
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontWeight: "bold"
+                    }
+                },
+                noData: {
+                    text: 'Loading...'
+                },
+                theme: {
+                    palette: 'palette2'
+                },
+                labels: {!! json_encode($labelTipe) !!},
+                series: {!! json_encode($seriesTipe) !!},
+                stroke: {
+                    width: 4
+                },
+                dataLabels: {
+                    enabled: true,
+                    style: {
+                        colors: ["#f2f3f4"]
+                    },
+                    background: {
+                        enabled: true,
+                        foreColor: "#2e4053",
+                        borderWidth: 0
+                    }
+                },
+                chart: {
+                    width: '100%',
+                    type: "donut",
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            labels: {
+                                show: true,
+                                total: {
+                                    showAlways: true,
+                                    show: true
+                                }
+                            }
+                        }
+                    }
+                },
+                fill: {
+                    type: 'pattern',
+                    opacity: 1,
+                    pattern: {
+                        enabled: true,
+                        style: ['verticalLines', 'squares', 'horizontalLines', 'circles', 'slantedLines'],
+                    },
+                },
+                states: {
+                    hover: {
+                        filter: 'none'
+                    }
+                },
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: '100%'
+                        },
+                    }
+                }],
+                legend: {
+                    position: 'bottom',
+                    formatter: function(val, opts) {
+                        return val + " - " + opts.w.globals.series[opts.seriesIndex]
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+            chart.render();
+            chart2.render();
+
+            function reset1() {
+                return options.series
+            }
+
+            function reset2() {
+                return options2.series
+            }
+
+            document.querySelector("#reset1").addEventListener("click", function() {
+                chart.updateSeries(reset1())
+            })
+            document.querySelector("#reset2").addEventListener("click", function() {
+                chart2.updateSeries(reset2())
+            })
+
+            function refreshDiv() {
+                $('#reloadable').load(location.href + ' #reloadable');
+            }
+
+            function hapusAllItem() {
+                var noform = '{{ $pengebonan->formproduksi }}';
+                var token = $("meta[name='csrf-token']").attr("content");
+                // console.log("menghapus " + noform + " " + kode + " " + id + " " + typeHapus);
+                swal.fire({
+                    title: 'Hapus ' + noform,
+                    html: 'Apakah anda yakin ingin menghapus <b class="text-red fw-bolder">' + noform,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: '<i class="fa-regular fa-trash-can"></i> Hapus',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('delete.allItemPengebonan') }}",
+                            data: {
+                                "_token": "{{ csrf_token() }}",
+                                "noform": noform,
+                            },
+                            beforeSend: function() {
+                                Swal.fire({
+                                    title: 'Mohon Menunggu',
+                                    html: '<center><lottie-player src="https://lottie.host/54b33864-47d1-4f30-b38c-bc2b9bdc3892/1xkjwmUkku.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay></lottie-player></center><br><h1 class="h4">Sedang menghapus data, Proses mungkin membutuhkan beberapa menit. <br><br><b class="text-danger">(Jangan menutup jendela ini, bisa mengakibatkan error)</b></h1>',
+                                    timerProgressBar: true,
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                })
+                            },
+                            success: function(data) {
+                                allTable.ajax.reload(null, false);
+                                chart.updateSeries(reset1())
+                                chart2.updateSeries(reset2())
+                                $('#reloadable').load(location.href + ' #reloadable');
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    html: data,
+                                    showConfirmButton: true,
+                                    allowOutsideClick: false,
+                                    allowEscapeKey: false,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Ok',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // window.location.reload();
+                                        // $('#cover-spin').show(0);
+                                    }
+                                });
+                            },
+                            error: function(data) {
+                                allTable.ajax.reload(null, false);
+                                // console.log('Error:', data
+                                //     .responseText);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal!',
+                                    text: 'Error: ' + data.responseText,
+                                    showConfirmButton: true,
+                                });
+                            }
+                        });
+                    }
+                })
+            }
         </script>
     </div>
 @endsection

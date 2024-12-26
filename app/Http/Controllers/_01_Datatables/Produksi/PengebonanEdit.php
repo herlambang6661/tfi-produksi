@@ -32,6 +32,7 @@ class PengebonanEdit extends Controller
             $data = DB::table('produksi_pengebonanitm as i')
                 ->where('i.formproduksi', 'like', $formproduksi)
                 ->where('i.status', '>', 0)
+                ->orderBy('i.subkode', 'asc')
                 ->get();
 
             return DataTables::of($data)

@@ -123,7 +123,7 @@
         @include('shared.navbar')
 
         <div class="page-wrapper">
-            <div class="Loadings">
+            <div class="Loadings" style="display: none">
                 <div class="cv-spinner">
                     <span class="loader"></span>
                 </div>

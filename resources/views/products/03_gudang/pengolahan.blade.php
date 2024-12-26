@@ -943,14 +943,14 @@
                             extend: 'copyHtml5',
                             className: 'btn btn-teal',
                             text: '<i class="fa fa-copy text-white"></i> Salin',
-                            action: newexportaction,
+                            // action: newexportaction,
                         },
                         {
                             extend: 'excelHtml5',
                             autoFilter: true,
                             className: 'btn btn-success',
                             text: '<i class="fa fa-file-excel text-white"></i> Excel',
-                            action: newexportaction,
+                            // action: newexportaction,
                         },
                         {
                             extend: 'pdfHtml5',
